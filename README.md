@@ -1,4 +1,18 @@
-# privateGPT
+# GEEB-GPT - run air-gapped LLMs on Qdrant
+
+
+<p align="center">
+  This was a hardfork of https://github.com/imartinez/privateGPT
+
+</p>
+
+
+
+<p align="center">
+  <img height="100" src="https://github.com/qdrant/qdrant/raw/master/docs/logo.svg" alt="Qdrant">
+</p>
+
+
 Ask questions to your documents without an internet connection, using the power of LLMs. 100% private, no data leaves your execution environment at any point. You can ingest documents and ask questions without an internet connection!
 
 Built with [LangChain](https://github.com/hwchase17/langchain) and [GPT4All](https://github.com/nomic-ai/gpt4all)
