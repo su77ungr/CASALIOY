@@ -34,10 +34,27 @@ In order to set your environment up to run the code here, first install all requ
 pip install -r requirements.txt
 ```
 
+  
 Then, download the 2 models and place them in a folder called `./models`:
 - LLM: default to [ggml-gpt4all-j-v1.3-groovy.bin](https://gpt4all.io/models/ggml-gpt4all-j-v1.3-groovy.bin). If you prefer a different GPT4All-J compatible model, just download it and reference it in `privateGPT.py`.
 - Embedding: default to [ggml-model-q4_0.bin](https://huggingface.co/Pi3141/alpaca-native-7B-ggml/resolve/397e872bf4c83f4c642317a5bf65ce84a105786e/ggml-model-q4_0.bin). If you prefer a different compatible Embeddings model, just download it and reference it in `privateGPT.py` and `ingest.py`.
 
+  
+This should look like this 
+  
+  
+```
+└── repo
+      ├── privateGPT.py
+      ├── ingest.py
+      ├── source_documents
+      │   └── dsgvo.txt
+      ├── models
+      │   ├── ggml-gpt4all-j-v1.3-groovy.bin
+      │   └── ggml-model-q4_0.bin
+      └── file
+```
+  
 ## Test dataset
 This repo uses a [state of the union transcript](https://github.com/imartinez/privateGPT/blob/main/source_documents/state_of_the_union.txt) as an example.
 
