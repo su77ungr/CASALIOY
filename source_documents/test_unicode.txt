@@ -20,3 +20,5 @@ institutional investors in cryptocurrencies.
 ...
 1F600   '😀'; GRINNING FACE
 1F609   '😉'; WINKING FACE
+
+倉頡平台2012 By the way, cj5-8300.txt has the simplified characters. (8300餘個簡體漢字) cj5-20902.txt includes both of them. (國際標準碼20902個簡繁漢字) cj5-70000.txt
