@@ -1,21 +1,27 @@
-# GEEB-GPT - run air-gapped LLMs on Qdrant
+## CASALIOY - GPT
 
+  <h2 align="center">
 
+    
+    
 <p align="center">
-  This was a hardfork of https://github.com/imartinez/privateGPT
+  
+  <img height="300" src="https://github.com/su77ungr/GEEB-GPT/assets/69374354/2e59734c-0de7-4057-be7a-14729e1d5acd" alt="Qdrant">   
+
+  <a href="https://qdrant.to/roadmap"><img src="https://img.shields.io/badge/Roadmap-2024-bc1439.svg" alt="Roadmap 2023"></a>
+  
+  <br> <br>
 
 </p>
 
+       Air-gapped LLMs on consumer-grade hardware 
 
 
 <p align="center">
-  <img height="100" src="https://github.com/qdrant/qdrant/raw/master/docs/logo.svg" alt="Qdrant">
-</p>
 
 
-Ask questions to your documents without an internet connection, using the power of LLMs. 100% private, no data leaves your execution environment at any point. You can ingest documents and ask questions without an internet connection!
+Built with [LangChain](https://github.com/hwchase17/langchain) and [GPT4All](https://github.com/nomic-ai/gpt4all) and hard-forked from [Imartinez](https://github.com/imartinez/privateGPT) 👀
 
-Built with [LangChain](https://github.com/hwchase17/langchain) and [GPT4All](https://github.com/nomic-ai/gpt4all)
 
 <img width="902" alt="demo" src="https://user-images.githubusercontent.com/721666/236942256-985801c9-25b9-48ef-80be-3acbb4575164.png">
 
