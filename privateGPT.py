@@ -7,7 +7,9 @@ import qdrant_client
 
 def main():
     # Load stored vectorstore
-    llama = LlamaCppEmbeddings(model_path="./models/ggml-model-q4_0.bin")
+    llama = LlamaCppEmbeddings(model_path='./models/ggml-model-q4_0.bin')
+    # Load ggml-formatted model 
+    local_path = './models/ggml-gpt4all-j-v1.3-groovy.bin'
 
     client = qdrant_client.QdrantClient(
     path="./db", prefer_grpc=True
@@ -17,11 +19,11 @@ def main():
         embeddings=llama
     )
 
-    retriever = qdrant.as_retriever()
-    # Prepare the LLM
+    # Prepare the LLM chain 
     callbacks = [StreamingStdOutCallbackHandler()]
-    llm = GPT4All(model='./models/ggml-gpt4all-j-v1.3-groovy.bin', backend='gptj', callbacks=callbacks, verbose=False)
-    qa = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever, return_source_documents=True)
+    llm = GPT4All(model=local_path, callbacks=callbacks, verbose=True, backend='gptj')
+    qa = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=qdrant.as_retriever(search_type="mmr"), return_source_documents=True)
+
     # Interactive questions and answers
     while True:
         query = input("\nEnter a query: ")
