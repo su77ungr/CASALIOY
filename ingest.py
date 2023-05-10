@@ -1,6 +1,7 @@
 from langchain.document_loaders import TextLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import Chroma
+from langchain.vectorstores import Qdrant
 from langchain.embeddings import LlamaCppEmbeddings
 from sys import argv
 
@@ -12,11 +13,14 @@ def main():
     texts = text_splitter.split_documents(documents)
     # Create embeddings
     llama = LlamaCppEmbeddings(model_path="./models/ggml-model-q4_0.bin")
-    # Create and store locally vectorstore
-    persist_directory = 'db'
-    db = Chroma.from_documents(texts, llama, persist_directory=persist_directory)
-    db.persist()
-    db = None
+
+
+    qdrant = Qdrant.from_documents(
+    texts, llama, path="./db",  # Local mode with in-memory storage only
+    collection_name="test",
+)
+    qdrant
+    qdrant = None
 
 if __name__ == "__main__":
     main()

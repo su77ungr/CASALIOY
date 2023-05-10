@@ -1,15 +1,23 @@
 from langchain.chains import RetrievalQA
 from langchain.embeddings import LlamaCppEmbeddings
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
-from langchain.vectorstores import Chroma
+from langchain.vectorstores import Chroma, Qdrant
 from langchain.llms import GPT4All
+import qdrant_client
 
 def main():        
     # Load stored vectorstore
     llama = LlamaCppEmbeddings(model_path="./models/ggml-model-q4_0.bin")
-    persist_directory = 'db'
-    db = Chroma(persist_directory=persist_directory, embedding_function=llama)
-    retriever = db.as_retriever()
+
+    client = qdrant_client.QdrantClient(
+    path="./db", prefer_grpc=True
+    )
+    qdrant = Qdrant(
+        client=client, collection_name="test", 
+        embeddings=llama
+    )
+
+    retriever = qdrant.as_retriever()
     # Prepare the LLM
     callbacks = [StreamingStdOutCallbackHandler()]
     llm = GPT4All(model='./models/ggml-gpt4all-j-v1.3-groovy.bin', backend='gptj', callbacks=callbacks, verbose=False)
