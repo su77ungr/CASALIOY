@@ -5,7 +5,7 @@ from langchain.vectorstores import Chroma, Qdrant
 from langchain.llms import GPT4All
 import qdrant_client
 
-def main():        
+def main():
     # Load stored vectorstore
     llama = LlamaCppEmbeddings(model_path="./models/ggml-model-q4_0.bin")
 
