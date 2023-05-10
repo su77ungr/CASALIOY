@@ -3,7 +3,7 @@
 
 # Models
 models/
-
+db/db/
 # Local Chroma db
 .chroma/
 db/
