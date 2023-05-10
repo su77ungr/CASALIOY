@@ -74,7 +74,7 @@ Note: you could turn off your internet connection, and the script inference woul
 
 Type `exit` to finish the script.
 
-# How does it work?
+## How does it work? 👀
 Selecting the right local models and the power of `LangChain` you can run the entire pipeline locally, without any data leaving your environment, and with reasonable performance.
 
 - `ingest.py` uses `LangChain` tools to parse the document and create embeddings locally using `LlamaCppEmbeddings`. It then stores the result in a local vector database using `Qdrant` vector store. 
@@ -86,7 +86,21 @@ Selecting the right local models and the power of `LangChain` you can run the en
   <p align="center">
 
 </p>
+  
+## Pipeline 🧑‍🎤
+  
+  ⭕ Adding auto-parser for immutable types of data (i.e PDF, JSON, MD)
+  ⭕ Adding better documentation
+  ⭕ Adding support for faster and more secure Retrieval with Contextual Compression Retriever 
 
+
+ 
+
+## 💁 Contributing
+
+As an open source project in a rapidly developing field, we are extremely open to contributions, whether it be in the form of a new feature, improved infra, or better documentation.
+
+  
   
 # Disclaimer
 The contents of this repository are provided "as is" and without warranties of any kind, whether express or implied. We do not warrant or represent that the information contained in this repository is accurate, complete, or up-to-date. We expressly disclaim any and all liability for any errors or omissions in the content of this repository.
