@@ -89,9 +89,13 @@ Selecting the right local models and the power of `LangChain` you can run the en
   
 ## Pipeline 🧑‍🎤
   
-  ⭕ Adding auto-parser for immutable types of data (i.e PDF, JSON, MD)
-  ⭕ Adding better documentation
-  ⭕ Adding support for faster and more secure Retrieval with Contextual Compression Retriever 
+  - ⭕ Adding auto-parser for immutable types of data (i.e PDF, JSON, MD)
+  
+  - ⭕ Adding better documentation
+  
+  - ⭕ Adding support for faster and more secure Retrieval with Contextual Compression Retriever 
+  
+  - ♾️ README.md updates
 
 
  
