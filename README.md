@@ -12,6 +12,8 @@
   
   <br> <br>
 
+![run](https://github.com/su77ungr/CASALIOY/assets/69374354/9977296f-26fe-4841-ab95-be72a31774e8)
+
 </p>
 
        Air-gapped LLMs on consumer-grade hardware 
