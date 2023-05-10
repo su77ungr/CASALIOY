@@ -50,7 +50,7 @@ Then, download the 2 models and place them in a folder called `./models`:
 | [GPT4All-J v1.3-groovy](https://gpt4all.io/models/ggml-gpt4all-j-v1.3-groovy.bin)     |   73.6   |   74.3   |   63.8    |    63.5    |   57.7   |   35.0   |   38.8   |   58.1   |
 | [GPT4All-J Lora 6B](https://gpt4all.io/models/)         |   68.6   |   75.8   |   66.2    |    63.5    |   56.4   |   35.7   |   40.2   |   58.1   |
   
-   all the supported models from [here](https://huggingface.co/nomic-ai/gpt4all-13b-snoozy)
+   all the supported models from [here](https://huggingface.co/nomic-ai/gpt4all-13b-snoozy) (custom LLMs in Pipeline)
 ```
  
 ```
@@ -122,18 +122,19 @@ Selecting the right local models and the power of `LangChain` you can run the en
 
 </p>
   
-## Pipeline 🧑‍🎤
+## Pipeline (stuff to do) 🧑‍🎤
   
-  - ⭕ Adding auto-parser for immutable types of data (i.e PDF, JSON, MD)
+  - ⭕ Adding auto-parser for datatypes (i.e PDF, JSON, MD) 
   
   - ⭕ Adding better documentation
   
   - ⭕ Adding support for faster and more secure Retrieval with Contextual Compression Retriever 
   
+  - ⭕ Custom LLM endpoints via Hugging Face Pipelines [see](https://github.com/su77ungr/CASALIOY/issues/2)
+  
   - ♾️ README.md updates
 
 
- 
 
 ## 💁 Contributing
 
