@@ -120,9 +120,8 @@ Selecting the right local models and the power of `LangChain` you can run the en
 - `ingest.py` uses `LangChain` tools to parse the document and create embeddings locally using `LlamaCppEmbeddings`. It then stores the result in a local vector database using `Qdrant` vector store. 
   <br>
     <img height="100" src="https://github.com/qdrant/qdrant/raw/master/docs/logo.svg" alt="Qdrant">  
-- `startLLM.py` uses a local LLM based on `GPT4All-J` or (optional your custom LLM that is llamacpp compatible [see](# Custom LLM) The context for the answers is extracted from the local vector store using a similarity search to locate the right piece of context from the docs.
-- `GPT4All-J` wrapper was introduced in LangChain 0.0.162.
-
+- `startLLM.py` can  handle every LLM that is llamacpp compatible (default `GPT4All-J`). The context for the answers is extracted from the local vector store using a similarity search to locate the right piece of context from the docs.
+  
   <p align="center">
 
 </p>
