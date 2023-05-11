@@ -21,6 +21,10 @@ def main(sources_directory, cleandb):
         for file in files:
             if file.endswith(".txt"):
                 loader = TextLoader(os.path.join(root, file), encoding="utf8")
+            elif file.endswith(".pdf"):
+                loader = PDFMinerLoader(os.path.join(root, file))
+            elif file.endswith(".csv"):
+                loader = CSVLoader(os.path.join(root, file))
     loader = TextLoader(os.path.join(root, file), encoding="utf8")
     
     documents = loader.load()
