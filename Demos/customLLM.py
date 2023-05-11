@@ -9,9 +9,9 @@ from langchain.llms import LlamaCpp
 
 def main():
     # Load stored vectorstore
-    llama = LlamaCppEmbeddings(model_path='./models/ggml-model-q4_0.bin')
+    llama = LlamaCppEmbeddings(model_path='../models/ggml-model-q4_0.bin')
     # Load ggml-formatted model 
-    local_path = './models/ggml-vic7b-uncensored-q4_0.bin'
+    local_path = '../models/ggml-vic7b-uncensored-q4_0.bin'
 
     client = qdrant_client.QdrantClient(
     path="./db", prefer_grpc=True
