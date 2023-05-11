@@ -1,7 +1,7 @@
 from langchain.chains import RetrievalQA
 from langchain.embeddings import LlamaCppEmbeddings
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
-from langchain.vectorstores import Chroma, Qdrant
+from langchain.vectorstores import Qdrant
 from langchain.llms import GPT4All
 import qdrant_client
 
