@@ -1,4 +1,12 @@
-## CASALIOY - Your local langchain toolkit 
+<div align="center">
+<p align="center">
+
+
+*****
+  #  CASALIOY - Your local langchain toolkit 
+  
+  </p>
+</div>
 
   <h2 align="center">
 
@@ -12,13 +20,9 @@
 
 
 </p>
-
-      The best toolchain for air-gapped LLMs
-
-
-<p align="center">
-  
-[LangChain](https://github.com/hwchase17/langchain) and [LlamaCpp](https://pypi.org/project/llama-cpp-python/) (refers to slower [imartinez](https://github.com/imartinez/privateGPT)) 👀
+The fastest toolkit for air-gapped LLMs
+ 
+[LangChain](https://github.com/hwchase17/langchain) + [LlamaCpp](https://pypi.org/project/llama-cpp-python/) + [qdrant](https://qdrant.tech/) (refers to slower [imartinez](https://github.com/imartinez/privateGPT)) 👀
 
 
 # Setup your environment 
