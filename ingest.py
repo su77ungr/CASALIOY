@@ -25,7 +25,6 @@ def main(sources_directory, cleandb):
                 loader = PDFMinerLoader(os.path.join(root, file))
             elif file.endswith(".csv"):
                 loader = CSVLoader(os.path.join(root, file))
-    loader = TextLoader(os.path.join(root, file), encoding="utf8")
     
     documents = loader.load()
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
