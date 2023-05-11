@@ -10,18 +10,19 @@ def main():
     # Check if there is an existing db, and if so delete or add to it.
     # supports command line "python ./ingest.py y" or "python ./ingest.py n"
     # y=new db, n=existing db
-    if os.path.exists("./db"):
-        if len(argv[1]) > 0:
-            cleandb = argv[1]
-        else:
-            cleandb = input("\nDelete current database?(Y/N): ")
+    db_dir = "./db"
+    
+    if os.path.exists(db_dir):
+        cleandb = input("\nDelete current database? (Y/N): ")
         if cleandb.lower() == 'y':
             print('Deleting db...')
-            shutil.rmtree("./db")
+            shutil.rmtree(db_dir)
         elif cleandb.lower() == 'n':
             print('Adding to existing db...')
         else:
             print('No option selected!')
+        
+    os.makedirs(db_dir, exist_ok=True)
     # Load document and split in chunks
     for root, dirs, files in os.walk("source_documents"):
         for file in files:
