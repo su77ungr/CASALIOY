@@ -69,7 +69,7 @@ This should look like this
       ├── models
       │   ├── ggml-gpt4all-j-v1.3-groovy.bin
       │   └── ggml-model-q4_0.bin
-      └── file
+      └── Demos/
 ```
 ## Test dataset
 This repo uses a [state of the union transcript](https://github.com/imartinez/privateGPT/blob/main/source_documents/state_of_the_union.txt) as an example.
@@ -131,6 +131,8 @@ Selecting the right local models and the power of `LangChain` you can run the en
   - ⭕ Adding support for faster and more secure Retrieval with Contextual Compression Retriever 
   
   - ⭕ Custom LLM endpoints via Hugging Face Pipelines [see](https://github.com/su77ungr/CASALIOY/issues/2)
+  
+  - [done] Custom LLM integration via native llamacpp see Demos/*
   
   - ♾️ README.md updates
 
