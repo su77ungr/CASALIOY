@@ -53,21 +53,18 @@ This should look like this
 ## Test dataset
 This repo uses a [state of the union transcript](https://github.com/imartinez/privateGPT/blob/main/source_documents/state_of_the_union.txt) as an example.
 
-## Instructions for ingesting your own dataset
+## Ingesting your own dataset
 
-Get your .txt file ready.
+Get your .txt file ready. (PDF, JSON, CSV support in pipeline)
 
-Run the following command to ingest the data.
+To ingest the data run
 
 ```shell
 python ingest.py <path_to_your_txt_file>
 ```
 
-It will create a `db` folder containing the local vectorstore. Will take time, depending on the size of your document.
-You can ingest as many documents as you want by running `ingest`, and all will be accumulated in the local embeddings database. 
-If you want to start from scracth, delete the `db` folder.
-
-Note: during the ingest process no data leaves your local environment. You could ingest without an internet connection.
+This spins up a local qdrant namespace inside the `db` folder containing the local vectorstore. Will take time, depending on the size of your document.
+You can ingest as many documents as you want by running `ingest`, and all will be accumulated in the local embeddings database. To remove dataset simply remove `db` folder. 
 
 ## Ask questions to your documents, locally!
 In order to ask a question, run a command like:
