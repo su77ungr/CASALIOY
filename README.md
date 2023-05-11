@@ -61,7 +61,7 @@ This repo uses a [state of the union transcript](https://github.com/imartinez/pr
 
 Get your .txt files ready inside your ``` <path_to_your_data_directory> ```. 
 
-To ingest the data run (we automatically parse for txt files [(PDF, JSON, CSV support in pipeline)]) 
+To ingest the data run (auto-ingest .txt, .pdf, .csv)
 
 ```shell
 python ingest.py  <path_to_your_data_directory>
@@ -136,15 +136,15 @@ Selecting the right local models and the power of `LangChain` you can run the en
   
 ## Pipeline (stuff to do) 🧑‍🎤
   
-  - ⭕ Adding auto-parser for datatypes (i.e PDF, JSON, MD) 
-  
   - ⭕ Adding better documentation
   
-  - ⭕ Adding support for faster and more secure Retrieval with Contextual Compression Retriever 
+  - ⭕ Retrieval with Contextual Compression Retriever or custom Retrieval Algorithm
   
   - ⭕ Custom LLM endpoints via Hugging Face Pipelines [see](https://github.com/su77ungr/CASALIOY/issues/2)
   
-  - [done] Custom LLM integration via native llamacpp see Demos/*
+  - [done] Custom LLM integration via native LlamaCpp see Demos/*
+
+  - [done] Adding auto-parser for datatypes
   
   - ♾️ README.md updates
 
@@ -152,8 +152,12 @@ Selecting the right local models and the power of `LangChain` you can run the en
 
 ## 💁 Contributing
 
-As an open source project in a rapidly developing field, we are extremely open to contributions, whether it be in the form of a new feature, improved infra, or better documentation.
+<div align="center">
+<a href="https://github.com/su77ungr/CASALIOY/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=su77ungr/CASALIOY" />
+</a>
 
+</div>
 
 ## Star History
 
