@@ -1,18 +1,15 @@
-## CASALIOY - GPT
+## CASALIOY - Your local langchain toolkit 
 
   <h2 align="center">
 
     
-    
 <p align="center">
-  
-  <img height="300" src="https://github.com/su77ungr/GEEB-GPT/assets/69374354/2e59734c-0de7-4057-be7a-14729e1d5acd" alt="Qdrant">   
+    <img height="300" src="https://github.com/su77ungr/GEEB-GPT/assets/69374354/2e59734c-0de7-4057-be7a-14729e1d5acd" alt="Qdrant"></img><br>
 
   <a href="https://git.io/su77ungr"><img src="https://img.shields.io/badge/Roadmap-2024-bc1439.svg" alt="Roadmap 2023"></a>
   
   <br> <br>
 
-![run](https://github.com/su77ungr/CASALIOY/assets/69374354/9977296f-26fe-4841-ab95-be72a31774e8)
 
 </p>
 
@@ -20,13 +17,11 @@
 
 
 <p align="center">
+  
+[LangChain](https://github.com/hwchase17/langchain) and [LlamaCpp](https://pypi.org/project/llama-cpp-python/) (inspirated by [Imartinez](https://github.com/imartinez/privateGPT)) 👀
 
 
-Built with [LangChain](https://github.com/hwchase17/langchain) and [GPT4All](https://github.com/nomic-ai/gpt4all) and hard-forked from [Imartinez](https://github.com/imartinez/privateGPT) 👀
-
-
-
-# Environment Setup
+# Setup your environment 
 
 In order to set your environment up to run the code here, first install all requirements:
 
@@ -38,16 +33,13 @@ pip install -r requirements.txt
 Then, download the 2 models and place them in a folder called `./models`:
 - LLM: default to [ggml-gpt4all-j-v1.3-groovy.bin](https://gpt4all.io/models/ggml-gpt4all-j-v1.3-groovy.bin). If you prefer a different GPT4All-J compatible model, just download it and reference it in `privateGPT.py`.
 - Embedding: default to [ggml-model-q4_0.bin](https://huggingface.co/Pi3141/alpaca-native-7B-ggml/resolve/397e872bf4c83f4c642317a5bf65ce84a105786e/ggml-model-q4_0.bin). If you prefer a different compatible Embeddings model, just download it and reference it in `privateGPT.py` and `ingest.py`.
-
- 
-## Path setup
  
 This should look like this 
   
   
 ```
 └── repo
-      ├── privateGPT.py
+      ├── startLLM.py
       ├── ingest.py
       ├── source_documents
       │   └── dsgvo.txt
@@ -56,6 +48,8 @@ This should look like this
       │   └── ggml-model-q4_0.bin
       └── Demos/
 ```
+  
+  
 ## Test dataset
 This repo uses a [state of the union transcript](https://github.com/imartinez/privateGPT/blob/main/source_documents/state_of_the_union.txt) as an example.
 
@@ -79,7 +73,7 @@ Note: during the ingest process no data leaves your local environment. You could
 In order to ask a question, run a command like:
 
 ```shell
-python privateGPT.py
+python startLLM.py
 ```
 
 And wait for the script to require your input. 
@@ -129,7 +123,7 @@ Selecting the right local models and the power of `LangChain` you can run the en
 - `ingest.py` uses `LangChain` tools to parse the document and create embeddings locally using `LlamaCppEmbeddings`. It then stores the result in a local vector database using `Qdrant` vector store. 
   <br>
     <img height="100" src="https://github.com/qdrant/qdrant/raw/master/docs/logo.svg" alt="Qdrant">  
-- `privateGPT.py` uses a local LLM based on `GPT4All-J` to understand questions and create answers. The context for the answers is extracted from the local vector store using a similarity search to locate the right piece of context from the docs.
+- `startLLM.py` uses a local LLM based on `GPT4All-J` or (optional your custom LLM that is llamacpp compatible [see](# Custom LLM) The context for the answers is extracted from the local vector store using a similarity search to locate the right piece of context from the docs.
 - `GPT4All-J` wrapper was introduced in LangChain 0.0.162.
 
   <p align="center">
