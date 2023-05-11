@@ -32,8 +32,8 @@ pip install -r requirements.txt
   
 Then, download the 2 models and place them in a folder called `./models`:
 
-- LLM: default is [ggml-gpt4all-j-v1.3-groovy.bin](https://gpt4all.io/models/ggml-gpt4all-j-v1.3-groovy.bin) / If using a custom LLM please use the `/Demos/customLLM.py` (check paths) instead of `startLLM.py`
-- Embedding: default to [ggml-model-q4_0.bin](https://huggingface.co/Pi3141/alpaca-native-7B-ggml/resolve/397e872bf4c83f4c642317a5bf65ce84a105786e/ggml-model-q4_0.bin). If you prefer a different compatible Embeddings model, just download it and reference it in `privateGPT.py` and `ingest.py`.
+- LLM: default is [ggml-gpt4all-j-v1.3-groovy.bin](https://gpt4all.io/models/ggml-gpt4all-j-v1.3-groovy.bin) / Custom LLM model run `/Demos/customLLM.py` (check paths) instead of `startLLM.py`
+- Embedding: default to [ggml-model-q4_0.bin](https://huggingface.co/Pi3141/alpaca-native-7B-ggml/resolve/397e872bf4c83f4c642317a5bf65ce84a105786e/ggml-model-q4_0.bin). / Custom  Embeddings model, reference it in `/Demos/customLLM.py` and `ingest.py`.
  
 This should look like this 
   
