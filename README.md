@@ -13,7 +13,7 @@
 
 </p>
 
-       Air-gapped LLMs on consumer-grade hardware 
+      The best toolchain for air-gapped LLMs
 
 
 <p align="center">
@@ -55,16 +55,16 @@ This repo uses a [state of the union transcript](https://github.com/imartinez/pr
 
 ## Ingesting your own dataset
 
-Get your .txt file ready. (PDF, JSON, CSV support in pipeline)
+Get your .txt files ready inside your ``` <path_to_your_data_directory> ```. 
 
-To ingest the data run
+To ingest the data run (we automatically parse for txt files [(PDF, JSON, CSV support in pipeline)]) 
 
 ```shell
-python ingest.py <path_to_your_txt_file>
+python ingest.py  <path_to_your_data_directory>
 ```
 Optional: use `y` flag to purge existing vectorstore and initialize fresh instance
 ```shell
-python ingest.py <path_to_your_txt_file> y 
+python ingest.py <path_to_your_data_directory> y 
 ```
 
 This spins up a local qdrant namespace inside the `db` folder containing the local vectorstore. Will take time, depending on the size of your document.
