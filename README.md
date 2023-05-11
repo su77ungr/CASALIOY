@@ -39,22 +39,7 @@ Then, download the 2 models and place them in a folder called `./models`:
 - LLM: default to [ggml-gpt4all-j-v1.3-groovy.bin](https://gpt4all.io/models/ggml-gpt4all-j-v1.3-groovy.bin). If you prefer a different GPT4All-J compatible model, just download it and reference it in `privateGPT.py`.
 - Embedding: default to [ggml-model-q4_0.bin](https://huggingface.co/Pi3141/alpaca-native-7B-ggml/resolve/397e872bf4c83f4c642317a5bf65ce84a105786e/ggml-model-q4_0.bin). If you prefer a different compatible Embeddings model, just download it and reference it in `privateGPT.py` and `ingest.py`.
 
-  
-  ```
-| Optional / Custom models in the GPT-J ecosphere   
-| Model                     |  BoolQ   |   PIQA   | HellaSwag | WinoGrande |  ARC-e   |  ARC-c   |   OBQA   |   Avg.   |
-|:--------------------------|:--------:|:--------:|:---------:|:----------:|:--------:|:--------:|:--------:|:--------:|
-| GPT4All-J 6B v1.0         |   73.4   |   74.8   |   63.4    |    64.7    |   54.9   |   36.0   |   40.2   |   58.2   |
-| [GPT4All-J v1.1-breezy](https://gpt4all.io/models/ggml-gpt4all-j-v1.1-breezy.bin)      |   74.0   |   75.1   |   63.2    |    63.6    |   55.4   |   34.9   |   38.4   |   57.8   |
-| [GPT4All-J v1.2-jazzy](https://gpt4all.io/models/ggml-gpt4all-j-v1.2-jazzy.bin)       |   74.8   |   74.9   |   63.6    |    63.8    |   56.6   |   35.3   |   41.0   |   58.6   |
-| [GPT4All-J v1.3-groovy](https://gpt4all.io/models/ggml-gpt4all-j-v1.3-groovy.bin)     |   73.6   |   74.3   |   63.8    |    63.5    |   57.7   |   35.0   |   38.8   |   58.1   |
-| [GPT4All-J Lora 6B](https://gpt4all.io/models/)         |   68.6   |   75.8   |   66.2    |    63.5    |   56.4   |   35.7   |   40.2   |   58.1   |
-  
-   all the supported models from [here](https://huggingface.co/nomic-ai/gpt4all-13b-snoozy) (custom LLMs in Pipeline)
-```
  
-```
-  
 ## Path setup
  
 This should look like this 
@@ -108,6 +93,35 @@ Hit enter. You'll need to wait 20-30 seconds (depending on your machine) while t
 Note: you could turn off your internet connection, and the script inference would still work. No data gets out of your local environment.
 
 Type `exit` to finish the script.
+  
+  
+# Custom LLM   
+  
+
+  ### Optional / Custom models outside of the GPT-J ecosphere  (NEW) 
+  
+| Model                     |  BoolQ   |   PIQA   | HellaSwag | WinoGrande |  ARC-e   |  ARC-c   |   OBQA   |   Avg.   |
+|:--------------------------|:--------:|:--------:|:---------:|:----------:|:--------:|:--------:|:--------:|:--------:|
+| [ggml-vic-7b-uncensored](https://cdn-lfs.huggingface.co/repos/d5/aa/d5aaf35e7d0d28440ac96a9c64b5c2a17e2e3fc260e1c41133376a6918b172a2/e682acb5b798df30cb06d7953a5e08956f73f4d480327ead19336d08a1658112?response-content-disposition=attachment%3B+filename*%3DUTF-8%27%27ggml-vic7b-uncensored-q4_0.bin%3B+filename%3D%22ggml-vic7b-uncensored-q4_0.bin%22%3B&response-content-type=application%2Foctet-stream&Expires=1684006500&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9jZG4tbGZzLmh1Z2dpbmdmYWNlLmNvL3JlcG9zL2Q1L2FhL2Q1YWFmMzVlN2QwZDI4NDQwYWM5NmE5YzY0YjVjMmExN2UyZTNmYzI2MGUxYzQxMTMzMzc2YTY5MThiMTcyYTIvZTY4MmFjYjViNzk4ZGYzMGNiMDZkNzk1M2E1ZTA4OTU2ZjczZjRkNDgwMzI3ZWFkMTkzMzZkMDhhMTY1ODExMj9yZXNwb25zZS1jb250ZW50LWRpc3Bvc2l0aW9uPSomcmVzcG9uc2UtY29udGVudC10eXBlPSoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE2ODQwMDY1MDB9fX1dfQ__&Signature=qqcSgIbRTN6DNkKQaN-1Ihp4isuSq-HGjx6hfKDs6T0%7ERtgZwWcovKOdRV71ucjQR%7EdIe4ZC6aGguK9j9KhxNABhseRcYAMWfI-wNOg07eN8h0REgqu42ePdsy8T-%7E2FaWALoJtY3lVPcYs%7ES8xq8fWBN9aU-2Eam-lnkr%7ExjCr3n9GHTXxpa3abwDv1%7E4oqxHSjvwmGWuW7BxIyZlJOUhdTT4acbL1wzYDaOqq36hp2JK6MNssxwK1e0xbgP19NqbUWMaml7P1c%7ErYWgBpDsqRYJ3cPteEDAYcURlNuuQ-MBgEmG17WmppEJiS4uG9-VQ2C5YLvFj4ksK53NIwW9g__&Key-Pair-Id=KVTP0A1DKRTAX)         |   73.4   |   74.8   |   63.4    |    64.7    |   54.9   |   36.0   |   40.2   |   58.2   |
+  
+  
+  ###  Optional / Custom models inside of the GPT-J ecosphere
+
+
+  
+  
+| Model                     |  BoolQ   |   PIQA   | HellaSwag | WinoGrande |  ARC-e   |  ARC-c   |   OBQA   |   Avg.   |
+|:--------------------------|:--------:|:--------:|:---------:|:----------:|:--------:|:--------:|:--------:|:--------:|
+| GPT4All-J 6B v1.0         |   73.4   |   74.8   |   63.4    |    64.7    |   54.9   |   36.0   |   40.2   |   58.2   |
+| [GPT4All-J v1.1-breezy](https://gpt4all.io/models/ggml-gpt4all-j-v1.1-breezy.bin)      |   74.0   |   75.1   |   63.2    |    63.6    |   55.4   |   34.9   |   38.4   |   57.8   |
+| [GPT4All-J v1.2-jazzy](https://gpt4all.io/models/ggml-gpt4all-j-v1.2-jazzy.bin)       |   74.8   |   74.9   |   63.6    |    63.8    |   56.6   |   35.3   |   41.0   |   58.6   |
+| [GPT4All-J v1.3-groovy](https://gpt4all.io/models/ggml-gpt4all-j-v1.3-groovy.bin)     |   73.6   |   74.3   |   63.8    |    63.5    |   57.7   |   35.0   |   38.8   |   58.1   |
+| [GPT4All-J Lora 6B](https://gpt4all.io/models/)         |   68.6   |   75.8   |   66.2    |    63.5    |   56.4   |   35.7   |   40.2   |   58.1   |
+  
+   all the supported models from [here](https://huggingface.co/nomic-ai/gpt4all-13b-snoozy) (custom LLMs in Pipeline)
+  
+  
+
 
 ## How does it work? 👀
 Selecting the right local models and the power of `LangChain` you can run the entire pipeline locally, without any data leaving your environment, and with reasonable performance.
