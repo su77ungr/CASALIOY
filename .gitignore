@@ -1,6 +1,6 @@
 # OSX
 .DS_STORE
-
+meta.json
 # Models
 models/
 db/db/
