@@ -1,7 +1,7 @@
 import shutil
 import os
 import sys
-from langchain.document_loaders import TextLoader
+from langchain.document_loaders import TextLoader, PDFMinerLoader, CSVLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import Qdrant
 from langchain.embeddings import LlamaCppEmbeddings
