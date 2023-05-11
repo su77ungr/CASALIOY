@@ -62,6 +62,10 @@ To ingest the data run
 ```shell
 python ingest.py <path_to_your_txt_file>
 ```
+Optional: use `y` flag to purge existing vectorstore and initialize fresh instance
+```shell
+python ingest.py <path_to_your_txt_file> y 
+```
 
 This spins up a local qdrant namespace inside the `db` folder containing the local vectorstore. Will take time, depending on the size of your document.
 You can ingest as many documents as you want by running `ingest`, and all will be accumulated in the local embeddings database. To remove dataset simply remove `db` folder. 
