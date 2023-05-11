@@ -18,7 +18,7 @@
 
 <p align="center">
   
-[LangChain](https://github.com/hwchase17/langchain) and [LlamaCpp](https://pypi.org/project/llama-cpp-python/) (inspirated by [Imartinez](https://github.com/imartinez/privateGPT)) 👀
+[LangChain](https://github.com/hwchase17/langchain) and [LlamaCpp](https://pypi.org/project/llama-cpp-python/) (refers to slower [imartinez](https://github.com/imartinez/privateGPT)) 👀
 
 
 # Setup your environment 
