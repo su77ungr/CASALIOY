@@ -1,7 +1,7 @@
 import shutil
 import os
 import sys
-from langchain.document_loaders import TextLoader
+from langchain.document_loaders import TextLoader, PDFMinerLoader, CSVLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import Qdrant
 from langchain.embeddings import LlamaCppEmbeddings
@@ -21,6 +21,10 @@ def main(sources_directory, cleandb):
         for file in files:
             if file.endswith(".txt"):
                 loader = TextLoader(os.path.join(root, file), encoding="utf8")
+            elif file.endswith(".pdf"):
+                loader = PDFMinerLoader(os.path.join(root, file))
+            elif file.endswith(".csv"):
+                loader = CSVLoader(os.path.join(root, file))
     loader = TextLoader(os.path.join(root, file), encoding="utf8")
     
     documents = loader.load()
