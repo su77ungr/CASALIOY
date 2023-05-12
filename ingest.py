@@ -8,9 +8,8 @@ from langchain.embeddings import LlamaCppEmbeddings
 
 ## enables to run python random_path/ to ingest // or 'python random_path/ y' to purge existing db 
 def main(sources_directory, cleandb):
-    db_dir = "./db"
+    db_dir = "./db" # can be changed to ":memory:" but is not persistant
     if os.path.exists(db_dir):
-        
         if cleandb.lower() == 'y' or (cleandb == 'n' and input("\nDelete current database?(Y/N): ").lower() == 'y'):
             print('Deleting db...')
             shutil.rmtree(db_dir)
@@ -26,13 +25,11 @@ def main(sources_directory, cleandb):
             elif file.endswith(".csv"):
                 loader = CSVLoader(os.path.join(root, file))
 
-
     documents = loader.load()
-    
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
     texts = text_splitter.split_documents(documents)
     llama = LlamaCppEmbeddings(model_path="./models/ggml-model-q4_0.bin")
-    qdrant = Qdrant.from_documents(texts, llama, path="./db", collection_name="test")
+    qdrant = Qdrant.from_documents(texts, llama, path="db_dir", collection_name="test")
     qdrant = None
     print("Indexed ", len(texts), " documents in Qdrant")
 
