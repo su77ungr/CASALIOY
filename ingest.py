@@ -29,7 +29,7 @@ def main(sources_directory, cleandb):
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
     texts = text_splitter.split_documents(documents)
     llama = LlamaCppEmbeddings(model_path="./models/ggml-model-q4_0.bin")
-    qdrant = Qdrant.from_documents(texts, llama, path="db_dir", collection_name="test")
+    qdrant = Qdrant.from_documents(texts, llama, path=db_dir, collection_name="test")
     qdrant = None
     print("Indexed ", len(texts), " documents in Qdrant")
 
