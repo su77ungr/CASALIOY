@@ -137,8 +137,10 @@ Type `exit` to finish the script.
  
   ###  Convert GGML model to GGJT-ready model v1 (for truncation error or not supported models) 
   
- > from huggingface download [tokenizer.model](https://huggingface.co/chavinlo/gpt4-x-alpaca/resolve/main/tokenizer.model), [convert.py](https://github.com/ggerganov/llama.cpp/blob/master/convert.py) from llamacpp and put them in the parent folder of my alpaca7b ggml model named model.bin
- > ``` python  .\convert.py .\models\ --outfile new.bin ``` [see discussion](https://github.com/su77ungr/CASALIOY/issues/10#issue-1706854398)
+  1. Download ready-to-use models
+ > from huggingface download [huggingFace](https://huggingface.co/)
+  2. Convert locally 
+ > ``` python  convert.py --outfile new.bin ``` [see discussion](https://github.com/su77ungr/CASALIOY/issues/10#issue-1706854398)
 
 
 ## How does it work? 👀
