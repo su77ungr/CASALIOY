@@ -1,4 +1,9 @@
 <div align="center">
+  
+> **Warning**
+> With [this critical change](https://github.com/su77ungr/CASALIOY/commit/526550466095b768812e886ad48e20e375ed2659) we introduced dotenv setup. Make sure you are running the latest main branch to keep support!
+  
+<br>
 <p align="center">
 
 
@@ -23,6 +28,8 @@
 The fastest toolkit for air-gapped LLMs
  
 [LangChain](https://github.com/hwchase17/langchain) + [LlamaCpp](https://pypi.org/project/llama-cpp-python/) + [qdrant](https://qdrant.tech/) (refers to slower [imartinez](https://github.com/imartinez/privateGPT)) 👀
+
+<br>
 
 
 # Setup your environment 
@@ -59,7 +66,7 @@ This should look like this
       ├── models
       │   ├── ggml-gpt4all-j-v1.3-groovy.bin
       │   └── ggml-model-q4_0.bin
-      └── PLACEHOLDER
+      └── .env
 ```
   
   
