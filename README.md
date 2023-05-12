@@ -52,8 +52,8 @@ MODEL_N_CTX: Maximum token limit for both embeddings and LLM models
 
 Then, download the 2 models and place them in a folder called `./models`:
 
-- LLM: default is [ggml-gpt4all-j-v1.3-groovy.bin](https://gpt4all.io/models/ggml-gpt4all-j-v1.3-groovy.bin) / run `/Demos/customLLM.py` (check paths) instead of `startLLM.py`
-- Embedding: default to [ggml-model-q4_0.bin](https://huggingface.co/Pi3141/alpaca-native-7B-ggml/resolve/397e872bf4c83f4c642317a5bf65ce84a105786e/ggml-model-q4_0.bin). / Custom  Embeddings model, reference it in `/Demos/customLLM.py` and `ingest.py`.
+- LLM: default is [ggml-gpt4all-j-v1.3-groovy.bin](https://gpt4all.io/models/ggml-gpt4all-j-v1.3-groovy.bin) 
+- Embedding: default to [ggml-model-q4_0.bin](https://huggingface.co/Pi3141/alpaca-native-7B-ggml/resolve/397e872bf4c83f4c642317a5bf65ce84a105786e/ggml-model-q4_0.bin).
  
 This should look like this 
   
