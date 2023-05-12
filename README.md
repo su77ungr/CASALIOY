@@ -33,7 +33,16 @@ In order to set your environment up to run the code here, first install all requ
 pip install -r requirements.txt
 ```
 
-  
+edit the example.env and rename it to .env (in bash `mv example.env .env`)
+
+```env
+MODEL_TYPE: supports LlamaCpp or GPT4All
+PERSIST_DIRECTORY: is the folder you want your vectorstore in
+LLAMA_EMBEDDINGS_MODEL: (absolute) Path to your LlamaCpp supported embeddings model
+MODEL_PATH: Path to your GPT4All or LlamaCpp supported LLM
+MODEL_N_CTX: Maximum token limit for both embeddings and LLM models
+```
+
 Then, download the 2 models and place them in a folder called `./models`:
 
 - LLM: default is [ggml-gpt4all-j-v1.3-groovy.bin](https://gpt4all.io/models/ggml-gpt4all-j-v1.3-groovy.bin) / run `/Demos/customLLM.py` (check paths) instead of `startLLM.py`
@@ -50,7 +59,7 @@ This should look like this
       ├── models
       │   ├── ggml-gpt4all-j-v1.3-groovy.bin
       │   └── ggml-model-q4_0.bin
-      └── Demos/
+      └── PLACEHOLDER
 ```
   
   
