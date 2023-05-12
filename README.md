@@ -123,6 +123,9 @@ Type `exit` to finish the script.
 
 
 ## How does it work? 👀
+
+<img src="https://qdrant.tech/articles_data/langchain-integration/flow-diagram.png"></img>
+
 Selecting the right local models and the power of `LangChain` you can run the entire pipeline locally, without any data leaving your environment, and with reasonable performance.
 
 - `ingest.py` uses `LangChain` tools to parse the document and create embeddings locally using `LlamaCppEmbeddings`. It then stores the result in a local vector database using `Qdrant` vector store. 
