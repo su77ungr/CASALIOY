@@ -158,7 +158,8 @@ Selecting the right local models and the power of `LangChain` you can run the en
 <div align="center">
 <a href="https://github.com/su77ungr/CASALIOY/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=su77ungr/CASALIOY" />
-</a>
+</a><br><br>
+  <a href="https://www.buymeacoffee.com/cassowary"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a pizza&emoji=🌶️&slug=cassowary&button_colour=f0e4ff&font_colour=000000&font_family=Bree&outline_colour=000000&coffee_colour=FFDD00" /></a>
 
 </div>
 
