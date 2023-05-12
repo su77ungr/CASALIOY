@@ -96,12 +96,8 @@ Type `exit` to finish the script.
   
 # LLM options
 
-  ###  conversion from ggml to ggjt v1 
-  
- > from huggingface download [tokenizer.model](https://huggingface.co/chavinlo/gpt4-x-alpaca/resolve/main/tokenizer.model), [convert.py](https://github.com/ggerganov/llama.cpp/blob/master/convert.py) from llamacpp and put them in the parent folder of my alpaca7b ggml model named model.bin
- > ``` python  .\convert.py .\models\ --outfile new.bin ``` [see discussion](https://github.com/su77ungr/CASALIOY/issues/10#issue-1706854398)
    
-  ###  models outside of the GPT-J ecosphere  (NEW) 
+  ###  models outside of the GPT-J ecosphere  (work out of the box) 
   
 | Model                     |  BoolQ   |   PIQA   | HellaSwag | WinoGrande |  ARC-e   |  ARC-c   |   OBQA   |   Avg.   |
 |:--------------------------|:--------:|:--------:|:---------:|:----------:|:--------:|:--------:|:--------:|:--------:|
@@ -110,8 +106,6 @@ Type `exit` to finish the script.
   
   
   ###  models inside of the GPT-J ecosphere
-
-
   
   
 | Model                     |  BoolQ   |   PIQA   | HellaSwag | WinoGrande |  ARC-e   |  ARC-c   |   OBQA   |   Avg.   |
@@ -124,7 +118,11 @@ Type `exit` to finish the script.
   
    all the supported models from [here](https://huggingface.co/nomic-ai/gpt4all-13b-snoozy) (custom LLMs in Pipeline)
   
+ 
+  ###  Convert GGML model to GGJT-ready model v1 (for truncation error or not supported models) 
   
+ > from huggingface download [tokenizer.model](https://huggingface.co/chavinlo/gpt4-x-alpaca/resolve/main/tokenizer.model), [convert.py](https://github.com/ggerganov/llama.cpp/blob/master/convert.py) from llamacpp and put them in the parent folder of my alpaca7b ggml model named model.bin
+ > ``` python  .\convert.py .\models\ --outfile new.bin ``` [see discussion](https://github.com/su77ungr/CASALIOY/issues/10#issue-1706854398)
 
 
 ## How does it work? 👀
