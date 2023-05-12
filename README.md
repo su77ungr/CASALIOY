@@ -96,7 +96,12 @@ Type `exit` to finish the script.
   
 # LLM options
 
-  ### Optional / Custom models outside of the GPT-J ecosphere  (NEW) 
+  ###  conversion from ggml to ggjt v1 
+  
+ > from huggingface download [tokenizer.model](https://huggingface.co/chavinlo/gpt4-x-alpaca/resolve/main/tokenizer.model), [convert.py](https://github.com/ggerganov/llama.cpp/blob/master/convert.py) from llamacpp and put them in the parent folder of my alpaca7b ggml model named model.bin
+ > ``` python  .\convert.py .\models\ --outfile new.bin ``` [see discussion](https://github.com/su77ungr/CASALIOY/issues/10#issue-1706854398)
+   
+  ###  models outside of the GPT-J ecosphere  (NEW) 
   
 | Model                     |  BoolQ   |   PIQA   | HellaSwag | WinoGrande |  ARC-e   |  ARC-c   |   OBQA   |   Avg.   |
 |:--------------------------|:--------:|:--------:|:---------:|:----------:|:--------:|:--------:|:--------:|:--------:|
@@ -104,7 +109,7 @@ Type `exit` to finish the script.
 | [gpt4all-13b-snoozy q5](https://huggingface.co/TheBloke/GPT4All-13B-snoozy-GGML/blob/main/GPT4All-13B-snoozy.ggml.q5_1.bin)        | 83.3 |   79.2   |   75.0    |  71.3  |   60.9   |   44.2   |   43.4   |  65.3  |
   
   
-  ###  Optional / Custom models inside of the GPT-J ecosphere
+  ###  models inside of the GPT-J ecosphere
 
 
   
