@@ -26,7 +26,6 @@ def main(sources_directory, cleandb):
             elif file.endswith(".csv"):
                 loader = CSVLoader(os.path.join(root, file))
     
-    documents = loader.load()
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
     texts = text_splitter.split_documents(documents)
     llama = LlamaCppEmbeddings(model_path="./models/ggml-model-q4_0.bin")
