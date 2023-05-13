@@ -4,3 +4,4 @@ qdrant-client==1.1.7
 llama-cpp-python==0.1.49
 pdfminer.six==20221105
 python-dotenv==1.0.0
+pandoc==2.3
