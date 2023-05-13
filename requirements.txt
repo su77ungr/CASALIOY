@@ -4,8 +4,8 @@ qdrant-client==1.1.7
 llama-cpp-python==0.1.49
 pdfminer.six==20221105
 python-dotenv==1.0.0
-steamlit
-streamlit-chat
-streamlit-extras
+streamlit==1.22.0 
+streamlit-chat==0.0.2.2 
+streamlit-extras==0.2.7 
 pandoc==2.3
 unstructured==0.6.6
