@@ -11,8 +11,8 @@ llama_embeddings_model = os.environ.get("LLAMA_EMBEDDINGS_MODEL")
 persist_directory = os.environ.get('PERSIST_DIRECTORY')
 model_type = os.environ.get('MODEL_TYPE')
 model_path = os.environ.get('MODEL_PATH')
-model_n_ctx = os.environ.get('MODEL_N_CTX')
-model_temp = os.environ.get('MODEL_TEMP')
+model_n_ctx = int(os.environ.get('MODEL_N_CTX'))
+model_temp = float(os.environ.get('MODEL_TEMP'))
 model_stop = os.environ.get('MODEL_STOP').split(",")
 
 qa_system=None
