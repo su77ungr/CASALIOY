@@ -15,7 +15,7 @@ model_n_ctx = os.environ.get('MODEL_N_CTX')
 model_temp = os.environ.get('MODEL_TEMP')
 model_stop = os.environ.get('MODEL_STOP').split(",")
 
-def main():
+def main(prompt="", gui=False):
     # Load stored vectorstore
     llama = LlamaCppEmbeddings(model_path=llama_embeddings_model, n_ctx=model_n_ctx)
     # Load ggml-formatted model 
@@ -44,7 +44,7 @@ def main():
 
     # Interactive questions and answers
     while True:
-        query = input("\nEnter a query: ")
+        query = prompt if prompt.strip() != "" else input("\nEnter a query: ")
         if query == "exit":
             break
         
@@ -62,6 +62,9 @@ def main():
         for document in docs:
             print("\n> " + document.metadata["source"] + ":")
             print(document.page_content)
+        
+        if gui:
+            return answer
 
 if __name__ == "__main__":
     main()
