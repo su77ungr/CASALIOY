@@ -110,12 +110,12 @@ To automatically ingest different data types (.txt, .pdf, .csv)
 
 
 ```shell
-python ingest.py  <path_to_your_data_directory>
+python ingest.py # optional <path_to_your_data_directory>
 ```
 
 Optional: use `y` flag to purge existing vectorstore and initialize fresh instance
 ```shell
-python ingest.py <path_to_your_data_directory> y 
+python ingest.py # optional <path_to_your_data_directory> y 
 ```
 
 This spins up a local qdrant namespace inside the `db` folder containing the local vectorstore. Will take time, depending on the size of your document.
