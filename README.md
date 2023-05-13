@@ -36,10 +36,13 @@ The fastest toolkit for air-gapped LLMs
 
 <br>
 
-
 # Setup
 
-## Quickstart (optional)  
+
+
+### Quickstart (optional)  
+
+ [![Typing SVG](https://readme-typing-svg.demolab.com?font=FIra+&weight=200&duration=500&pause=1000&color=2D8EFFC8&background=000FFF00&multiline=true&repeat=true&width=550&height=120&lines=%F0%9F%90%8B++docker+pull+su77ungr%2Fcasalioy;%F0%9F%90%8B+docker+run+-p+%2Fhome%2FCASALIOY+su77ungr%2Fcasalioy)](https://hub.docker.com/r/su77ungr/casalioy/)  
 
 ```json 
 docker pull su77ungr/casalioy
@@ -49,7 +52,7 @@ docker run -it --entrypoint /bin/bash su77ungr/casalioy
 ```
 
 
-## Build it yourself 
+### Build it yourself 
 
 > First install all requirements:
 
