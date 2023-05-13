@@ -38,19 +38,19 @@ The fastest toolkit for air-gapped LLMs
 <br>
 
 
-# Quickie 
+# Setup
 
-<div align="center">
+## Quickstart (optional)  
 
-> **via docker repository**
+```json 
+docker pull su77ungr/casalioy
+```
+```json
+docker run -it --entrypoint /bin/bash su77ungr/casalioy
+```
 
-`docker pull su77ungr/casalioy`
 
-</div>
-
-
-
-# Setup your environment 
+## Build it yourself 
 
 In order to set your environment up to run the code here, first install all requirements:
 
