@@ -12,7 +12,7 @@ RUN cd /home \
     && cd CASALIOY/ \
     && pip3 install -r requirements.txt
 
-RUN rule=$'\n,\t' && echo -e "PERSIST_DIRECTORY=db\nDOCUMENTS_DIRECTORY=source_documents\nMODEL_TYPE=LlamaCpp\nLLAMA_EMBEDDINGS_MODEL=models/ggml-model-q4_0.bin\nMODEL_PATH=models/ggjt-v1-vic7b-uncensored-q4_0.bin\nMODEL_N_CTX=512\nMODEL_TEMP=0.8\nMODEL_STOP=${rule}" > /home/CASALIOY/.env \
+RUN rule='\n,\t' && echo -e "PERSIST_DIRECTORY=db\nDOCUMENTS_DIRECTORY=source_documents\nMODEL_TYPE=LlamaCpp\nLLAMA_EMBEDDINGS_MODEL=models/ggml-model-q4_0.bin\nMODEL_PATH=models/ggjt-v1-vic7b-uncensored-q4_0.bin\nMODEL_N_CTX=512\nMODEL_TEMP=0.8\nMODEL_STOP=${rule}" > /home/CASALIOY/.env \
     && chmod a+x /home/CASALIOY/.env
 
 RUN cd /home/CASALIOY/models \
