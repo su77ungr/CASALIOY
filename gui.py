@@ -2,8 +2,10 @@ import streamlit as st
 from streamlit_chat import message
 from streamlit_extras.colored_header import colored_header
 from streamlit_extras.add_vertical_space import add_vertical_space
+from startLLM import main as startLLM
 
 st.set_page_config(page_title="CASALIOY")
+input_text = None
 
 # Sidebar contents
 with st.sidebar:
@@ -34,10 +36,20 @@ input_container = st.container()
 colored_header(label='', description='', color_name='blue-30')
 response_container = st.container()
 
+if "disabled" not in st.session_state:
+    st.session_state["disabled"] = False
+
+def enable():
+    st.session_state["disabled"] = False
+
+def disable():
+    st.session_state["disabled"] = True
+
 # User input
 ## Function for taking user provided prompt as input
 def get_text():
-    input_text = st.text_input("You: ", "", key="input")
+    global input_text
+    input_text = st.text_input("You: ", "", key="input", disabled=st.session_state["disabled"])
     return input_text
 ## Applying the user input box
 with input_container:
@@ -46,8 +58,9 @@ with input_container:
 # Response output
 ## Function for taking user prompt as input followed by producing AI generated responses
 def generate_response(prompt):
-    import startLLM
-    response = startLLM.main(prompt, True)
+    #input_text.disabled = True
+    disable()
+    response = startLLM(prompt, True)
     return response
 
 ## Conditional display of AI generated responses as a function of user provided prompts
