@@ -52,26 +52,38 @@ docker run -it --entrypoint /bin/bash su77ungr/casalioy
 
 ## Build it yourself 
 
-In order to set your environment up to run the code here, first install all requirements:
+> First install all requirements:
 
 ```shell
 pip install -r requirements.txt
 ```
-
-edit the example.env and rename it to .env (in bash `mv example.env .env`)
-
-```env
-MODEL_TYPE: supports LlamaCpp or GPT4All
-PERSIST_DIRECTORY: is the folder you want your vectorstore in
-LLAMA_EMBEDDINGS_MODEL: (absolute) Path to your LlamaCpp supported embeddings model
-MODEL_PATH: Path to your GPT4All or LlamaCpp supported LLM
-MODEL_N_CTX: Maximum token limit for both embeddings and LLM models
-```
-
-Then, download the 2 models and place them in a folder called `./models`:
+> Download the 2 models and place them in a folder called `./models`:
 
 - LLM: default is [ggml-gpt4all-j-v1.3-groovy.bin](https://gpt4all.io/models/ggml-gpt4all-j-v1.3-groovy.bin) 
 - Embedding: default to [ggml-model-q4_0.bin](https://huggingface.co/Pi3141/alpaca-native-7B-ggml/resolve/397e872bf4c83f4c642317a5bf65ce84a105786e/ggml-model-q4_0.bin).
+
+
+>> Edit the example.env and rename it to .env (in bash `mv example.env .env`)
+
+```env
+PERSIST_DIRECTORY=db
+DOCUMENTS_DIRECTORY=source_documents
+# Your LLM type (GPT4All or LlamaCpp)
+MODEL_TYPE=GPT4All
+# Absolute path to your llama supported embeddings model.
+LLAMA_EMBEDDINGS_MODEL=models/ggml-model-q4_0.bin
+# Absolute path to your GPT4All or LlamaCpp model
+MODEL_PATH=models/ggml-gpt4all-j-v1.3-groovy.bin
+# Context size for both the vector datbase and the llm seperately in one value
+# Double this value if you are getting context size errors
+MODEL_N_CTX=1024
+# Temperature range of 0=Logical to 1=Creative 
+MODEL_TEMP=0.8
+# Stop based on certain characters or strings.
+# \n is for new lines and \t is for tabs.
+MODEL_STOP=\n,\t
+```
+
  
 This should look like this 
   
@@ -84,22 +96,23 @@ This should look like this
       ├── models
       │   ├── ggml-gpt4all-j-v1.3-groovy.bin
       │   └── ggml-model-q4_0.bin
-      └── .env
+      └── .env, convert.py, Dockerfile
 ```
   
   
 ## Test dataset
-This repo uses a [state of the union transcript](https://github.com/imartinez/privateGPT/blob/main/source_documents/state_of_the_union.txt) as an example.
 
 ## Ingesting your own dataset
 
-Get your .txt files ready inside your ``` <path_to_your_data_directory> ```. 
+To automatically ingest different data types (.txt, .pdf, .csv)
 
-To ingest the data run (auto-ingest .txt, .pdf, .csv)
+> This repo includes dummy [files](https://github.com/imartinez/privateGPT/blob/main/source_documents/) inside `source_documents` to run tests with.
+
 
 ```shell
 python ingest.py  <path_to_your_data_directory>
 ```
+
 Optional: use `y` flag to purge existing vectorstore and initialize fresh instance
 ```shell
 python ingest.py <path_to_your_data_directory> y 
