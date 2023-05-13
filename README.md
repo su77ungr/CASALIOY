@@ -4,7 +4,6 @@
 <br>
 <p align="center">
 
-
 *****
   #  CASALIOY - Your local langchain toolkit 
   
