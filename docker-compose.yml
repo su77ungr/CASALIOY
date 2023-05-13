@@ -1,0 +1,10 @@
+version: '3.8'
+
+services: 
+  casalioy:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./source_documents:/srv/source_documents
+      - ./models:/srv/models

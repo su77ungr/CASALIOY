@@ -1,21 +1,13 @@
-FROM ubuntu:latest
+FROM python:3.10
 
-RUN apt-get update -qq && apt-get install -y \
-    git \
-    python3 \
-    python-is-python3 \
-    python3-pip \
-    wget
+WORKDIR /srv
+COPY ./requirements.txt .
 
-RUN cd /home \
-    && git clone https://github.com/mlynar-czyk/CASALIOY.git \
-    && cd CASALIOY/ \
-    && pip3 install -r requirements.txt
+RUN python3 -m venv venv && . venv/bin/activate
+RUN python3 -m pip install --no-cache-dir -r requirements.txt --upgrade pip
 
-RUN echo "PERSIST_DIRECTORY=db\nDOCUMENTS_DIRECTORY=source_documents\nMODEL_TYPE=LlamaCpp\nLLAMA_EMBEDDINGS_MODEL=models/ggml-model-q4_0.bin\nMODEL_PATH=models/ggjt-v1-vic7b-uncensored-q4_0.bin\nMODEL_N_CTX=512\nMODEL_TEMP=0.8\nMODEL_STOP=\n,\t" > /home/CASALIOY/.env \
-    && chmod a+x /home/CASALIOY/.env
+COPY ./ingest.py /srv/ingest.py
+COPY ./startLLM.py /srv/startLLM.py
+COPY ./example.env /srv/.env
 
-
-# RUN cd /home/CASALIOY/models \
-#     && wget https://huggingface.co/datasets/dnato/ggjt-v1-vic7b-uncensored-q4_0.bin/resolve/main/ggjt-v1-vic7b-uncensored-q4_0.bin \
-#     && wget https://huggingface.co/Pi3141/alpaca-native-7B-ggml/resolve/397e872bf4c83f4c642317a5bf65ce84a105786e/ggml-model-q4_0.bin
+# COPY ./models /srv/models  # Mounting model is more efficient
