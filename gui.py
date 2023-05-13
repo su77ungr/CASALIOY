@@ -2,7 +2,7 @@ import streamlit as st
 from streamlit_chat import message
 from streamlit_extras.colored_header import colored_header
 from streamlit_extras.add_vertical_space import add_vertical_space
-from startLLM import main as startLLM
+import startLLM
 
 # Initialization
 if "input" not in st.session_state:
@@ -21,6 +21,8 @@ with st.sidebar:
     - [su77ungr/CASALIOY](https://github.com/alxspiker/CASALIOY) LLM Toolkit
     
     💡 Note: No API key required!
+    Refreshing the page will restart gui.py with a fresh chat history.
+    CASALIOY will not remember previous questions as of yet.
 
     GUI does not support live response yet, so you have to wait for the tokens to process.
     ''')
@@ -47,7 +49,8 @@ def generate_response(prompt):
         st.session_state.past.append(prompt)
         message(prompt, is_user=True)
         message("Loading response. Please wait...", key="rmessage")
-        response = startLLM(prompt, True)
+        response = startLLM.main(prompt, True)
+        #startLLM.qdrant = None
         st.session_state.generated.append(response)
         message(response)
         st.session_state.running = False

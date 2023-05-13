@@ -16,8 +16,6 @@ model_temp = os.environ.get('MODEL_TEMP')
 model_stop = os.environ.get('MODEL_STOP').split(",")
 
 qa_system=None
-llm=None
-qdrant=None
 
 def initialize_qa_system():
     # Load stored vectorstore
@@ -28,7 +26,6 @@ def initialize_qa_system():
     client = qdrant_client.QdrantClient(
     path=persist_directory, prefer_grpc=True
     )
-    global qdrant
     qdrant = Qdrant(
         client=client, collection_name="test", 
         embeddings=llama
@@ -36,7 +33,6 @@ def initialize_qa_system():
 
     # Prepare the LLM chain 
     callbacks = [StreamingStdOutCallbackHandler()]
-    global llm
     match model_type:
         case "LlamaCpp":
             from langchain.llms import LlamaCpp
@@ -54,9 +50,9 @@ def main(prompt="", gui=False):
     if qa_system is None:
         qa_system = initialize_qa_system()
     # Interactive questions and answers
-    if prompt.strip() != "":
+    if (prompt.strip() != "" and gui) or gui==False:
         while True:
-            query = prompt if prompt.strip() != "" else input("\nEnter a query: ")
+            query = prompt if gui else input("\nEnter a query: ")
             if query == "exit":
                 break
             
