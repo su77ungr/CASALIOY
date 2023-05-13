@@ -12,6 +12,8 @@ persist_directory = os.environ.get('PERSIST_DIRECTORY')
 model_type = os.environ.get('MODEL_TYPE')
 model_path = os.environ.get('MODEL_PATH')
 model_n_ctx = os.environ.get('MODEL_N_CTX')
+model_temp = os.environ.get('MODEL_TEMP')
+model_stop = os.environ.get('MODEL_STOP').split(",")
 
 def main():
     # Load stored vectorstore
@@ -32,7 +34,7 @@ def main():
     match model_type:
         case "LlamaCpp":
             from langchain.llms import LlamaCpp
-            llm = LlamaCpp(model_path=local_path, n_ctx=model_n_ctx, callbacks=callbacks, verbose=True)
+            llm = LlamaCpp(model_path=local_path, n_ctx=model_n_ctx, temperature=model_temp, stop=model_stop, callbacks=callbacks, verbose=True)
         case "GPT4All":
             from langchain.llms import GPT4All
             llm = GPT4All(model=local_path, n_ctx=model_n_ctx, callbacks=callbacks, verbose=True, backend='gptj')
