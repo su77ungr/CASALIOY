@@ -3,6 +3,7 @@
 > **Warning**
 > With [this critical change](https://github.com/su77ungr/CASALIOY/commit/526550466095b768812e886ad48e20e375ed2659) we introduced dotenv setup. Make sure you are running the latest main branch to keep support!
   
+
 <br>
 <p align="center">
 
@@ -19,7 +20,12 @@
 <p align="center">
     <img height="300" src="https://github.com/su77ungr/GEEB-GPT/assets/69374354/2e59734c-0de7-4057-be7a-14729e1d5acd" alt="Qdrant"></img><br>
 
-  <a href="https://github.com/su77ungr/CASALIOY/issues/8"><img src="https://img.shields.io/badge/Feature-Requests-bc1439.svg" alt="Roadmap 2023"></a>
+  <a href="https://github.com/su77ungr/CASALIOY/issues/8"><img src="https://img.shields.io/badge/Feature-Requests-bc1439.svg" alt="Roadmap 2023">
+  [![Docker Pulls](https://badgen.net/docker/pulls/su77ungr/casalioy?icon=docker&label=pulls)](https://hub.docker.com/r/su77ungr/casalioy/)
+
+</a>
+  
+
   
   <br> <br>
 
@@ -30,6 +36,18 @@ The fastest toolkit for air-gapped LLMs
 [LangChain](https://github.com/hwchase17/langchain) + [LlamaCpp](https://pypi.org/project/llama-cpp-python/) + [qdrant](https://qdrant.tech/) (refers to slower [imartinez](https://github.com/imartinez/privateGPT)) 👀
 
 <br>
+
+
+# Quickie 
+
+<div align="center">
+
+> **via docker repository**
+
+`docker pull su77ungr/casalioy`
+
+</div>
+
 
 
 # Setup your environment 
