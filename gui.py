@@ -5,8 +5,8 @@ from streamlit_extras.add_vertical_space import add_vertical_space
 from startLLM import main as startLLM
 
 # Initialization
-if "visibility" not in st.session_state:
-    st.session_state.visibility = "visible"
+if "input" not in st.session_state:
+    st.session_state.input = ""
     st.session_state.running = False
 
 st.set_page_config(page_title="CASALIOY")
@@ -52,24 +52,29 @@ response_container = st.container()
 # Response output
 ## Function for taking user prompt as input followed by producing AI generated responses
 def generate_response(prompt):
-    if prompt.strip() != "":
+    if st.session_state['generated']:
+        for i in range(len(st.session_state['generated'])):
+            message(st.session_state["past"][i], is_user=True, key=str(i) + '_user')
+            message(st.session_state["generated"][i], key=str(i))
+    #if prompt.strip() != "":
+    
+    if st.session_state.running==False and prompt.strip() != "":
         st.session_state.running = True
-        response = startLLM(prompt, True)
-        st.session_state.running = False
         st.session_state.past.append(prompt)
+        message(prompt, is_user=True)
+        message("Loading response. Please wait...", key="rmessage")
+        response = startLLM(prompt, True)
         st.session_state.generated.append(response)
-        return response
-
-with st.form("my_form", clear_on_submit=True):
-## Conditional display of AI generated responses as a function of user provided prompts
-    user_input = st.text_input("You: ", "", key="input", disabled=st.session_state.running)
-    st.form_submit_button('SUBMIT', on_click=generate_response(user_input), disabled=st.session_state.running)
+        message(response)
+        st.session_state.running = False
+    #st.session_state.rmessage = response
+    #return response
+    st.text_input("You: ", "", key="input", disabled=st.session_state.running)
 #if user_input:
     #response = generate_response(user_input)
     #st.session_state.past.append(user_input)
     #st.session_state.generated.append(response)
-    
-if st.session_state['generated']:
-    for i in range(len(st.session_state['generated'])):
-        message(st.session_state['past'][i], is_user=True, key=str(i) + '_user')
-        message(st.session_state["generated"][i], key=str(i))
+with st.container():
+    with st.form("my_form", clear_on_submit=True):
+    ## Conditional display of AI generated responses as a function of user provided prompts
+        st.form_submit_button('SUBMIT', on_click=generate_response(st.session_state.input), disabled=st.session_state.running)
