@@ -3,6 +3,7 @@ import shutil
 import os
 import sys
 from langchain.document_loaders import TextLoader, PDFMinerLoader, CSVLoader
+from langchain.document_loaders import UnstructuredEPubLoader, UnstructuredHTMLLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import Qdrant
 from langchain.embeddings import LlamaCppEmbeddings
@@ -31,6 +32,10 @@ def main(sources_directory, cleandb):
                 loader = PDFMinerLoader(os.path.join(root, file))
             elif file.endswith(".csv"):
                 loader = CSVLoader(os.path.join(root, file))
+            elif file.endswith(".epub"):
+                loader = UnstructuredEPubLoader(os.path.join(root, file))
+            elif file.endswith(".html"):
+                loader = UnstructuredHTMLLoader(os.path.join(root, file))
 
     documents = loader.load()
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)

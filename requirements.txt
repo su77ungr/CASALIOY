@@ -7,3 +7,5 @@ python-dotenv==1.0.0
 steamlit
 streamlit-chat
 streamlit-extras
+pandoc==2.3
+unstructured==0.6.6
