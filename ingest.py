@@ -6,7 +6,8 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 from langchain.docstore.document import Document
-from langchain.document_loaders import CSVLoader, PDFMinerLoader, TextLoader, UnstructuredEPubLoader, UnstructuredHTMLLoader
+from langchain.document_loaders import CSVLoader, PDFMinerLoader, TextLoader, UnstructuredEPubLoader, \
+    UnstructuredHTMLLoader, Docx2txtLoader, UnstructuredPowerPointLoader
 from langchain.embeddings import LlamaCppEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import Qdrant
@@ -23,6 +24,8 @@ file_loaders = {  # extension -> loader
     "csv": CSVLoader,
     "epub": UnstructuredEPubLoader,
     "html": UnstructuredHTMLLoader,
+    "docx": Docx2txtLoader,
+    "pptx": UnstructuredPowerPointLoader,
 }
 
 
@@ -52,9 +55,9 @@ def main(sources_directory: str, cleandb: str) -> None:
 
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
     texts = text_splitter.split_documents(documents)
+    print(f"Found {len(texts)} chunks from {len(documents)} to index")
     llama = LlamaCppEmbeddings(model_path=llama_embeddings_model, n_ctx=model_n_ctx)
-    qdrant = Qdrant.from_documents(texts, llama, path=db_dir, collection_name="test")
-    qdrant = None
+    Qdrant.from_documents(texts, llama, path=db_dir, collection_name="test")
     print(f"Indexed {len(texts)} chunks from {len(documents)} documents in Qdrant")
 
 
