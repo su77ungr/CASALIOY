@@ -55,7 +55,7 @@ docker run -it su77ungr/casalioy:latest /bin/bash && cd crv
 wget https://huggingface.co/Pi3141/alpaca-native-7B-ggml/resolve/397e872bf4c83f4c642317a5bf65ce84a105786e/ggml-model-q4_0.bin && 
 wget https://huggingface.co/datasets/dnato/ggjt-v1-vic7b-uncensored-q4_0.bin/resolve/main/ggjt-v1-vic7b-uncensored-q4_0.bin
 ```
-> All set. You can proceed with ingesting your data 
+> All set! Proceed with ingesting your [dataset](#ingesting-your-own-dataset)
 
 ### Build it from source 
 
@@ -196,10 +196,5 @@ Selecting the right local models and the power of `LangChain` you can run the en
 # Disclaimer
 The contents of this repository are provided "as is" and without warranties of any kind, whether express or implied. We do not warrant or represent that the information contained in this repository is accurate, complete, or up-to-date. We expressly disclaim any and all liability for any errors or omissions in the content of this repository.
 
-Furthermore, this repository may contain links to other repositories or websites, which are not under our control. We do not endorse any of these repositories or websites and we are not responsible for their content or availability. We do not guarantee that any of the links provided on this repository will be free of viruses or other harmful components. We hereby exclude liability for any losses or damages that may arise from the use of any links on this or any linked repository or website.
-
-In particular, we make no express or implied representations or warranties regarding the accuracy, completeness, suitability, reliability, availability, or timeliness of any information, products, services, or related graphics contained in this repository for any purpose. We hereby exclude all conditions, warranties, representations, or other terms which may apply to this repository or any content in it, whether express or implied.
-
-We also hereby exclude any liability for any damages or losses arising from the use of binaries in this repository. You acknowledge and agree that any use of any binaries in this repository is at your own risk.
 
 By using this repository, you are agreeing to comply with and be bound by the above disclaimer. If you do not agree with any part of this disclaimer, please do not use this repository.
