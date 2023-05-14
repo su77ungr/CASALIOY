@@ -3,10 +3,8 @@
 
 > **NOTICE** NOW WITH
 <a href="#chat-inside-gui-new-feature"><img src="https://img.shields.io/badge/GUI-blue.svg" alt="Roadmap 2023">
-
 <br>
 <p align="center">
-*****
 
 # CASALIOY - Your local langchain toolkit
 
@@ -23,8 +21,7 @@ The fastest toolkit for air-gapped LLMs
 
 *
 
-*[LangChain](https://github.com/hwchase17/langchain) + [LlamaCpp](https://pypi.org/project/llama-cpp-python/) + [qdrant](https://qdrant.tech/)
-**
+  [LangChain](https://github.com/hwchase17/langchain) + [LlamaCpp](https://pypi.org/project/llama-cpp-python/) + [qdrant](https://qdrant.tech/)
 
 <br>
 </h2>
@@ -32,7 +29,7 @@ The fastest toolkit for air-gapped LLMs
 
 # Setup
 
-### Docker guide (optional)
+### Docker guide (for GUI support use `casalioy:dev`) 
 
 ```bash
 docker pull su77ungr/casalioy:latest
@@ -107,7 +104,7 @@ This should look like this
 
 ## Ingesting your own dataset
 
-To automatically ingest different data types (.txt, .pdf, .csv)
+To automatically ingest different data types (.txt, .pdf, .csv, .epub)
 
 > This repo includes dummy [files](https://github.com/imartinez/privateGPT/blob/main/source_documents/)
 > inside `source_documents` to run tests with.
@@ -183,11 +180,11 @@ all the supported models from [here](https://huggingface.co/nomic-ai/gpt4all-13b
 
 1. Download ready-to-use models
 
-> from huggingface download [huggingFace](https://huggingface.co/)
+> Brwose Huging Face for [models](https://huggingface.co/)
 
 2. Convert locally
 
-> ``` python  convert.py --outfile new.bin ``` [see discussion](https://github.com/su77ungr/CASALIOY/issues/10#issue-1706854398)
+> ``` python convert.py --outfile new.bin ``` [see discussion](https://github.com/su77ungr/CASALIOY/issues/10#issue-1706854398)
 
 # Pipeline
 
