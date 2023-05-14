@@ -38,23 +38,23 @@ The fastest toolkit for air-gapped LLMs
 
 
 
-### Docker guide (optional)  
+### Docker guide (optional)
 
-> ***NOTICE*** (GUI only supported in :dev) // su77ungr/casalioy:dev instead if you want to use unstable GUI in docker env
-
-```rust
+```bash
 docker pull su77ungr/casalioy:latest
 ```
 
-```rust
-docker run -it su77ungr/casalioy:latest /bin/bash && cd crv
+```bash
+docker run -it su77ungr/casalioy:latest /bin/bash
 ```
 
-> Inside `CASALIOY/models` fetch models
+> Fetch the default models
 
 ```
+cd models
 wget https://huggingface.co/Pi3141/alpaca-native-7B-ggml/resolve/397e872bf4c83f4c642317a5bf65ce84a105786e/ggml-model-q4_0.bin && 
 wget https://huggingface.co/datasets/dnato/ggjt-v1-vic7b-uncensored-q4_0.bin/resolve/main/ggjt-v1-vic7b-uncensored-q4_0.bin
+cd ../
 ```
 > All set! Proceed with ingesting your [dataset](#ingesting-your-own-dataset)
 
