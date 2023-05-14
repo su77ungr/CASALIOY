@@ -43,7 +43,7 @@ def initialize_qa_system():
                     stop=model_stop,
                     callbacks=callbacks,
                     verbose=True,
-                    n_threads=15,
+                    n_threads=6,
                     n_batch=1000,
                     use_mlock=True,
                 )
