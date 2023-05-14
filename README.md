@@ -15,7 +15,7 @@
 <img height="300" src="https://github.com/su77ungr/GEEB-GPT/assets/69374354/2e59734c-0de7-4057-be7a-14729e1d5acd" alt="Qdrant"><br>
 
 <a href="https://github.com/su77ungr/CASALIOY/issues/8"><img src="https://img.shields.io/badge/Feature-Requests-bc1439.svg" alt="Roadmap 2023"> [![Docker Pulls](https://badgen.net/docker/pulls/su77ungr/casalioy?icon=docker&label=pulls)](https://hub.docker.com/r/su77ungr/casalioy/)</a>
-  
+
  <a href="https://www.buymeacoffee.com/cassowary" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="30" width="140"></a>
 <br><br>
 </p>
@@ -39,7 +39,7 @@ docker pull su77ungr/casalioy:stable
 docker run -it su77ungr/casalioy:stable /bin/bash
 ```
 for older docker without GUI use `casalioy:latest` might deprecate soon
-  
+
 > Fetch the default models
 
 ```
