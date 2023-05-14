@@ -48,8 +48,8 @@ docker pull su77ungr/casalioy:latest
 ```
 
 ```rust
-docker run -it su77ungr/casalioy:latest /bin/bash
-
+docker run -it su77ungr/casalioy:latest /bin/bash && cd crv
+source venv/bin/activate
 ```
 
 > change dir to the models folder and run
@@ -58,7 +58,6 @@ docker run -it su77ungr/casalioy:latest /bin/bash
 wget https://huggingface.co/Pi3141/alpaca-native-7B-ggml/resolve/397e872bf4c83f4c642317a5bf65ce84a105786e/ggml-model-q4_0.bin && 
 wget https://huggingface.co/datasets/dnato/ggjt-v1-vic7b-uncensored-q4_0.bin/resolve/main/ggjt-v1-vic7b-uncensored-q4_0.bin
 ```
-> if you chose docker you are set now 
 
 ## Build it from source 
 
