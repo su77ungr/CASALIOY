@@ -17,9 +17,10 @@ model_temp = float(os.environ.get('MODEL_TEMP'))
 model_stop = os.environ.get('MODEL_STOP')
 
 # Initialization
-if "input" not in st.session_state:
+if "initialized" not in st.session_state:
     st.session_state.input = ""
     st.session_state.running = False
+    st.session_state.initialized = False
 
 st.set_page_config(page_title="CASALIOY")
 
@@ -49,10 +50,9 @@ if 'past' not in st.session_state:
 
 colored_header(label='', description='', color_name='blue-30')
 response_container = st.container()
-
-
             
 def generate_response(input=""):
+    print("Input:"+input)
     with response_container:
         col1, col2, col3 = st.columns(3)
         with col1:
@@ -68,24 +68,32 @@ def generate_response(input=""):
                 os.environ["MODEL_STOP"] = str(st.session_state.stops_input)
                 dotenv.set_key(dotenv_file, "MODEL_STOP", os.environ["MODEL_STOP"])
         #with st.form("my_form", clear_on_submit=True):
-        if st.session_state['generated']:
+        if 'generated' in st.session_state:
             for i in range(len(st.session_state['generated'])):
                 message(st.session_state["past"][i], is_user=True, key=str(i) + '_user')
                 message(st.session_state["generated"][i], key=str(i))
         if input.strip() != "":
             st.session_state.running=True
-            st.session_state.past.append(st.session_state.input)
+            st.session_state.past.append(input)
             if st.session_state.running:
-                message(st.session_state.input, is_user=True)
+                message(input, is_user=True)
                 message("Loading response. Please wait for me to finish before refreshing the page...", key="rmessage")
                 #startLLM.qdrant = None #Not sure why this fixes db error
-                response = startLLM.main(st.session_state.input, True)
-                st.session_state.generated.append(response)
-                message(response)
+                if st.session_state.initialized == False:
+                    st.session_state.initialized = True
+                    print("Initializing...")
+                    startLLM.initialize_qa_system()
+                else:
+                    print("Already initialized!")
+                response=startLLM.qa_system(st.session_state.input)
+                st.session_state.input = ""
+                answer, docs = response['result'], response['source_documents']
+                st.session_state.generated.append(answer)
+                message(answer)
                 st.session_state.running = False
-        st.text_input("You: ", "", key="input", disabled=st.session_state.running)
-
-
-with st.form("my_form", clear_on_submit=True):
+        with form:
+            st.text_input("You: ", "", key="input", disabled=st.session_state.running)
+form = st.form(key="input-form", clear_on_submit=True)
+with form:
     st.form_submit_button('SUBMIT', on_click=generate_response(st.session_state.input), disabled=st.session_state.running)
         
