@@ -8,7 +8,7 @@ from streamlit_extras.add_vertical_space import add_vertical_space
 from streamlit_extras.colored_header import colored_header
 
 import startLLM
-from load_env import model_n_ctx, model_temp, model_stop
+from load_env import model_n_ctx, model_stop, model_temp
 
 dotenv_file = dotenv.find_dotenv(".env")
 dotenv.load_dotenv()
@@ -42,8 +42,7 @@ with st.sidebar:
     st.write("Made with ❤️ by [su77ungr/CASALIOY](https://github.com/alxspiker/CASALIOY)")
 
 if "generated" not in st.session_state:
-    st.session_state["generated"] = [
-        "I can help you answer questions about the documents you have ingested into the vector store."]
+    st.session_state["generated"] = ["I can help you answer questions about the documents you have ingested into the vector store."]
 
 if "past" not in st.session_state:
     st.session_state["past"] = ["Hi, what can you help me with!"]

@@ -21,4 +21,3 @@ model_type = os.environ.get("MODEL_TYPE")
 model_path = os.environ.get("MODEL_PATH")
 model_temp = float(os.environ.get("MODEL_TEMP"))
 model_stop = os.environ.get("MODEL_STOP").split(",")
-

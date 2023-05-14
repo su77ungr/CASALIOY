@@ -6,14 +6,20 @@ from hashlib import md5
 from pathlib import Path
 
 from langchain.docstore.document import Document
-from langchain.document_loaders import CSVLoader, PDFMinerLoader, TextLoader, UnstructuredEPubLoader, \
-    UnstructuredHTMLLoader, Docx2txtLoader, UnstructuredPowerPointLoader
+from langchain.document_loaders import (
+    CSVLoader,
+    Docx2txtLoader,
+    PDFMinerLoader,
+    TextLoader,
+    UnstructuredEPubLoader,
+    UnstructuredHTMLLoader,
+    UnstructuredPowerPointLoader,
+)
 from langchain.embeddings import LlamaCppEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from qdrant_client import QdrantClient, models
 
-from load_env import persist_directory, chunk_size, chunk_overlap, llama_embeddings_model, model_n_ctx, \
-    documents_directory, use_mlock
+from load_env import chunk_overlap, chunk_size, documents_directory, llama_embeddings_model, model_n_ctx, persist_directory, use_mlock
 
 file_loaders = {  # extension -> loader
     "txt": lambda path: TextLoader(path, encoding="utf8"),
@@ -96,7 +102,7 @@ def main(sources_directory: str, cleandb: str) -> None:
         points=models.Batch.construct(
             ids=[md5(text.encode("utf-8")).hexdigest() for text in texts],
             vectors=embeddings,
-            payloads=[{"page_content": text, "metadata": metadatas[i]} for i, text in enumerate(texts)]
+            payloads=[{"page_content": text, "metadata": metadatas[i]} for i, text in enumerate(texts)],
         ),
     )
     collection = client.get_collection("test")

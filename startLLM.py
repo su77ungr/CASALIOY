@@ -6,8 +6,7 @@ from langchain.chains import RetrievalQA
 from langchain.embeddings import LlamaCppEmbeddings
 from langchain.vectorstores import Qdrant
 
-from load_env import llama_embeddings_model, model_n_ctx, model_path, persist_directory, model_type, model_temp, \
-    use_mlock
+from load_env import llama_embeddings_model, model_n_ctx, model_path, model_temp, model_type, persist_directory, use_mlock
 
 qa_system = None
 
