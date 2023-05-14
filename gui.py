@@ -34,7 +34,7 @@ with st.sidebar:
     ## About
     This app is an LLM-powered chatbot built using:
     - [Streamlit](https://streamlit.io/)
-    - [su77ungr/CASALIOY](https://github.com/alxspiker/CASALIOY) LLM Toolkit
+    - [su77ungr/CASALIOY](https://github.com/su77ungr/CASALIOY) LLM Toolkit
 
     💡 Note: No API key required!
     Refreshing the page will restart gui.py with a fresh chat history.
@@ -44,7 +44,7 @@ with st.sidebar:
     """
     )
     add_vertical_space(5)
-    st.write("Made with ❤️ by [su77ungr/CASALIOY](https://github.com/alxspiker/CASALIOY)")
+    st.write("Made with ❤️ by [su77ungr/CASALIOY](https://github.com/su77ungr/CASALIOY)")
 
 if "generated" not in st.session_state:
     st.session_state["generated"] = ["I can help you answer questions about the documents you have ingested into the vector store."]
