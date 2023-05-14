@@ -40,6 +40,8 @@ The fastest toolkit for air-gapped LLMs
 
 ### Docker guide (optional)  
 
+> ***NOTICE*** (GUI only supported in :dev) // su77ungr/casalioy:dev instead if you want to use unstable GUI in docker env
+
 ```rust
 docker pull su77ungr/casalioy:latest
 ```
