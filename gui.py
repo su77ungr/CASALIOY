@@ -1,3 +1,4 @@
+"""LLM through a GUI"""
 import os
 
 import dotenv
@@ -7,16 +8,10 @@ from streamlit_extras.add_vertical_space import add_vertical_space
 from streamlit_extras.colored_header import colored_header
 
 import startLLM
+from load_env import model_n_ctx, model_temp, model_stop
 
 dotenv_file = dotenv.find_dotenv(".env")
 dotenv.load_dotenv()
-llama_embeddings_model = os.environ.get("LLAMA_EMBEDDINGS_MODEL")
-persist_directory = os.environ.get("PERSIST_DIRECTORY")
-model_type = os.environ.get("MODEL_TYPE")
-model_path = os.environ.get("MODEL_PATH")
-model_n_ctx = int(os.environ.get("MODEL_N_CTX"))
-model_temp = float(os.environ.get("MODEL_TEMP"))
-model_stop = os.environ.get("MODEL_STOP")
 
 # Initialization
 if "initialized" not in st.session_state:
@@ -47,7 +42,8 @@ with st.sidebar:
     st.write("Made with ❤️ by [su77ungr/CASALIOY](https://github.com/alxspiker/CASALIOY)")
 
 if "generated" not in st.session_state:
-    st.session_state["generated"] = ["I can help you answer questions about the documents you have ingested into the vector store."]
+    st.session_state["generated"] = [
+        "I can help you answer questions about the documents you have ingested into the vector store."]
 
 if "past" not in st.session_state:
     st.session_state["past"] = ["Hi, what can you help me with!"]
@@ -56,8 +52,8 @@ colored_header(label="", description="", color_name="blue-30")
 response_container = st.container()
 
 
-def generate_response(input=""):
-    print("Input:" + input)
+def generate_response(input_str=""):
+    print(f"Input:{input_str}")
     with response_container:
         col1, col2, col3 = st.columns(3)
         with col1:
@@ -65,7 +61,7 @@ def generate_response(input=""):
                 "Temperature",
                 key="temp_input",
                 value=float(model_temp),
-                step=float(0.05),
+                step=0.05,
                 min_value=float(0),
                 max_value=float(1),
             ):
@@ -76,9 +72,9 @@ def generate_response(input=""):
                 "Context",
                 key="ctx_input",
                 value=int(model_n_ctx),
-                step=int(512),
-                min_value=int(512),
-                max_value=int(9000),
+                step=512,
+                min_value=512,
+                max_value=9000,
             ):
                 os.environ["MODEL_N_CTX"] = str(st.session_state.ctx_input)
                 dotenv.set_key(dotenv_file, "MODEL_N_CTX", os.environ["MODEL_N_CTX"])
@@ -89,19 +85,19 @@ def generate_response(input=""):
         # with st.form("my_form", clear_on_submit=True):
         if "generated" in st.session_state:
             for i in range(len(st.session_state["generated"])):
-                message(st.session_state["past"][i], is_user=True, key=str(i) + "_user")
+                message(st.session_state["past"][i], is_user=True, key=f"{str(i)}_user")
                 message(st.session_state["generated"][i], key=str(i))
-        if input.strip() != "":
+        if input_str.strip() != "":
             st.session_state.running = True
-            st.session_state.past.append(input)
+            st.session_state.past.append(input_str)
             if st.session_state.running:
-                message(input, is_user=True)
+                message(input_str, is_user=True)
                 message(
                     "Loading response. Please wait for me to finish before refreshing the page...",
                     key="rmessage",
                 )
                 # startLLM.qdrant = None #Not sure why this fixes db error
-                if st.session_state.initialized == False:
+                if not st.session_state.initialized:
                     st.session_state.initialized = True
                     print("Initializing...")
                     startLLM.initialize_qa_system()

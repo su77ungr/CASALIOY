@@ -4,7 +4,6 @@ import shutil
 import sys
 from pathlib import Path
 
-from dotenv import load_dotenv
 from langchain.docstore.document import Document
 from langchain.document_loaders import CSVLoader, PDFMinerLoader, TextLoader, UnstructuredEPubLoader, \
     UnstructuredHTMLLoader, Docx2txtLoader, UnstructuredPowerPointLoader
@@ -12,11 +11,8 @@ from langchain.embeddings import LlamaCppEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import Qdrant
 
-load_dotenv()
-llama_embeddings_model = os.environ.get("LLAMA_EMBEDDINGS_MODEL")
-persist_directory = os.environ.get("PERSIST_DIRECTORY")
-documents_directory = os.environ.get("DOCUMENTS_DIRECTORY")
-model_n_ctx = os.environ.get("MODEL_N_CTX")
+from load_env import persist_directory, chunk_size, chunk_overlap, llama_embeddings_model, model_n_ctx, \
+    documents_directory
 
 file_loaders = {  # extension -> loader
     "txt": lambda path: TextLoader(path, encoding="utf8"),
@@ -53,7 +49,7 @@ def main(sources_directory: str, cleandb: str) -> None:
         for file in files:
             documents += load_one_doc(Path(root) / file)
 
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
     texts = text_splitter.split_documents(documents)
     print(f"Found {len(texts)} chunks from {len(documents)} documents to index")
     llama = LlamaCppEmbeddings(model_path=llama_embeddings_model, n_ctx=model_n_ctx)
