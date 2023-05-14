@@ -1,11 +1,10 @@
-FROM python:3.10
+FROM python:3.11
 
 WORKDIR /srv
-
 RUN git clone https://github.com/su77ungr/CASALIOY.git
-COPY ./requirements.txt /srv/
-COPY ./README.md /srv/
+WORKDIR CASALIOY
 
-RUN pip3 install -r /srv/requirements.txt --upgrade pip
-RUN rm ./requirements.txt
-COPY ./example.env /srv/CASALIOY/.env
+RUN pip3 install poetry
+RUN python3 -m poetry config virtualenvs.create false
+RUN python3 -m poetry install
+COPY example.env .env
