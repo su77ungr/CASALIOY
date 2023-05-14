@@ -63,7 +63,8 @@ cd ../
 > First install all requirements:
 
 ```shell
-pip install -r requirements.txt
+python -m pip install poetry
+python -m poetry install
 ```
 > Download the 2 models and place them in a folder called `./models`:
 
@@ -99,9 +100,11 @@ This should look like this
       ├── startLLM.py
       ├── ingest.py
       ├── source_documents
-      │   └── dsgvo.txt
+      │   └── sample.csv
+      │   └── shor.pdfstate_of_the_union.txt
+      │   └── state_of_the_union.txt
       ├── models
-      │   ├── ggml-gpt4all-j-v1.3-groovy.bin
+      │   ├── ggjt-v1-vic7b-uncensored-q4_0.bin
       │   └── ggml-model-q4_0.bin
       └── .env, convert.py, Dockerfile
 ```
