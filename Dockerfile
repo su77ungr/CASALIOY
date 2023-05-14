@@ -1,7 +1,7 @@
 FROM python:3.11
 
 WORKDIR /srv
-RUN git clone https://github.com/hippalectryon-0/CASALIOY.git
+RUN git clone https://github.com/su77ungr/CASALIOY.git
 WORKDIR CASALIOY
 
 RUN pip3 install poetry

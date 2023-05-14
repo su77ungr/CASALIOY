@@ -22,23 +22,23 @@ def initialize_qa_system():
     if qa_system is None:
         # Load stored vectorstore
         llama = LlamaCppEmbeddings(model_path=llama_embeddings_model, n_ctx=model_n_ctx)
-        # Load ggml-formatted model
+        # Load ggml-formatted model 
         local_path = model_path
 
         client = qdrant_client.QdrantClient(
         path=persist_directory, prefer_grpc=True
         )
         qdrant = Qdrant(
-            client=client, collection_name="test",
+            client=client, collection_name="test", 
             embeddings=llama
         )
-
-        # Prepare the LLM chain
+        
+        # Prepare the LLM chain 
         callbacks = [StreamingStdOutCallbackHandler()]
         match model_type:
             case "LlamaCpp":
                 from langchain.llms import LlamaCpp
-                llm = LlamaCpp(model_path=local_path, n_ctx=model_n_ctx, temperature=model_temp, stop=model_stop, callbacks=callbacks, verbose=True, n_threads=15, n_batch=1000, use_mlock=True)
+                llm = LlamaCpp(model_path=local_path, n_ctx=model_n_ctx, temperature=model_temp, stop=model_stop, callbacks=callbacks, verbose=True)
             case "GPT4All":
                 from langchain.llms import GPT4All
                 llm = GPT4All(model=local_path, n_ctx=model_n_ctx, callbacks=callbacks, verbose=True, backend='gptj')
@@ -54,9 +54,9 @@ def main():
         query = input("\nEnter a query: ")
         if query == "exit":
             break
-
+        
         # Get the answer from the chain
-        res = qa_system(query)
+        res = qa_system(query)    
         answer, docs = res['result'], res['source_documents']
 
         # Print the result
@@ -64,7 +64,7 @@ def main():
         print(query)
         print("\n> Answer:")
         print(answer)
-
+        
         # Print the relevant sources used for the answer
         for document in docs:
             print("\n> " + document.metadata["source"] + ":")
