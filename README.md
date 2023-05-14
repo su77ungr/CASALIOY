@@ -29,16 +29,17 @@ The fastest toolkit for air-gapped LLMs
 
 # Setup
 
-### Docker guide (for GUI support use `casalioy:dev`)
+### Docker guide
 
 ```bash
-docker pull su77ungr/casalioy:latest
+docker pull su77ungr/casalioy:stable
 ```
 
 ```bash
-docker run -it su77ungr/casalioy:latest /bin/bash
+docker run -it su77ungr/casalioy:stable /bin/bash
 ```
-
+for older docker without GUI use `casalioy:latest` might deprecate soon
+  
 > Fetch the default models
 
 ```
