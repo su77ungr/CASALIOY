@@ -68,6 +68,9 @@ def main():
         query = input("\nEnter a query: ")
         if query == "exit":
             break
+        elif not query.strip():  # check if query empty
+            print("Empty query, skipping")
+            continue
 
         # Get the answer from the chain
         res = qa_system(query)
