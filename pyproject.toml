@@ -13,10 +13,11 @@ qdrant-client = "^1.1.7"
 llama-cpp-python = "^0.1.50"
 pdfminer-six = "20221105"
 python-dotenv = "^1.0.0"
-streamlit = "^1.22.0"
+streamlit = { git = "https://github.com/hippalectryon-0/streamlit.git", subdirectory = "lib", "rev" = "0b7fb1c" }  # waiting for >1.22.0 so that we can use protobuf>=4
 streamlit-chat = "^0.0.2.2"
 streamlit-extras = "^0.2.7"
 unstructured = "^0.6.6"
+pathlib = "^1.0.1"
 
 [tool.poetry.dev-dependencies]
 
