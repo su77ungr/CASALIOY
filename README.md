@@ -1,7 +1,7 @@
 <div align="center">
 
 > **NOTICE** NOW WITH 
-      <a href="#ingesting-your-own-dataset"><img src="https://img.shields.io/badge/GUI-blue.svg" alt="Roadmap 2023">
+      <a href="#chat-inside-gui-new-feature"><img src="https://img.shields.io/badge/GUI-blue.svg" alt="Roadmap 2023">
 
 <br>
 <p align="center">
@@ -151,10 +151,10 @@ Type `exit` to finish the script.
 streamlit run .\gui.py
 ```
 
+further info see #21
+
 <div align="center">
-  
-  ![image](https://github.com/su77ungr/CASALIOY/assets/69374354/8cb0073f-46e4-4fcb-b0f2-753b80e392dd)
-  
+    
 </div>
 
 
