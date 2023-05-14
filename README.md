@@ -47,8 +47,8 @@ The fastest toolkit for air-gapped LLMs
 docker pull su77ungr/casalioy
 ```
 ```
-docker run -it --entrypoint /bin/bash su77ungr/casalioy
-```
+sudo docker run -it su77ungr/casalioy:latest /bin/bash```
+
 just download your models inside and you are all set
 
 ```
