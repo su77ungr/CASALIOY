@@ -36,7 +36,7 @@ def initialize_qa_system():
     match model_type:
         case "LlamaCpp":
             from langchain.llms import LlamaCpp
-            llm = LlamaCpp(model_path=local_path, n_ctx=model_n_ctx, temperature=model_temp, stop=model_stop, callbacks=callbacks, verbose=True)
+            llm = LlamaCpp(model_path=local_path, n_ctx=model_n_ctx, temperature=model_temp, stop=model_stop, callbacks=callbacks, verbose=True, n_threads=15, n_batch=1000, use_mlock=True)
         case "GPT4All":
             from langchain.llms import GPT4All
             llm = GPT4All(model=local_path, n_ctx=model_n_ctx, callbacks=callbacks, verbose=True, backend='gptj')
