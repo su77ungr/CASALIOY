@@ -1,4 +1,3 @@
-<!--suppress HtmlDeprecatedAttribute -->
 <div align="center">
 
 > **NOTICE** NOW WITH
