@@ -59,7 +59,7 @@ wget https://huggingface.co/Pi3141/alpaca-native-7B-ggml/resolve/397e872bf4c83f4
 wget https://huggingface.co/datasets/dnato/ggjt-v1-vic7b-uncensored-q4_0.bin/resolve/main/ggjt-v1-vic7b-uncensored-q4_0.bin
 ```
 
-## Build it from source 
+### Build it from source 
 
 > First install all requirements:
 
@@ -68,11 +68,11 @@ pip install -r requirements.txt
 ```
 > Download the 2 models and place them in a folder called `./models`:
 
-- LLM: default is [ggml-gpt4all-j-v1.3-groovy.bin](https://gpt4all.io/models/ggml-gpt4all-j-v1.3-groovy.bin) 
-- Embedding: default to [ggml-model-q4_0.bin](https://huggingface.co/Pi3141/alpaca-native-7B-ggml/resolve/397e872bf4c83f4c642317a5bf65ce84a105786e/ggml-model-q4_0.bin).
+- LLM: default is [ggjt-v1-vic7b-uncensored-q4_0](https://huggingface.co/datasets/dnato/ggjt-v1-vic7b-uncensored-q4_0.bin/resolve/main/ggjt-v1-vic7b-uncensored-q4_0.bin) 
+- Embedding: default to [ggml-model-q4_0](https://huggingface.co/Pi3141/alpaca-native-7B-ggml/resolve/397e872bf4c83f4c642317a5bf65ce84a105786e/ggml-model-q4_0.bin).
 
 
->> Edit the example.env and rename it to .env (in bash `mv example.env .env`)
+>> Edit the example.env to fit your models and rename it to .env
 
 ```env
 PERSIST_DIRECTORY=db
