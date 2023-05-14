@@ -178,15 +178,16 @@ Type `exit` to finish the script.
  > ``` python  convert.py --outfile new.bin ``` [see discussion](https://github.com/su77ungr/CASALIOY/issues/10#issue-1706854398)
 
 
-## Pipeline
+# Pipeline
+<br><br>
 
 <img src="https://qdrant.tech/articles_data/langchain-integration/flow-diagram.png"></img>
+<br><br>
 
 Selecting the right local models and the power of `LangChain` you can run the entire pipeline locally, without any data leaving your environment, and with reasonable performance.
 
 - `ingest.py` uses `LangChain` tools to parse the document and create embeddings locally using `LlamaCppEmbeddings`. It then stores the result in a local vector database using `Qdrant` vector store. 
-  <br>
-    <img height="100" src="https://github.com/qdrant/qdrant/raw/master/docs/logo.svg" alt="Qdrant">  
+
 - `startLLM.py` can  handle every LLM that is llamacpp compatible (default `GPT4All-J`). The context for the answers is extracted from the local vector store using a similarity search to locate the right piece of context from the docs.
   
   
