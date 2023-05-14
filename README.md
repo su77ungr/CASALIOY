@@ -4,9 +4,10 @@
 > **NOTICE** NOW WITH
 <a href="#chat-inside-gui-new-feature"><img src="https://img.shields.io/badge/GUI-blue.svg" alt="Roadmap 2023">
 
+*****
+
 <br>
 <p align="center">
-*****
 
 # CASALIOY - Your local langchain toolkit
 
@@ -21,10 +22,7 @@
 </p>
 The fastest toolkit for air-gapped LLMs
 
-*
-
-*[LangChain](https://github.com/hwchase17/langchain) + [LlamaCpp](https://pypi.org/project/llama-cpp-python/) + [qdrant](https://qdrant.tech/)
-**
+**[LangChain](https://github.com/hwchase17/langchain) + [LlamaCpp](https://pypi.org/project/llama-cpp-python/) + [qdrant](https://qdrant.tech/)**
 
 <br>
 </h2>
