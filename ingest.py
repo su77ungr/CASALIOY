@@ -2,6 +2,7 @@
 import os
 import shutil
 import sys
+from pathlib import Path
 
 from dotenv import load_dotenv
 from langchain.docstore.document import Document
@@ -16,23 +17,22 @@ persist_directory = os.environ.get("PERSIST_DIRECTORY")
 documents_directory = os.environ.get("DOCUMENTS_DIRECTORY")
 model_n_ctx = os.environ.get("MODEL_N_CTX")
 
+file_loaders = {  # extension -> loader
+    "txt": lambda path: TextLoader(path, encoding="utf8"),
+    "pdf": PDFMinerLoader,
+    "csv": CSVLoader,
+    "epub": UnstructuredEPubLoader,
+    "html": UnstructuredHTMLLoader,
+}
 
-def load_one_doc(filepath: str) -> list[Document]:
+
+def load_one_doc(filepath: Path) -> list[Document]:
     """load one document"""
-    if filepath.endswith(".txt"):
-        loader = TextLoader(filepath, encoding="utf8")
-    elif filepath.endswith(".pdf"):
-        loader = PDFMinerLoader(filepath)
-    elif filepath.endswith(".csv"):
-        loader = CSVLoader(filepath)
-    elif filepath.endswith(".epub"):
-        loader = UnstructuredEPubLoader(filepath)
-    elif filepath.endswith(".html"):
-        loader = UnstructuredHTMLLoader(filepath)
-    else:
-        raise ValueError(f"Unhandled file format: .{filepath.split('.')[-1]} in {filepath}")
+    if filepath.suffix[1:] not in file_loaders:
+        print(f"Unhandled file format: {filepath.name} in {filepath.parent}")
+        return []
 
-    return loader.load()
+    return file_loaders[filepath.suffix[1:]](str(filepath)).load()
 
 
 def main(sources_directory: str, cleandb: str) -> None:
@@ -48,7 +48,7 @@ def main(sources_directory: str, cleandb: str) -> None:
     documents = []
     for root, dirs, files in os.walk(sources_directory):
         for file in files:
-            documents += load_one_doc(os.path.join(root, file))
+            documents += load_one_doc(Path(root) / file)
 
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
     texts = text_splitter.split_documents(documents)
