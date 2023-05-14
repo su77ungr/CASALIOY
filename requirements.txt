@@ -9,3 +9,4 @@ streamlit-chat==0.0.2.2
 streamlit-extras==0.2.7 
 pandoc==2.3
 unstructured==0.6.6
+protobuf==3.20.3

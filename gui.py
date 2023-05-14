@@ -50,23 +50,14 @@ if 'past' not in st.session_state:
 
 colored_header(label='', description='', color_name='blue-30')
 response_container = st.container()
+
+def reinitialize():
+    st.session_state.initialized = False
+    startLLM.qa_system = None
             
 def generate_response(input=""):
     print("Input:"+input)
     with response_container:
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            if st.number_input('Temperature', key="temp_input", value=float(model_temp), step=float(0.05), min_value=float(0), max_value=float(1)):
-                os.environ["MODEL_TEMP"] = str(st.session_state.temp_input)
-                dotenv.set_key(dotenv_file, "MODEL_TEMP", os.environ["MODEL_TEMP"])
-        with col2:
-            if st.number_input('Context', key="ctx_input", value=int(model_n_ctx), step=int(512), min_value=int(512), max_value=int(9000)):
-                os.environ["MODEL_N_CTX"] = str(st.session_state.ctx_input)
-                dotenv.set_key(dotenv_file, "MODEL_N_CTX", os.environ["MODEL_N_CTX"])
-        with col3:
-            if st.text_input('Stops', key="stops_input", value=str(model_stop)):
-                os.environ["MODEL_STOP"] = str(st.session_state.stops_input)
-                dotenv.set_key(dotenv_file, "MODEL_STOP", os.environ["MODEL_STOP"])
         #with st.form("my_form", clear_on_submit=True):
         if 'generated' in st.session_state:
             for i in range(len(st.session_state['generated'])):
@@ -91,9 +82,26 @@ def generate_response(input=""):
                 st.session_state.generated.append(answer)
                 message(answer)
                 st.session_state.running = False
-        with form:
-            st.text_input("You: ", "", key="input", disabled=st.session_state.running)
+
 form = st.form(key="input-form", clear_on_submit=True)
 with form:
+    st.text_input("You: ", "", key="input", disabled=st.session_state.running)
     st.form_submit_button('SUBMIT', on_click=generate_response(st.session_state.input), disabled=st.session_state.running)
-        
+    #with form:
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        if st.number_input('Temperature', key="temp_input", value=float(model_temp), step=float(0.05), min_value=float(0), max_value=float(1), disabled=st.session_state.running):
+            os.environ["MODEL_TEMP"] = str(st.session_state.temp_input)
+            dotenv.set_key(dotenv_file, "MODEL_TEMP", os.environ["MODEL_TEMP"])
+            reinitialize()
+    with col2:
+        if st.number_input('Context', key="ctx_input", value=int(model_n_ctx), step=int(512), min_value=int(512), max_value=int(9000), disabled=st.session_state.running):
+            os.environ["MODEL_N_CTX"] = str(st.session_state.ctx_input)
+            dotenv.set_key(dotenv_file, "MODEL_N_CTX", os.environ["MODEL_N_CTX"])
+            reinitialize()
+    with col3:
+        if st.text_input('Stops', key="stops_input", value=str(model_stop), disabled=st.session_state.running):
+            os.environ["MODEL_STOP"] = str(st.session_state.stops_input)
+            dotenv.set_key(dotenv_file, "MODEL_STOP", os.environ["MODEL_STOP"])
+            reinitialize()
+                
