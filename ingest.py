@@ -5,8 +5,7 @@ import sys
 
 from dotenv import load_dotenv
 from langchain.docstore.document import Document
-from langchain.document_loaders import CSVLoader, PDFMinerLoader, TextLoader, UnstructuredEPubLoader, \
-    UnstructuredHTMLLoader
+from langchain.document_loaders import CSVLoader, PDFMinerLoader, TextLoader, UnstructuredEPubLoader, UnstructuredHTMLLoader
 from langchain.embeddings import LlamaCppEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import Qdrant
