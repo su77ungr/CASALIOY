@@ -19,6 +19,6 @@ jobs:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       run: |
-        docker build . --file Dockerfile --tag su77ungr/casalioy:dev2
+        docker build . --file Dockerfile --tag su77ungr/casalioy
         docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
-        docker push su77ungr/casalioy:dev2
+        docker push su77ungr/casalioy
