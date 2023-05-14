@@ -56,7 +56,7 @@ sudo docker run -it su77ungr/casalioy:latest /bin/bash
 
 ```
 wget https://gpt4all.io/models/ggml-gpt4all-j-v1.3-groovy.bin && 
-wget https://huggingface.co/dnato/ggjt-v1-vic7b-uncensored-q4_0/resolve/main/ggml-gpt4all-j-v1.3-groovy.bin
+wget https://huggingface.co/datasets/dnato/ggjt-v1-vic7b-uncensored-q4_0.bin/resolve/main/ggjt-v1-vic7b-uncensored-q4_0.bin
 ```
 > if you chose docker you are set now 
 
