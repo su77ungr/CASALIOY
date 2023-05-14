@@ -147,11 +147,10 @@ Type `exit` to finish the script.
   
 ## Chat inside GUI (new feature)
 
+Introduced by [@alxspiker](https://github.com/alxspiker) -> see [#21](https://github.com/su77ungr/CASALIOY/pull/21)
 ```shell
 streamlit run .\gui.py
 ```
-
-further info see #21
 
 <div align="center">
     
