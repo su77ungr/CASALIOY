@@ -1,8 +1,3 @@
-import os
-from dotenv import load_dotenv
-load_dotenv()
-model_path = os.environ.get('MODEL_PATH')
-import argparse
 import concurrent.futures
 import copy
 import enum
@@ -13,6 +8,7 @@ import itertools
 import json
 import math
 import mmap
+import os
 import pickle
 import re
 import signal
@@ -26,11 +22,14 @@ from typing import (IO, TYPE_CHECKING, Any, Callable, Dict, Iterable, List,
                     Literal, Optional, Sequence, Tuple, TypeVar, Union)
 
 import numpy as np
+from dotenv import load_dotenv
 from sentencepiece import SentencePieceProcessor  # type: ignore
 
 if TYPE_CHECKING:
     from typing_extensions import TypeAlias
-
+load_dotenv()
+print(os.environ.get('MODEL_PATH'))
+model_path = sys.argv[1] if len(sys.argv) > 1 else os.environ.get('MODEL_PATH')
 if hasattr(faulthandler, 'register') and hasattr(signal, 'SIGUSR1'):
     faulthandler.register(signal.SIGUSR1)
 
@@ -170,7 +169,8 @@ class SentencePieceVocab:
         expected_ids = list(range(vocab_size, vocab_size + len(added_tokens)))
         actual_ids = sorted(added_tokens.values())
         if expected_ids != actual_ids:
-            raise Exception(f"Expected added token IDs to be sequential and start at {len(added_tokens)}; got {actual_ids}")
+            raise Exception(
+                f"Expected added token IDs to be sequential and start at {len(added_tokens)}; got {actual_ids}")
         items = sorted(added_tokens.items(), key=lambda text_idx: text_idx[1])
         self.added_tokens_list = [text for (text, idx) in items]
         self.vocab_size_base: int = vocab_size
@@ -227,11 +227,12 @@ Vocab = Union[SentencePieceVocab, GGMLVocab]
 
 def permute(weights: NDArray, n_head: int) -> NDArray:
     return (weights.reshape(n_head, 2, weights.shape[0] // n_head // 2, *weights.shape[1:])
-                   .swapaxes(1, 2)
-                   .reshape(weights.shape))
+            .swapaxes(1, 2)
+            .reshape(weights.shape))
 
 
-def dequantize_q4(qvalues_pack32: NDArray, scales: NDArray, addends: Optional[NDArray], g_idx: Optional[NDArray]) -> NDArray:
+def dequantize_q4(qvalues_pack32: NDArray, scales: NDArray, addends: Optional[NDArray],
+                  g_idx: Optional[NDArray]) -> NDArray:
     # First reinterpret each row from a list of int32s containing 8 values each
     # to a list of uint8s containing 2 values each.
     qvalues_pack8 = qvalues_pack32.view(np.uint8)
@@ -275,8 +276,10 @@ class Tensor(metaclass=ABCMeta):
 
     @abstractmethod
     def astype(self, data_type: DataType) -> 'Tensor': ...
+
     @abstractmethod
     def permute(self, n_head: int) -> 'Tensor': ...
+
     @abstractmethod
     def to_ggml(self) -> 'GGMLCompatibleTensor': ...
 
@@ -508,6 +511,7 @@ class LazyTensor:
 
         def load() -> Tensor:
             return self.load().astype(data_type)
+
         return LazyTensor(load, self.shape, data_type, f'convert({data_type}) {self.description}')
 
     def validate_conversion_to(self, data_type: DataType) -> None:
@@ -517,7 +521,8 @@ class LazyTensor:
             if not isinstance(self.data_type, QuantizedDataType):
                 raise Exception(f"Can't turn an unquantized tensor into a quantized type ({data_type})")
             if self.data_type.have_g_idx:
-                sys.stderr.write("Error: Input uses the newer GPTQ-for-LLaMa format (using g_idx), which is not yet natively supported by GGML.  For now you can still convert this model by passing `--outtype f16` to dequantize, but that will result in a much larger output file for no quality benefit.\n")
+                sys.stderr.write(
+                    "Error: Input uses the newer GPTQ-for-LLaMa format (using g_idx), which is not yet natively supported by GGML.  For now you can still convert this model by passing `--outtype f16` to dequantize, but that will result in a much larger output file for no quality benefit.\n")
                 sys.exit(1)
             assert not data_type.have_g_idx and self.data_type.have_addends and data_type.have_addends
 
@@ -548,8 +553,8 @@ def merge_sharded(models: List[LazyModel]) -> LazyModel:
             # the tensor is just duplicated in every file
             return lazy_tensors[0]
         if name.startswith('tok_embeddings.') or \
-           name.endswith('.attention.wo.weight') or \
-           name.endswith('.feed_forward.w2.weight'):
+                name.endswith('.attention.wo.weight') or \
+                name.endswith('.feed_forward.w2.weight'):
             # split by columns
             axis = 1
         else:
@@ -562,8 +567,10 @@ def merge_sharded(models: List[LazyModel]) -> LazyModel:
             ndarrays = [load_unquantized(tensor) for tensor in lazy_tensors]
             concatenated: NDArray = np.concatenate(ndarrays, axis=axis)
             return UnquantizedTensor(concatenated)
+
         description = 'concatenated[[' + '] | ['.join(lt.description for lt in lazy_tensors) + ']]'
         return LazyTensor(load, concatenated_shape, lazy_tensors[0].data_type, description)
+
     return {name: convert(name) for name in names}
 
 
@@ -593,6 +600,7 @@ def merge_multifile_models(models_plus: List[ModelPlus]) -> ModelPlus:
 def permute_lazy(lazy_tensor: LazyTensor, n_head: int) -> LazyTensor:
     def load() -> Tensor:
         return lazy_tensor.load().permute(n_head)
+
     return LazyTensor(load, lazy_tensor.shape, lazy_tensor.data_type, f'permute({n_head}) ' + lazy_tensor.description)
 
 
@@ -606,8 +614,10 @@ def convert_transformers_to_orig(model: LazyModel) -> LazyModel:
     for i in itertools.count():
         if f"model.layers.{i}.self_attn.q_proj.weight" not in model:
             break
-        out[f"layers.{i}.attention.wq.weight"] = permute_lazy(model[f"model.layers.{i}.self_attn.q_proj.weight"], n_head)
-        out[f"layers.{i}.attention.wk.weight"] = permute_lazy(model[f"model.layers.{i}.self_attn.k_proj.weight"], n_head)
+        out[f"layers.{i}.attention.wq.weight"] = permute_lazy(model[f"model.layers.{i}.self_attn.q_proj.weight"],
+                                                              n_head)
+        out[f"layers.{i}.attention.wk.weight"] = permute_lazy(model[f"model.layers.{i}.self_attn.k_proj.weight"],
+                                                              n_head)
         out[f"layers.{i}.attention.wv.weight"] = model[f"model.layers.{i}.self_attn.v_proj.weight"]
         out[f"layers.{i}.attention.wo.weight"] = model[f"model.layers.{i}.self_attn.o_proj.weight"]
 
@@ -625,6 +635,7 @@ def handle_quantization(model: LazyModel) -> LazyModel:
     (which resolve to UnquantizedTensors with the raw data) to one with entries
     for 'foo.weight' (which resolve to QuantizedTensors).
     '''
+
     def convert(name: str) -> Tuple[str, LazyTensor]:
         if name.endswith(".qweight"):
             namebase = name.rsplit('.', 1)[0]
@@ -650,7 +661,9 @@ def handle_quantization(model: LazyModel) -> LazyModel:
             return (orig_name, LazyTensor(load, real_shape, data_type, '[quantized]'))
         else:
             return (name, model[name])
+
     return dict(convert(name) for name in model)
+
 
 # Functionality that simulates `torch.load` but where individual tensors are
 # only loaded into memory on demand, not all at once.
@@ -696,17 +709,20 @@ class LazyUnpickler(pickle.Unpickler):
             data = fp.read(size)
             assert len(data) == size
             return np.frombuffer(data, dtype)
+
         description = f'storage data_type={data_type} path-in-zip={filename} path={self.zip_file.filename}'
         return LazyStorage(load=load, kind=pid[1], description=description)
 
-   # @staticmethod
-    def lazy_rebuild_tensor_v2(storage: Any, storage_offset: Any, size: Any, stride: Any,  # pyright: ignore[reportSelfClsParameterName]
+    # @staticmethod
+    def lazy_rebuild_tensor_v2(storage: Any, storage_offset: Any, size: Any, stride: Any,
+                               # pyright: ignore[reportSelfClsParameterName]
                                requires_grad: Any, backward_hooks: Any, metadata: Any = None) -> LazyTensor:
         assert isinstance(storage, LazyStorage)
 
         def load() -> UnquantizedTensor:
             elm_count = stride[0] * size[0]
             return UnquantizedTensor(storage.load(storage_offset, elm_count).reshape(size))
+
         description = f'pickled storage_offset={storage_offset} in {storage.description}'
         return LazyTensor(load, list(size), storage.kind.data_type, description)
 
@@ -768,8 +784,10 @@ def lazy_load_safetensors_file(fp: IO[bytes], path: Path) -> ModelPlus:
 
         def load() -> UnquantizedTensor:
             return UnquantizedTensor(np.frombuffer(buf, dtype=numpy_dtype).reshape(shape))
+
         description = f'safetensors begin={begin} end={end} type={data_type} path={path}'
         return LazyTensor(load, shape, data_type, description)
+
     model = {name: convert(info) for (name, info) in header.items() if name != '__metadata__'}
     return ModelPlus(model=model, paths=[path], format='safetensors', vocab=None)
 
@@ -817,7 +835,7 @@ def lazy_load_ggml_file(fp: io.BufferedReader, path: Path) -> ModelPlus:
     # Use mmap for the actual data to avoid race conditions with the file offset.
     off = fp.raw.tell()
     mapped = memoryview(mmap.mmap(fp.fileno(), 0, access=mmap.ACCESS_READ))
-    fp.raw.seek(off) # needed on Windows
+    fp.raw.seek(off)  # needed on Windows
 
     def read_tensor() -> None:  # this is a function so that variables captured in `load` don't change
         shape_len, name_len, ftype = struct.unpack("iii", must_read(fp, 12))
@@ -840,7 +858,7 @@ def lazy_load_ggml_file(fp: io.BufferedReader, path: Path) -> ModelPlus:
             elm_count = math.prod(shape)
             size = elm_count * numpy_dtype.itemsize
         offset = fp.tell()
-        buf = mapped[offset:offset+size]
+        buf = mapped[offset:offset + size]
         fp.seek(size, io.SEEK_CUR)
 
         def load() -> Tensor:
@@ -849,6 +867,7 @@ def lazy_load_ggml_file(fp: io.BufferedReader, path: Path) -> ModelPlus:
                 return GGMLQuantizedTensor(ndarray, shape, data_type)
             else:
                 return UnquantizedTensor(np.frombuffer(buf, dtype=numpy_dtype).reshape(shape))
+
         description = f'ggml offset={offset} type={data_type} path={path}'
         model[name] = LazyTensor(load, shape, data_type, description)
 
@@ -864,7 +883,7 @@ def lazy_load_file(path: Path) -> ModelPlus:
     fp = open(path, 'rb')
     first8 = fp.read(8)
     model = first8.decode("utf-8")[:4][::-1]
-    print("Model type:"+model)
+    print("Model type:" + model)
     if model == "ggjt":
         print("Model already the latest GGJT and no need to convert.")
         exit()
@@ -980,7 +999,8 @@ class OutputFile:
         for i, ((name, lazy_tensor), ndarray) in enumerate(zip(model.items(), ndarrays)):
             size = ' x '.join(f"{dim:6d}" for dim in lazy_tensor.shape)
             padi = len(str(len(model)))
-            print(f"[{i+1:{padi}d}/{len(model)}] Writing tensor {name:38s} | size {size:16} | type {lazy_tensor.data_type}")
+            print(
+                f"[{i + 1:{padi}d}/{len(model)}] Writing tensor {name:38s} | size {size:16} | type {lazy_tensor.data_type}")
             of.write_tensor_header(name, lazy_tensor.shape, lazy_tensor.data_type)
             ndarray.tofile(of.fout)
         of.fout.close()
@@ -1106,7 +1126,8 @@ def load_vocab(path: Path) -> SentencePieceVocab:
         elif path3.exists():
             path = path3
         else:
-            raise FileNotFoundError(f"Could not find tokenizer.model in {path} or its parent; if it's in another directory, pass the directory as --vocab-dir")
+            raise FileNotFoundError(
+                f"Could not find tokenizer.model in {path} or its parent; if it's in another directory, pass the directory as --vocab-dir")
     added_tokens_path = path.parent / "added_tokens.json"
     print(f"Loading vocab file {path}")
     return SentencePieceVocab(path, added_tokens_path if added_tokens_path.exists() else None)
@@ -1122,7 +1143,8 @@ def default_outfile(model_paths: List[Path], params: Params) -> Path:
     }[params.file_type]
     ret = model_paths[0].parent / f"ggml-model-{namestr}.bin"
     if ret in model_paths:
-        sys.stderr.write(f"Error: Default output path ({ret}) would overwrite the input.  Please explicitly specify a path using --outfile.\n")
+        sys.stderr.write(
+            f"Error: Default output path ({ret}) would overwrite the input.  Please explicitly specify a path using --outfile.\n")
         sys.exit(1)
     return ret
 
@@ -1135,17 +1157,17 @@ def do_dump_model(model_plus: ModelPlus) -> None:
         print(f"{name}: shape={lazy_tensor.shape} type={lazy_tensor.data_type}; {lazy_tensor.description}")
 
 
-#def main(args_in: Optional[List[str]] = None) -> None:
+# def main(args_in: Optional[List[str]] = None) -> None:
 def main(args_in: Optional[List[str]] = None) -> None:
-    #parser = argparse.ArgumentParser(description="Convert a LLaMa model to a GGML compatible file")
-    #parser.add_argument("--dump", action="store_true", help="don't convert, just show what's in the model")
-    #parser.add_argument("--dump-single", action="store_true", help="don't convert, just show what's in a single model file")
-    #parser.add_argument("--vocab-only", action="store_true", help="extract only the vocab")
-    #parser.add_argument("--outtype", choices=["f32", "f16", "q4_1", "q4_0"], help="output format (default: based on input)")
-    #parser.add_argument("--vocab-dir", type=Path, help="directory containing tokenizer.model, if separate from model file")
-    #parser.add_argument("--outfile", type=Path, help="path to write to; default: based on input")
-    #parser.add_argument("model", type=Path, help="directory containing model file, or model file itself (*.pth, *.pt, *.bin)")
-    #args = parser.parse_args(args_in)
+    # parser = argparse.ArgumentParser(description="Convert a LLaMa model to a GGML compatible file")
+    # parser.add_argument("--dump", action="store_true", help="don't convert, just show what's in the model")
+    # parser.add_argument("--dump-single", action="store_true", help="don't convert, just show what's in a single model file")
+    # parser.add_argument("--vocab-only", action="store_true", help="extract only the vocab")
+    # parser.add_argument("--outtype", choices=["f32", "f16", "q4_1", "q4_0"], help="output format (default: based on input)")
+    # parser.add_argument("--vocab-dir", type=Path, help="directory containing tokenizer.model, if separate from model file")
+    # parser.add_argument("--outfile", type=Path, help="path to write to; default: based on input")
+    # parser.add_argument("model", type=Path, help="directory containing model file, or model file itself (*.pth, *.pt, *.bin)")
+    # args = parser.parse_args(args_in)
 
     vocab: Vocab
     model_plus = load_some_model(Path(model_path))
@@ -1156,7 +1178,7 @@ def main(args_in: Optional[List[str]] = None) -> None:
     output_type = pick_output_type(model, "f32")
     model = convert_to_output_type(model, output_type)
     params = Params.guessed(model, output_type)
-    outfile = Path(str(Path(model_path).parent)+"new.bin")
+    outfile = Path(str(Path(model_path).parent) + "new.bin")
     OutputFile.write_all(outfile, params, model, vocab)
     print(f"Wrote {outfile}")
 
