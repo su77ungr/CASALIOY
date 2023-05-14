@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "casalioy"
+version = "1.1.0"
+description = "Your local langchain toolkit"
+authors = ["su77ungr"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">3.9.7,<3.12"
+langchain = "^0.0.168"
+pygpt4all = "^1.1.0"
+qdrant-client = "^1.1.7"
+llama-cpp-python = "^0.1.50"
+pdfminer-six = "20221105"
+python-dotenv = "^1.0.0"
+streamlit = "^1.22.0"
+streamlit-chat = "^0.0.2.2"
+streamlit-extras = "^0.2.7"
+unstructured = "^0.6.6"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
