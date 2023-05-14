@@ -39,9 +39,7 @@ The fastest toolkit for air-gapped LLMs
 
 
 
-### Quickstart through Docker (optional)  
-
- [![Typing SVG](https://readme-typing-svg.demolab.com?font=FIra+&weight=200&duration=500&pause=1000&color=2D8EFFC8&background=000FFF00&multiline=true&repeat=true&width=550&height=120&lines=%F0%9F%90%8B++docker+pull+su77ungr%2Fcasalioy;%F0%9F%90%8B+docker+run+-p+%2Fhome%2FCASALIOY+su77ungr%2Fcasalioy)](https://hub.docker.com/r/su77ungr/casalioy/)  
+### Docker guide (optional)  
 
 ```rust
 docker pull su77ungr/casalioy:latest
@@ -49,15 +47,15 @@ docker pull su77ungr/casalioy:latest
 
 ```rust
 docker run -it su77ungr/casalioy:latest /bin/bash && cd crv
-source venv/bin/activate
 ```
 
-> change dir to the models folder and run
+> Inside `CASALIOY/models` fetch models
 
 ```
 wget https://huggingface.co/Pi3141/alpaca-native-7B-ggml/resolve/397e872bf4c83f4c642317a5bf65ce84a105786e/ggml-model-q4_0.bin && 
 wget https://huggingface.co/datasets/dnato/ggjt-v1-vic7b-uncensored-q4_0.bin/resolve/main/ggjt-v1-vic7b-uncensored-q4_0.bin
 ```
+> All set. You can proceed with ingesting your data 
 
 ### Build it from source 
 
@@ -154,8 +152,8 @@ Type `exit` to finish the script.
   
 | Model                     |  BoolQ   |   PIQA   | HellaSwag | WinoGrande |  ARC-e   |  ARC-c   |   OBQA   |   Avg.   |
 |:--------------------------|:--------:|:--------:|:---------:|:----------:|:--------:|:--------:|:--------:|:--------:|
-| [ggml-vic-7b-uncensored](https://cdn-lfs.huggingface.co/repos/d5/aa/d5aaf35e7d0d28440ac96a9c64b5c2a17e2e3fc260e1c41133376a6918b172a2/e682acb5b798df30cb06d7953a5e08956f73f4d480327ead19336d08a1658112?response-content-disposition=attachment%3B+filename*%3DUTF-8%27%27ggml-vic7b-uncensored-q4_0.bin%3B+filename%3D%22ggml-vic7b-uncensored-q4_0.bin%22%3B&response-content-type=application%2Foctet-stream&Expires=1684006500&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9jZG4tbGZzLmh1Z2dpbmdmYWNlLmNvL3JlcG9zL2Q1L2FhL2Q1YWFmMzVlN2QwZDI4NDQwYWM5NmE5YzY0YjVjMmExN2UyZTNmYzI2MGUxYzQxMTMzMzc2YTY5MThiMTcyYTIvZTY4MmFjYjViNzk4ZGYzMGNiMDZkNzk1M2E1ZTA4OTU2ZjczZjRkNDgwMzI3ZWFkMTkzMzZkMDhhMTY1ODExMj9yZXNwb25zZS1jb250ZW50LWRpc3Bvc2l0aW9uPSomcmVzcG9uc2UtY29udGVudC10eXBlPSoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE2ODQwMDY1MDB9fX1dfQ__&Signature=qqcSgIbRTN6DNkKQaN-1Ihp4isuSq-HGjx6hfKDs6T0%7ERtgZwWcovKOdRV71ucjQR%7EdIe4ZC6aGguK9j9KhxNABhseRcYAMWfI-wNOg07eN8h0REgqu42ePdsy8T-%7E2FaWALoJtY3lVPcYs%7ES8xq8fWBN9aU-2Eam-lnkr%7ExjCr3n9GHTXxpa3abwDv1%7E4oqxHSjvwmGWuW7BxIyZlJOUhdTT4acbL1wzYDaOqq36hp2JK6MNssxwK1e0xbgP19NqbUWMaml7P1c%7ErYWgBpDsqRYJ3cPteEDAYcURlNuuQ-MBgEmG17WmppEJiS4uG9-VQ2C5YLvFj4ksK53NIwW9g__&Key-Pair-Id=KVTP0A1DKRTAX)         |   73.4   |   74.8   |   63.4    |    64.7    |   54.9   |   36.0   |   40.2   |   58.2    |
-| [gpt4all-13b-snoozy q5](https://huggingface.co/TheBloke/GPT4All-13B-snoozy-GGML/blob/main/GPT4All-13B-snoozy.ggml.q5_1.bin)        | 83.3 |   79.2   |   75.0    |  71.3  |   60.9   |   44.2   |   43.4   |  65.3  |
+| [ggml-vic-7b-uncensored](https://huggingface.co/datasets/dnato/ggjt-v1-vic7b-uncensored-q4_0.bin/resolve/main/ggjt-v1-vic7b-uncensored-q4_0.bin)         |   73.4   |   74.8   |   63.4    |    64.7    |   54.9   |   36.0   |   40.2   |   58.2    |
+| [GPT4All-13b-snoozy q5](https://huggingface.co/TheBloke/GPT4All-13B-snoozy-GGML/blob/main/GPT4All-13B-snoozy.ggml.q5_1.bin)        | 83.3 |   79.2   |   75.0    |  71.3  |   60.9   |   44.2   |   43.4   |  65.3  |
   
   
   ###  models inside of the GPT-J ecosphere
@@ -191,24 +189,8 @@ Selecting the right local models and the power of `LangChain` you can run the en
     <img height="100" src="https://github.com/qdrant/qdrant/raw/master/docs/logo.svg" alt="Qdrant">  
 - `startLLM.py` can  handle every LLM that is llamacpp compatible (default `GPT4All-J`). The context for the answers is extracted from the local vector store using a similarity search to locate the right piece of context from the docs.
   
-  <p align="center">
-
-</p>
   
-## Contributions
-
-<div align="center">
-<a href="https://github.com/su77ungr/CASALIOY/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=su77ungr/CASALIOY" />
-</a><br><br>
-  <a href="https://www.buymeacoffee.com/cassowary"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a pizza&emoji=🌶️&slug=cassowary&button_colour=f0e4ff&font_colour=000000&font_family=Bree&outline_colour=000000&coffee_colour=FFDD00" /></a>
-
-</div>
-
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=su77ungr/CASALIOY&type=Date)](https://star-history.com/#su77ungr/CASALIOY&Date)
-
+<br><br>
   
 # Disclaimer
 The contents of this repository are provided "as is" and without warranties of any kind, whether express or implied. We do not warrant or represent that the information contained in this repository is accurate, complete, or up-to-date. We expressly disclaim any and all liability for any errors or omissions in the content of this repository.
