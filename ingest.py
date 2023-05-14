@@ -55,7 +55,7 @@ def main(sources_directory: str, cleandb: str) -> None:
 
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
     texts = text_splitter.split_documents(documents)
-    print(f"Found {len(texts)} chunks from {len(documents)} to index")
+    print(f"Found {len(texts)} chunks from {len(documents)} documents to index")
     llama = LlamaCppEmbeddings(model_path=llama_embeddings_model, n_ctx=model_n_ctx)
     Qdrant.from_documents(texts, llama, path=db_dir, collection_name="test")
     print(f"Indexed {len(texts)} chunks from {len(documents)} documents in Qdrant")

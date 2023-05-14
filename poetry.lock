@@ -755,6 +755,17 @@ files = [
 ]
 
 [[package]]
+name = "docx2txt"
+version = "0.8"
+description = "A pure python-based utility to extract text and images from docx files."
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "docx2txt-0.8.tar.gz", hash = "sha256:2c06d98d7cfe2d3947e5760a57d924e3ff07745b379c8737723922e7009236e5"},
+]
+
+[[package]]
 name = "entrypoints"
 version = "0.4"
 description = "Discover and load entry points from installed packages."
@@ -3992,4 +4003,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = ">3.9.7,<3.12"
-content-hash = "d60fe189b3e7962bf87a0b98ac3b972aaad73e9b52dbb8de211aa113b5ebda5c"
+content-hash = "98877954a74d36e6fd049aafeb561fad0826fb748ec962eef4a3192b8bbe86f3"
