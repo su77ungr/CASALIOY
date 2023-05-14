@@ -1,0 +1,21 @@
+"""load env variables"""
+import os
+
+from dotenv import load_dotenv
+
+load_dotenv()
+# ingest
+persist_directory = os.environ.get("PERSIST_DIRECTORY")
+documents_directory = os.environ.get("DOCUMENTS_DIRECTORY")
+
+# generate
+llama_embeddings_model = os.environ.get("LLAMA_EMBEDDINGS_MODEL")
+
+model_n_ctx = int(os.environ.get("MODEL_N_CTX"))
+chunk_size = int(os.environ.get("INGEST_CHUNK_SIZE"))
+chunk_overlap = int(os.environ.get("INGEST_CHUNK_OVERLAP"))
+model_type = os.environ.get("MODEL_TYPE")
+model_path = os.environ.get("MODEL_PATH")
+model_temp = float(os.environ.get("MODEL_TEMP"))
+model_stop = os.environ.get("MODEL_STOP").split(",")
+

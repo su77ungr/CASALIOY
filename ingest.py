@@ -2,37 +2,36 @@
 import os
 import shutil
 import sys
+from pathlib import Path
 
-from dotenv import load_dotenv
 from langchain.docstore.document import Document
-from langchain.document_loaders import CSVLoader, PDFMinerLoader, TextLoader, UnstructuredEPubLoader, UnstructuredHTMLLoader
+from langchain.document_loaders import CSVLoader, PDFMinerLoader, TextLoader, UnstructuredEPubLoader, \
+    UnstructuredHTMLLoader, Docx2txtLoader, UnstructuredPowerPointLoader
 from langchain.embeddings import LlamaCppEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import Qdrant
 
-load_dotenv()
-llama_embeddings_model = os.environ.get("LLAMA_EMBEDDINGS_MODEL")
-persist_directory = os.environ.get("PERSIST_DIRECTORY")
-documents_directory = os.environ.get("DOCUMENTS_DIRECTORY")
-model_n_ctx = os.environ.get("MODEL_N_CTX")
+from load_env import persist_directory, chunk_size, chunk_overlap, llama_embeddings_model, model_n_ctx, \
+    documents_directory
+
+file_loaders = {  # extension -> loader
+    "txt": lambda path: TextLoader(path, encoding="utf8"),
+    "pdf": PDFMinerLoader,
+    "csv": CSVLoader,
+    "epub": UnstructuredEPubLoader,
+    "html": UnstructuredHTMLLoader,
+    "docx": Docx2txtLoader,
+    "pptx": UnstructuredPowerPointLoader,
+}
 
 
-def load_one_doc(filepath: str) -> list[Document]:
+def load_one_doc(filepath: Path) -> list[Document]:
     """load one document"""
-    if filepath.endswith(".txt"):
-        loader = TextLoader(filepath, encoding="utf8")
-    elif filepath.endswith(".pdf"):
-        loader = PDFMinerLoader(filepath)
-    elif filepath.endswith(".csv"):
-        loader = CSVLoader(filepath)
-    elif filepath.endswith(".epub"):
-        loader = UnstructuredEPubLoader(filepath)
-    elif filepath.endswith(".html"):
-        loader = UnstructuredHTMLLoader(filepath)
-    else:
-        raise ValueError(f"Unhandled file format: .{filepath.split('.')[-1]} in {filepath}")
+    if filepath.suffix[1:] not in file_loaders:
+        print(f"Unhandled file format: {filepath.name} in {filepath.parent}")
+        return []
 
-    return loader.load()
+    return file_loaders[filepath.suffix[1:]](str(filepath)).load()
 
 
 def main(sources_directory: str, cleandb: str) -> None:
@@ -48,13 +47,13 @@ def main(sources_directory: str, cleandb: str) -> None:
     documents = []
     for root, dirs, files in os.walk(sources_directory):
         for file in files:
-            documents += load_one_doc(os.path.join(root, file))
+            documents += load_one_doc(Path(root) / file)
 
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
     texts = text_splitter.split_documents(documents)
+    print(f"Found {len(texts)} chunks from {len(documents)} documents to index")
     llama = LlamaCppEmbeddings(model_path=llama_embeddings_model, n_ctx=model_n_ctx)
-    qdrant = Qdrant.from_documents(texts, llama, path=db_dir, collection_name="test")
-    qdrant = None
+    Qdrant.from_documents(texts, llama, path=db_dir, collection_name="test")
     print(f"Indexed {len(texts)} chunks from {len(documents)} documents in Qdrant")
 
 

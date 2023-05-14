@@ -1,20 +1,13 @@
-import os
+"""start the local LLM"""
 
 import qdrant_client
-from dotenv import load_dotenv
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.chains import RetrievalQA
 from langchain.embeddings import LlamaCppEmbeddings
 from langchain.vectorstores import Qdrant
 
-load_dotenv()
-llama_embeddings_model = os.environ.get("LLAMA_EMBEDDINGS_MODEL")
-persist_directory = os.environ.get("PERSIST_DIRECTORY")
-model_type = os.environ.get("MODEL_TYPE")
-model_path = os.environ.get("MODEL_PATH")
-model_n_ctx = int(os.environ.get("MODEL_N_CTX"))
-model_temp = float(os.environ.get("MODEL_TEMP"))
-model_stop = os.environ.get("MODEL_STOP").split(",")
+from load_env import llama_embeddings_model, model_n_ctx, model_path, persist_directory, model_type, model_temp, \
+    model_stop
 
 qa_system = None
 
