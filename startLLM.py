@@ -11,11 +11,13 @@ llama_embeddings_model = os.environ.get("LLAMA_EMBEDDINGS_MODEL")
 persist_directory = os.environ.get('PERSIST_DIRECTORY')
 model_type = os.environ.get('MODEL_TYPE')
 model_path = os.environ.get('MODEL_PATH')
-model_n_ctx = os.environ.get('MODEL_N_CTX')
-model_temp = os.environ.get('MODEL_TEMP')
+model_n_ctx = int(os.environ.get('MODEL_N_CTX'))
+model_temp = float(os.environ.get('MODEL_TEMP'))
 model_stop = os.environ.get('MODEL_STOP').split(",")
 
-def main():
+qa_system=None
+
+def initialize_qa_system():
     # Load stored vectorstore
     llama = LlamaCppEmbeddings(model_path=llama_embeddings_model, n_ctx=model_n_ctx)
     # Load ggml-formatted model 
@@ -41,27 +43,36 @@ def main():
         case _default:
             print("Only LlamaCpp or GPT4All supported right now. Make sure you set up your .env correctly.")
     qa = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=qdrant.as_retriever(search_type="mmr"), return_source_documents=True)
+    return qa
 
+def main(prompt="", gui=False):
+    global qa_system
+    if qa_system is None:
+        qa_system = initialize_qa_system()
     # Interactive questions and answers
-    while True:
-        query = input("\nEnter a query: ")
-        if query == "exit":
-            break
-        
-        # Get the answer from the chain
-        res = qa(query)    
-        answer, docs = res['result'], res['source_documents']
+    if (prompt.strip() != "" and gui) or gui==False:
+        while True:
+            query = prompt if gui else input("\nEnter a query: ")
+            if query == "exit":
+                break
+            
+            # Get the answer from the chain
+            res = qa_system(query)    
+            answer, docs = res['result'], res['source_documents']
 
-        # Print the result
-        print("\n\n> Question:")
-        print(query)
-        print("\n> Answer:")
-        print(answer)
-        
-        # Print the relevant sources used for the answer
-        for document in docs:
-            print("\n> " + document.metadata["source"] + ":")
-            print(document.page_content)
+            # Print the result
+            print("\n\n> Question:")
+            print(query)
+            print("\n> Answer:")
+            print(answer)
+            
+            # Print the relevant sources used for the answer
+            for document in docs:
+                print("\n> " + document.metadata["source"] + ":")
+                print(document.page_content)
+            
+            if gui:
+                return answer
 
 if __name__ == "__main__":
     main()
