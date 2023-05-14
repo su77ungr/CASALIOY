@@ -56,7 +56,7 @@ cd ../
 python -m pip install poetry
 python -m poetry config virtualenvs.in-project true
 python -m poetry install
-python3 -m pip install --force streamlit  # Temporary bandaid fix, waiting for streamlit >=1.23
+python -m pip install --force streamlit  # Temporary bandaid fix, waiting for streamlit >=1.23
 . .venv/bin/activate
 pre-commit install
 ```
