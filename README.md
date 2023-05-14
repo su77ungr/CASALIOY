@@ -81,8 +81,7 @@ MODEL_N_CTX=1024
 # Temperature range of 0=Logical to 1=Creative 
 MODEL_TEMP=0.8
 # Stop based on certain characters or strings.
-# \n is for new lines and \t is for tabs.
-MODEL_STOP=\n,\t
+MODEL_STOP='###,\n'
 ```
 
  
