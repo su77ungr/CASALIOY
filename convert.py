@@ -26,9 +26,7 @@ from sentencepiece import SentencePieceProcessor  # type: ignore
 
 if TYPE_CHECKING:
     from typing_extensions import TypeAlias
-load_dotenv()
-print(os.environ.get("MODEL_PATH"))
-model_path = sys.argv[1] if len(sys.argv) > 1 else os.environ.get("MODEL_PATH")
+
 if hasattr(faulthandler, "register") and hasattr(signal, "SIGUSR1"):
     faulthandler.register(signal.SIGUSR1)
 
@@ -225,12 +223,7 @@ def permute(weights: NDArray, n_head: int) -> NDArray:
     return weights.reshape(n_head, 2, weights.shape[0] // n_head // 2, *weights.shape[1:]).swapaxes(1, 2).reshape(weights.shape)
 
 
-def dequantize_q4(
-    qvalues_pack32: NDArray,
-    scales: NDArray,
-    addends: Optional[NDArray],
-    g_idx: Optional[NDArray],
-) -> NDArray:
+def dequantize_q4(qvalues_pack32: NDArray, scales: NDArray, addends: Optional[NDArray], g_idx: Optional[NDArray]) -> NDArray:
     # First reinterpret each row from a list of int32s containing 8 values each
     # to a list of uint8s containing 2 values each.
     qvalues_pack8 = qvalues_pack32.view(np.uint8)
@@ -420,11 +413,7 @@ class GPTQForLLaMaQuantizedTensor(Tensor):
             self.g_idx = None
 
         self.shape = [self.qweight.shape[0], self.qweight.shape[1] * 8]
-        self.data_type = QuantizedDataType(
-            groupsize=self.groupsize(),
-            have_addends=True,
-            have_g_idx=(self.g_idx is not None),
-        )
+        self.data_type = QuantizedDataType(groupsize=self.groupsize(), have_addends=True, have_g_idx=(self.g_idx is not None))
 
     def inspect(self, row: int, col: int) -> None:
         """For debugging."""
@@ -507,11 +496,7 @@ class LazyTensor:
 
     def load(self) -> Tensor:
         ret = self._load()
-        assert ret.data_type == self.data_type, (
-            self.data_type,
-            ret.data_type,
-            self.description,
-        )
+        assert ret.data_type == self.data_type, (self.data_type, ret.data_type, self.description)
         return ret
 
     def astype(self, data_type: DataType) -> "LazyTensor":
@@ -608,12 +593,7 @@ def permute_lazy(lazy_tensor: LazyTensor, n_head: int) -> LazyTensor:
     def load() -> Tensor:
         return lazy_tensor.load().permute(n_head)
 
-    return LazyTensor(
-        load,
-        lazy_tensor.shape,
-        lazy_tensor.data_type,
-        f"permute({n_head}) " + lazy_tensor.description,
-    )
+    return LazyTensor(load, lazy_tensor.shape, lazy_tensor.data_type, f"permute({n_head}) " + lazy_tensor.description)
 
 
 def convert_transformers_to_orig(model: LazyModel) -> LazyModel:
@@ -728,8 +708,7 @@ class LazyUnpickler(pickle.Unpickler):
         storage: Any,
         storage_offset: Any,
         size: Any,
-        stride: Any,
-        # pyright: ignore[reportSelfClsParameterName]
+        stride: Any,  # pyright: ignore[reportSelfClsParameterName]
         requires_grad: Any,
         backward_hooks: Any,
         metadata: Any = None,
@@ -991,14 +970,7 @@ class OutputFile:
     @staticmethod
     def write_vocab_only(fname_out: Path, vocab: Vocab) -> None:
         of = OutputFile(fname_out)
-        params = Params(
-            n_vocab=vocab.vocab_size,
-            n_embd=0,
-            n_mult=0,
-            n_head=1,
-            n_layer=0,
-            file_type=GGMLFileType.AllF32,
-        )
+        params = Params(n_vocab=vocab.vocab_size, n_embd=0, n_mult=0, n_head=1, n_layer=0, file_type=GGMLFileType.AllF32)
         of = OutputFile(fname_out)
         of.write_file_header(params)
         of.write_vocab(vocab)
@@ -1173,7 +1145,6 @@ def do_dump_model(model_plus: ModelPlus) -> None:
         print(f"{name}: shape={lazy_tensor.shape} type={lazy_tensor.data_type}; {lazy_tensor.description}")
 
 
-# def main(args_in: Optional[List[str]] = None) -> None:
 def main(args_in: Optional[List[str]] = None) -> None:
     # parser = argparse.ArgumentParser(description="Convert a LLaMa model to a GGML compatible file")
     # parser.add_argument("--dump", action="store_true", help="don't convert, just show what's in the model")
@@ -1185,16 +1156,19 @@ def main(args_in: Optional[List[str]] = None) -> None:
     # parser.add_argument("model", type=Path, help="directory containing model file, or model file itself (*.pth, *.pt, *.bin)")
     # args = parser.parse_args(args_in)
 
+    load_dotenv()
+    print(os.environ.get("MODEL_PATH"))
+    model_path = sys.argv[1] if len(sys.argv) > 1 else os.environ.get("MODEL_PATH")
+
     vocab: Vocab
     model_plus = load_some_model(Path(model_path))
-    vocab_dir = model_plus.paths[0].parent
-    vocab = load_vocab(vocab_dir)
+    vocab = model_plus.vocab or load_vocab(model_plus.paths[0].parent)
     model = model_plus.model
     model = do_necessary_conversions(model)
     output_type = pick_output_type(model, "f32")
     model = convert_to_output_type(model, output_type)
     params = Params.guessed(model, output_type)
-    outfile = Path(str(Path(model_path).parent) + "new.bin")
+    outfile = Path(str(Path(model_path).parent) + "_new.bin")
     OutputFile.write_all(outfile, params, model, vocab)
     print(f"Wrote {outfile}")
 
