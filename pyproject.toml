@@ -10,7 +10,7 @@ python = ">3.9.7,<3.12"
 langchain = "^0.0.168"
 pygpt4all = "^1.1.0"
 qdrant-client = "^1.1.7"
-llama-cpp-python = "^0.1.50"
+llama-cpp-python = "<=0.1.49"  # 0.1.50 raises an AssertionError / NameError for some reason
 pdfminer-six = "20221105"
 python-dotenv = "^1.0.0"
 streamlit = { git = "https://github.com/hippalectryon-0/streamlit.git", subdirectory = "lib", "rev" = "0b7fb1c" }  # waiting for >1.22.0 so that we can use protobuf>=4

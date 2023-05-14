@@ -1569,13 +1569,13 @@ dev = ["Sphinx (>=5.1.1)", "black (==22.10.0)", "coverage (>=4.5.4)", "fixit (==
 
 [[package]]
 name = "llama-cpp-python"
-version = "0.1.50"
+version = "0.1.49"
 description = "A Python wrapper for llama.cpp"
 category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "llama_cpp_python-0.1.50.tar.gz", hash = "sha256:e305ae1b9f135f94afd8dd227701e6a1cd36db9c28f736b830ec364127c00bb9"},
+    {file = "llama_cpp_python-0.1.49.tar.gz", hash = "sha256:f22d3f39a8d19e187a86114c81296c3d2de4f31cbe1c7bd887d543f025825820"},
 ]
 
 [package.dependencies]
@@ -4081,4 +4081,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = ">3.9.7,<3.12"
-content-hash = "9495fe8401169bbba0e4995912a602bf63d1465b193291b7fa184b02f7686155"
+content-hash = "d60fe189b3e7962bf87a0b98ac3b972aaad73e9b52dbb8de211aa113b5ebda5c"
