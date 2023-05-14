@@ -1,5 +1,7 @@
 <div align="center">
 
+> **NOTICE** NOW WITH 
+      <a href="#ingesting-your-own-dataset"><img src="https://img.shields.io/badge/GUI-blue.svg" alt="Roadmap 2023">
 
 <br>
 <p align="center">
@@ -16,10 +18,7 @@
 <p align="center">
     <img height="300" src="https://github.com/su77ungr/GEEB-GPT/assets/69374354/2e59734c-0de7-4057-be7a-14729e1d5acd" alt="Qdrant"></img><br>
 
-  <a href="https://github.com/su77ungr/CASALIOY/issues/8"><img src="https://img.shields.io/badge/Feature-Requests-bc1439.svg" alt="Roadmap 2023">
-    <a href="https://github.com/su77ungr/CASALIOY/pull/21"><img src="https://img.shields.io/badge/GUI-blue.svg" alt="Roadmap 2023">
-
-  [![Docker Pulls](https://badgen.net/docker/pulls/su77ungr/casalioy?icon=docker&label=pulls)](https://hub.docker.com/r/su77ungr/casalioy/)
+  <a href="https://github.com/su77ungr/CASALIOY/issues/8"><img src="https://img.shields.io/badge/Feature-Requests-bc1439.svg" alt="Roadmap 2023"> [![Docker Pulls](https://badgen.net/docker/pulls/su77ungr/casalioy?icon=docker&label=pulls)](https://hub.docker.com/r/su77ungr/casalioy/)
 
 </a>
   
@@ -145,6 +144,20 @@ Note: you could turn off your internet connection, and the script inference woul
 Type `exit` to finish the script.
   
   
+  
+## Chat inside GUI (new feature)
+
+```shell
+streamlit run .\gui.py
+```
+
+<div align="center">
+  
+  ![image](https://github.com/su77ungr/CASALIOY/assets/69374354/8cb0073f-46e4-4fcb-b0f2-753b80e392dd)
+  
+</div>
+
+
 # LLM options
 
    
