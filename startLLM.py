@@ -7,7 +7,7 @@ from langchain.embeddings import LlamaCppEmbeddings
 from langchain.vectorstores import Qdrant
 
 from load_env import llama_embeddings_model, model_n_ctx, model_path, persist_directory, model_type, model_temp, \
-    model_stop
+    use_mlock
 
 qa_system = None
 
@@ -33,12 +33,12 @@ def initialize_qa_system():
                     model_path=local_path,
                     n_ctx=model_n_ctx,
                     temperature=model_temp,
-                    stop=model_stop,
+                    stop=["###"],
                     callbacks=callbacks,
                     verbose=True,
                     n_threads=6,
                     n_batch=1000,
-                    use_mlock=True,
+                    use_mlock=use_mlock,
                 )
             case "GPT4All":
                 from langchain.llms import GPT4All
