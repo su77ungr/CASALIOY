@@ -59,7 +59,10 @@ cd ../
 
 ```shell
 python -m pip install poetry
+python -m poetry config virtualenvs.in-project true
 python -m poetry install
+. .venv/bin/activate
+pre-commit install
 ```
 
 > Download the 2 models and place them in a folder called `./models`:
