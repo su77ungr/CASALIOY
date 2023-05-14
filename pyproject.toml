@@ -10,7 +10,7 @@ python = ">3.9.7,<3.12"
 langchain = "^0.0.168"
 pygpt4all = "^1.1.0"
 qdrant-client = "^1.1.7"
-llama-cpp-python = "^0.1.50"
+llama-cpp-python = "<=0.1.49"  # 0.1.50 raises an AssertionError / NameError for some reason
 pdfminer-six = "20221105"
 python-dotenv = "^1.0.0"
 streamlit = { git = "https://github.com/hippalectryon-0/streamlit.git", subdirectory = "lib", "rev" = "0b7fb1c" }  # waiting for >1.22.0 so that we can use protobuf>=4
@@ -20,8 +20,28 @@ unstructured = "^0.6.6"
 pathlib = "^1.0.1"
 sentencepiece = "^0.1.99"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.3.1"
+isort = "5.12.0"
+black = "23.3.00"
+pycln = "2.1.3"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+# pre-commit config
+[tool.black]
+line-length = 160
+
+[tool.pycln]
+all = true
+
+[tool.isort]
+line_length = 160
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+split_on_trailing_comma = true

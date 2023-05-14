@@ -17,11 +17,9 @@
 <a href="https://github.com/su77ungr/CASALIOY/issues/8"><img src="https://img.shields.io/badge/Feature-Requests-bc1439.svg" alt="Roadmap 2023"> [![Docker Pulls](https://badgen.net/docker/pulls/su77ungr/casalioy?icon=docker&label=pulls)](https://hub.docker.com/r/su77ungr/casalioy/)</a>
 <br><br>
 </p>
-The fastest toolkit for air-gapped LLMs 
+The fastest toolkit for air-gapped LLMs
 
-*
-
-  [LangChain](https://github.com/hwchase17/langchain) + [LlamaCpp](https://pypi.org/project/llama-cpp-python/) + [qdrant](https://qdrant.tech/)
+[LangChain](https://github.com/hwchase17/langchain) + [LlamaCpp](https://pypi.org/project/llama-cpp-python/) + [qdrant](https://qdrant.tech/)
 
 <br>
 </h2>
@@ -29,7 +27,7 @@ The fastest toolkit for air-gapped LLMs
 
 # Setup
 
-### Docker guide (for GUI support use `casalioy:dev`) 
+### Docker guide (for GUI support use `casalioy:dev`)
 
 ```bash
 docker pull su77ungr/casalioy:latest
@@ -43,7 +41,7 @@ docker run -it su77ungr/casalioy:latest /bin/bash
 
 ```
 cd models
-wget https://huggingface.co/Pi3141/alpaca-native-7B-ggml/resolve/397e872bf4c83f4c642317a5bf65ce84a105786e/ggml-model-q4_0.bin && 
+wget https://huggingface.co/Pi3141/alpaca-native-7B-ggml/resolve/397e872bf4c83f4c642317a5bf65ce84a105786e/ggml-model-q4_0.bin &&
 wget https://huggingface.co/datasets/dnato/ggjt-v1-vic7b-uncensored-q4_0.bin/resolve/main/ggjt-v1-vic7b-uncensored-q4_0.bin
 cd ../
 ```
@@ -56,7 +54,10 @@ cd ../
 
 ```shell
 python -m pip install poetry
+python -m poetry config virtualenvs.in-project true
 python -m poetry install
+. .venv/bin/activate
+pre-commit install
 ```
 
 > Download the 2 models and place them in a folder called `./models`:
@@ -80,7 +81,7 @@ MODEL_PATH=models/ggml-gpt4all-j-v1.3-groovy.bin
 # Context size for both the vector datbase and the llm seperately in one value
 # Double this value if you are getting context size errors
 MODEL_N_CTX=1024
-# Temperature range of 0=Logical to 1=Creative 
+# Temperature range of 0=Logical to 1=Creative
 MODEL_TEMP=0.8
 # Stop based on certain characters or strings.
 MODEL_STOP='###,\n'
@@ -116,7 +117,7 @@ python ingest.py # optional <path_to_your_data_directory>
 Optional: use `y` flag to purge existing vectorstore and initialize fresh instance
 
 ```shell
-python ingest.py # optional <path_to_your_data_directory> y 
+python ingest.py # optional <path_to_your_data_directory> y
 ```
 
 This spins up a local qdrant namespace inside the `db` folder containing the local vectorstore. Will take time,
@@ -184,7 +185,7 @@ all the supported models from [here](https://huggingface.co/nomic-ai/gpt4all-13b
 
 2. Convert locally
 
-> ``` python convert.py --outfile new.bin ``` [see discussion](https://github.com/su77ungr/CASALIOY/issues/10#issue-1706854398)
+> ``` python convert.py``` [see discussion](https://github.com/su77ungr/CASALIOY/issues/10#issue-1706854398)
 
 # Pipeline
 
