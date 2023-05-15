@@ -6,7 +6,7 @@ from langchain.chains import RetrievalQA
 from langchain.embeddings import LlamaCppEmbeddings
 from langchain.vectorstores import Qdrant
 
-from load_env import llama_embeddings_model, model_n_ctx, model_path, model_temp, model_type, persist_directory, use_mlock
+from load_env import llama_embeddings_model, model_n_ctx, model_path, model_stop, model_temp, model_type, persist_directory, use_mlock
 
 qa_system = None
 
@@ -32,7 +32,7 @@ def initialize_qa_system():
                     model_path=local_path,
                     n_ctx=model_n_ctx,
                     temperature=model_temp,
-                    stop=["###"],
+                    stop=model_stop,
                     callbacks=callbacks,
                     verbose=True,
                     n_threads=6,
