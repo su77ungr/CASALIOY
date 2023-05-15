@@ -7,6 +7,7 @@ from langchain.embeddings import HuggingFaceEmbeddings, LlamaCppEmbeddings
 from langchain.prompts import PromptTemplate
 from prompt_toolkit import HTML, PromptSession, print_formatted_text
 from prompt_toolkit.styles import Style
+from pyexpat import ExpatError
 
 load_dotenv()
 
@@ -103,10 +104,15 @@ style = Style.from_dict(
 
 def print_HTML(text: str, *args, **kwargs) -> None:
     """print formatted HTML text"""
-    print_formatted_text(HTML(text), style=style, *args, **kwargs)
+    try:
+        print_formatted_text(HTML(text), style=style, *args, **kwargs)
+    except ExpatError:
+        print(text)
 
 
 def prompt_HTML(session: PromptSession, prompt: str, *args, **kwargs) -> str:
     """print formatted HTML text"""
-
-    return session.prompt(HTML(prompt), style=style, *args, **kwargs)
+    try:
+        return session.prompt(HTML(prompt), style=style, *args, **kwargs)
+    except ExpatError:
+        return input(prompt)
