@@ -70,7 +70,7 @@ def main() -> None:
     qa_system = initialize_qa_system()
     # Interactive questions and answers
     while True:
-        query = input("\nEnter a query: ")
+        query = input("\nEnter a query: ").strip()
         if query == "exit":
             break
         elif not query:  # check if query empty
