@@ -5,7 +5,18 @@ from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.chains import RetrievalQA
 from langchain.vectorstores import Qdrant
 
-from load_env import chain_type, get_embedding_model, model_n_ctx, model_path, model_stop, model_temp, model_type, persist_directory, use_mlock
+from load_env import (
+    chain_type,
+    get_embedding_model,
+    get_prompt_template_kwargs,
+    model_n_ctx,
+    model_path,
+    model_stop,
+    model_temp,
+    model_type,
+    persist_directory,
+    use_mlock,
+)
 
 
 def initialize_qa_system() -> RetrievalQA:
@@ -50,6 +61,7 @@ def initialize_qa_system() -> RetrievalQA:
         chain_type=chain_type,
         retriever=qdrant.as_retriever(search_type="mmr"),
         return_source_documents=True,
+        chain_type_kwargs=get_prompt_template_kwargs(),
     )
 
 
@@ -58,7 +70,7 @@ def main() -> None:
     qa_system = initialize_qa_system()
     # Interactive questions and answers
     while True:
-        query = input("\nEnter a query: ").strip()
+        query = input("\nEnter a query: ")
         if query == "exit":
             break
         elif not query:  # check if query empty
@@ -70,11 +82,11 @@ def main() -> None:
         answer, docs = res["result"], res["source_documents"]
 
         # Print the result
-        sources_str = "\n\n".join(f"> {document.metadata['source']}:\n{document.page_content}" for document in docs)
+        sources_str = "\n\n".join(f">> {document.metadata['source']}:\n{document.page_content}" for document in docs)
         print(
             f"""\n\n> Question: {query}
 > Answer: {answer}
-> Sources: {sources_str}"""
+> Sources:\n{sources_str}"""
         )
 
 

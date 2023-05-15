@@ -23,8 +23,8 @@ pygpt4all = "^1.1.0"
 qdrant-client = "^1.1.7"
 unstructured = "^0.6.6"  # Handle ingestion file formats
 docx2txt="^0.8"  # Handle docx ingestion file formats
-llama-cpp-python = "<=0.1.49"  # 0.1.50 raises an AssertionError / NameError for some reason
-sentence_transformers = "^2.2.2"
+llama-cpp-python = "^0.1.49"  # 0.1.50 raises an AssertionError / NameError on <5 vic models
+sentence_transformers = "^2.2.2"  # doesn't install torch properly with poetry, but should be better in later versions
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.3.1"
