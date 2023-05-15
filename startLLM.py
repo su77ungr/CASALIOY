@@ -14,6 +14,7 @@ from load_env import (
     model_stop,
     model_temp,
     model_type,
+    n_gpu_layers,
     persist_directory,
     use_mlock,
 )
@@ -43,6 +44,10 @@ def initialize_qa_system() -> RetrievalQA:
                 n_batch=1000,
                 use_mlock=use_mlock,
             )
+            # Need this hack because this param isn't yet supported by the python lib
+            state = llm.client.__getstate__()
+            state["n_gpu_layers"] = n_gpu_layers
+            llm.client.__setstate__(state)
         case "GPT4All":
             from langchain.llms import GPT4All
 

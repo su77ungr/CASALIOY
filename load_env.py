@@ -27,6 +27,7 @@ model_temp = float(os.environ.get("MODEL_TEMP", "0.8"))
 model_stop = os.environ.get("MODEL_STOP", "")
 model_stop = model_stop.split(",") if model_stop else []
 chain_type = os.environ.get("CHAIN_TYPE", "refine")
+n_gpu_layers = int(os.environ.get("N_GPU_LAYERS", 0))
 
 
 def get_embedding_model() -> tuple[HuggingFaceEmbeddings, Callable] | tuple[LlamaCppEmbeddings, Callable]:

@@ -67,7 +67,7 @@ pre-commit install
 If you want GPU support for llama-ccp:
 ```shell
 pip uninstall -y llama-cpp-python
-CMAKE_ARGS="-DLLAMA_OPENBLAS=on" FORCE_CMAKE=1 pip install llama-cpp-python
+CMAKE_ARGS="-DLLAMA_CUBLAS=on" FORCE_CMAKE=1 pip install --force llama-cpp-python
 ```
 
 > Download the 2 models and place them in a folder called `./models`:
