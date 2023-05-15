@@ -3,16 +3,15 @@
 import qdrant_client
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.chains import RetrievalQA
-from langchain.embeddings import LlamaCppEmbeddings
 from langchain.vectorstores import Qdrant
 
-from load_env import chain_type, llama_embeddings_model, model_n_ctx, model_path, model_stop, model_temp, model_type, persist_directory, use_mlock
+from load_env import chain_type, get_embedding_model, model_n_ctx, model_path, model_stop, model_temp, model_type, persist_directory, use_mlock
 
 
 def initialize_qa_system() -> RetrievalQA:
     """init the LLM"""
     # Get embeddings and local vector store
-    embeddings = LlamaCppEmbeddings(model_path=llama_embeddings_model, n_ctx=model_n_ctx)
+    embeddings = get_embedding_model()[0]
     client = qdrant_client.QdrantClient(path=persist_directory, prefer_grpc=True)
     qdrant = Qdrant(client=client, collection_name="test", embeddings=embeddings)
 
