@@ -5,7 +5,7 @@ import shutil
 from pathlib import Path
 
 from libgenesis import Libgen
-from prompt_toolkit import prompt
+from prompt_toolkit import PromptSession
 
 from casalioy.ingest import Ingester
 from casalioy.load_env import (
@@ -18,6 +18,8 @@ from casalioy.load_env import (
     model_temp,
     n_gpu_layers,
     persist_directory,
+    print_HTML,
+    prompt_HTML,
     use_mlock,
 )
 from casalioy.startLLM import QASystem
@@ -42,13 +44,13 @@ def load_documents(keyword: str, n: int = 3) -> None:
         if int(item["filesize"]) > 1024**2 * max_doc_size_mb:
             continue
         if item["extension"] not in ["pdf", "epub"]:
-            print(f"skipped ext. {item['extension']}")
+            print_HTML(f"<remark>skipped ext. {item['extension']}</remark>")
             continue
         asyncio.run(lg.download(item["mirrors"]["main"], dest_folder=out_path))
         dl_N += 1
     if dl_N == 0:
         raise ValueError(f"No good result for {keyword}")
-    print(f"Got {dl_N} files")
+    print_HTML(f"<remark>Got {dl_N} files</remark>")
 
 
 def search(question: str, keyword: str) -> None:
@@ -62,7 +64,8 @@ def search(question: str, keyword: str) -> None:
 
 
 if __name__ == "__main__":
-    question = prompt("Enter your question: ")
-    keyword = prompt("Enter a keyword to search for relevant sources: ")
+    session = PromptSession()
+    question = prompt_HTML(session, "<b>Enter your question</b>: ")
+    keyword = prompt_HTML(session, "<b>Enter a keyword to search for relevant sources</b>: ")
 
     search(question, keyword)
