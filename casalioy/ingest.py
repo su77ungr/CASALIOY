@@ -39,7 +39,6 @@ class Ingester:
         self.db_dir = db_dir
         self.collection = collection
         self.save_N = 1000  # save after creating this many embeddings
-        self.print_one_in = 400
         self.awaiting_save: list[tuple[list[np.ndarray], Document]] = []  # [(embedding, document)]
 
     def load_one_doc(self, filepath: Path) -> list[Document]:
@@ -55,10 +54,12 @@ class Ingester:
         N_chunks = len(documents)
         print(f"Processing {N_chunks} chunks")
 
-        for i, doc in enumerate(documents):
-            if i and not i % self.print_one_in:
+        for i in range(0, len(documents), self.save_N):
+            documents_sub = documents[i : i + self.save_N]
+            embeddings = embedding_function([doc.page_content for doc in documents_sub]).tolist()
+            if i > 0:
                 print(f"embedding chunk {i + 1}/{N_chunks}")
-            self.awaiting_save.append((embedding_function(doc.page_content).astype(float).tolist(), doc))
+            self.awaiting_save += list(zip(embeddings, documents_sub))
             if len(self.awaiting_save) >= self.save_N:
                 self.store_embeddings()
 
@@ -111,6 +112,7 @@ class Ingester:
         print("Scanning files")
         for root, dirs, files in os.walk(path):
             for file in files:
+                print(f"Processing {file}")
                 document = self.load_one_doc(Path(root) / file)
                 split_document = text_splitter.split_documents(document)
                 self.embed_documents_with_progress(encode_fun, split_document)
