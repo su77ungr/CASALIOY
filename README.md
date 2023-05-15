@@ -66,7 +66,7 @@ pre-commit install
 
 If you want GPU support for llama-ccp:
 ```shell
-pip uninstall -y llama-cpp-python3  #
+pip uninstall -y llama-cpp-python
 CMAKE_ARGS="-DLLAMA_OPENBLAS=on" FORCE_CMAKE=1 pip install llama-cpp-python
 ```
 
