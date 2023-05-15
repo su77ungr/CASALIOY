@@ -11,8 +11,10 @@ from langchain.docstore.document import Document
 from langchain.document_loaders import (
     CSVLoader,
     Docx2txtLoader,
+    OutlookMessageLoader,
     PDFMinerLoader,
     TextLoader,
+    UnstructuredEmailLoader,
     UnstructuredEPubLoader,
     UnstructuredHTMLLoader,
     UnstructuredPowerPointLoader,
@@ -35,6 +37,8 @@ class Ingester:
         "html": UnstructuredHTMLLoader,
         "docx": Docx2txtLoader,
         "pptx": UnstructuredPowerPointLoader,
+        "eml": UnstructuredEmailLoader,
+        "msg": OutlookMessageLoader,
     }
 
     def __init__(self, db_dir: str, collection: str = "test"):
