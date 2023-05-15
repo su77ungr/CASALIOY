@@ -30,7 +30,7 @@ chain_type = os.environ.get("CHAIN_TYPE", "refine")
 n_gpu_layers = int(os.environ.get("N_GPU_LAYERS", 0))
 
 
-def get_embedding_model() -> tuple[HuggingFaceEmbeddings, Callable] | tuple[LlamaCppEmbeddings, Callable]:
+def get_embedding_model() -> tuple[HuggingFaceEmbeddings | LlamaCppEmbeddings, Callable]:
     """get the text embedding model
     :returns: tuple[the model, its encoding function]"""
     match text_embeddings_model_type:

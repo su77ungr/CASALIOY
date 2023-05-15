@@ -102,7 +102,8 @@ This should look like this
 ```
 └── repo
       ├── startLLM.py
-      ├── ingest.py
+      ├── casalioy
+      │   └── ingest.py, load_env.py, startLLM.py, gui.py, __init__.py
       ├── source_documents
       │   └── sample.csv
       │   └── shor.pdfstate_of_the_union.txt
@@ -121,13 +122,13 @@ To automatically ingest different data types (.txt, .pdf, .csv, .epub)
 > inside `source_documents` to run tests with.
 
 ```shell
-python ingest.py # optional <path_to_your_data_directory>
+python casalioy/ingest.py # optional <path_to_your_data_directory>
 ```
 
 Optional: use `y` flag to purge existing vectorstore and initialize fresh instance
 
 ```shell
-python ingest.py # optional <path_to_your_data_directory> y
+python casalioy/ingest.py # optional <path_to_your_data_directory> y
 ```
 
 This spins up a local qdrant namespace inside the `db` folder containing the local vectorstore. Will take time,
