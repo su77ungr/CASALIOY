@@ -5,6 +5,9 @@ from typing import Callable
 from dotenv import load_dotenv
 from langchain.embeddings import HuggingFaceEmbeddings, LlamaCppEmbeddings
 from langchain.prompts import PromptTemplate
+from prompt_toolkit import HTML, PromptSession, print_formatted_text
+from prompt_toolkit.styles import Style
+from pyexpat import ExpatError
 
 load_dotenv()
 
@@ -30,7 +33,7 @@ chain_type = os.environ.get("CHAIN_TYPE", "refine")
 n_gpu_layers = int(os.environ.get("N_GPU_LAYERS", 0))
 
 
-def get_embedding_model() -> tuple[HuggingFaceEmbeddings, Callable] | tuple[LlamaCppEmbeddings, Callable]:
+def get_embedding_model() -> tuple[HuggingFaceEmbeddings | LlamaCppEmbeddings, Callable]:
     """get the text embedding model
     :returns: tuple[the model, its encoding function]"""
     match text_embeddings_model_type:
@@ -83,3 +86,33 @@ ASSISTANT:"""
             }
         case _:
             return {}
+
+
+style = Style.from_dict(
+    {
+        "r": "italic gray",  # remark
+        "w": "italic yellow",  # warning
+        "d": "bold red",  # danger
+        "b": "bold",
+        "i": "italic",
+        "question": "ansicyan",
+        "answer": "ansigreen",
+        "source": "ansimagenta",
+    }
+)
+
+
+def print_HTML(text: str, **kwargs) -> None:
+    """print formatted HTML text"""
+    try:
+        print_formatted_text(HTML(text).format(**kwargs), style=style)
+    except ExpatError:
+        print(text)
+
+
+def prompt_HTML(session: PromptSession, prompt: str, **kwargs) -> str:
+    """print formatted HTML text"""
+    try:
+        return session.prompt(HTML(prompt).format(**kwargs), style=style)
+    except ExpatError:
+        return input(prompt)
