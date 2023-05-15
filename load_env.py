@@ -23,4 +23,3 @@ model_temp = float(os.environ.get("MODEL_TEMP", "0.8"))
 model_stop = os.environ.get("MODEL_STOP", "")
 model_stop = model_stop.split(",") if model_stop else []
 chain_type = os.environ.get("CHAIN_TYPE", "refine")
-

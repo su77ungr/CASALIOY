@@ -6,9 +6,7 @@ from langchain.chains import RetrievalQA
 from langchain.embeddings import LlamaCppEmbeddings
 from langchain.vectorstores import Qdrant
 
-from load_env import llama_embeddings_model, model_n_ctx, model_path, model_stop, model_temp, model_type, \
-    persist_directory, \
-    use_mlock, chain_type
+from load_env import chain_type, llama_embeddings_model, model_n_ctx, model_path, model_stop, model_temp, model_type, persist_directory, use_mlock
 
 
 def initialize_qa_system() -> RetrievalQA:
@@ -73,13 +71,12 @@ def main() -> None:
         answer, docs = res["result"], res["source_documents"]
 
         # Print the result
-        sources_str = "\n\n".join(
-            f"> {document.metadata['source']}:\n{document.page_content}"
-            for document in docs
-        )
-        print(f"""\n\n> Question: {query}
+        sources_str = "\n\n".join(f"> {document.metadata['source']}:\n{document.page_content}" for document in docs)
+        print(
+            f"""\n\n> Question: {query}
 > Answer: {answer}
-> Sources: {sources_str}""")
+> Sources: {sources_str}"""
+        )
 
 
 if __name__ == "__main__":
