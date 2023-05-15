@@ -47,7 +47,7 @@ def get_prompt_template_kwargs() -> dict[str, PromptTemplate]:
     """get an improved prompt template"""
     match chain_type:
         case "stuff":
-            question_prompt = """HUMAN: Use the provided context to answer the following question. If you are unsure of the answer, respond with "Unknown[STOP]". When providing the answer, clearly indicate the source of information by specifying whether it comes from the context or your prior knowledge. Conclude your response with "[STOP]" to indicate the completion of the answer.
+            question_prompt = """HUMAN: Answer the question using ONLY the given context. If you are unsure of the answer, respond with "Unknown[STOP]". Conclude your response with "[STOP]" to indicate the completion of the answer.
 
 Context: {context}
 
@@ -56,7 +56,7 @@ Question: {question}
 ASSISTANT:"""
             return {"prompt": PromptTemplate(template=question_prompt, input_variables=["context", "question"])}
         case "refine":
-            question_prompt = """HUMAN: Answer the question using only the given context.
+            question_prompt = """HUMAN: Answer the question using ONLY the given context.
 Indicate the end of your answer with "[STOP]" and refrain from adding any additional information beyond that which is provided in the context.
 
 Question: {question}
@@ -65,7 +65,7 @@ Context: {context_str}
 
 ASSISTANT:"""
             refine_prompt = """HUMAN: Refine the original answer to the question using the new context.
-Use only the information from the context and your previous answer.
+Use ONLY the information from the context and your previous answer.
 If the context is not helpful, use the original answer.
 Indicate the end of your answer with "[STOP]" and avoid adding any extraneous information.
 
