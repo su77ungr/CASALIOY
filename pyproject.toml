@@ -13,6 +13,7 @@ pathlib = "^1.0.1"
 sentencepiece = "^0.1.99"  # For convert.py
 prompt-toolkit = "^3.0"  # Nice terminal output
 libgenesis = "^0.1.9"  # download docs
+extract-msg = "^0.41.1"
 
 [tool.poetry.group.GUI.dependencies]  # for the GUI
 streamlit = { git = "https://github.com/hippalectryon-0/streamlit.git", subdirectory = "lib", "rev" = "0b7fb1c" }  # waiting for >1.22.0 so that we can use protobuf>=4
