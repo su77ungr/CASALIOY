@@ -1,5 +1,6 @@
 """answer questions using documents from LibGen"""
 import asyncio
+import logging
 import os
 import shutil
 from pathlib import Path
@@ -27,6 +28,8 @@ from casalioy.startLLM import QASystem
 
 max_doc_size_mb = 10
 out_path = Path("source_documents/libgen")
+
+logging.getLogger().setLevel(logging.WARNING)  # because libgenesis changes it
 
 if out_path.exists():
     shutil.rmtree(out_path)
