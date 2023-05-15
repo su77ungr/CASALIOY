@@ -45,7 +45,7 @@ for older docker without GUI use `casalioy:latest` might deprecate soon
 ```
 cd models
 wget https://huggingface.co/Pi3141/alpaca-native-7B-ggml/resolve/397e872bf4c83f4c642317a5bf65ce84a105786e/ggml-model-q4_0.bin &&
-wget https://huggingface.co/datasets/dnato/ggjt-v1-vic7b-uncensored-q4_0.bin/resolve/main/ggjt-v1-vic7b-uncensored-q4_0.bin
+wget https://huggingface.co/eachadea/ggml-vicuna-7b-1.1/resolve/main/ggml-vic7b-q5_1.bin
 cd ../
 ```
 
@@ -59,36 +59,42 @@ cd ../
 python -m pip install poetry
 python -m poetry config virtualenvs.in-project true
 python -m poetry install
-python -m pip install --force streamlit  # Temporary bandaid fix, waiting for streamlit >=1.23
 . .venv/bin/activate
+python -m pip install --force streamlit sentence_transformers  # Temporary bandaid fix, waiting for streamlit >=1.23
 pre-commit install
+```
+
+If you want GPU support for llama-ccp:
+```shell
+pip uninstall -y llama-cpp-python3  #
+CMAKE_ARGS="-DLLAMA_OPENBLAS=on" FORCE_CMAKE=1 pip install llama-cpp-python
 ```
 
 > Download the 2 models and place them in a folder called `./models`:
 
 - LLM: default
-  is [ggjt-v1-vic7b-uncensored-q4_0](https://huggingface.co/datasets/dnato/ggjt-v1-vic7b-uncensored-q4_0.bin/resolve/main/ggjt-v1-vic7b-uncensored-q4_0.bin)
+  is [ggml-vic7b-q5_1](https://huggingface.co/eachadea/ggml-vicuna-7b-1.1/resolve/main/ggml-vic7b-q5_1.bin)
 - Embedding: default
   to [ggml-model-q4_0](https://huggingface.co/Pi3141/alpaca-native-7B-ggml/resolve/397e872bf4c83f4c642317a5bf65ce84a105786e/ggml-model-q4_0.bin).
 
 > > Edit the example.env to fit your models and rename it to .env
 
 ```env
+# Generic
+MODEL_N_CTX=1024
+LLAMA_EMBEDDINGS_MODEL=models/ggml-model-q4_0.bin
+
+# Ingestion
 PERSIST_DIRECTORY=db
 DOCUMENTS_DIRECTORY=source_documents
-# Your LLM type (GPT4All or LlamaCpp)
-MODEL_TYPE=GPT4All
-# Absolute path to your llama supported embeddings model.
-LLAMA_EMBEDDINGS_MODEL=models/ggml-model-q4_0.bin
-# Absolute path to your GPT4All or LlamaCpp model
-MODEL_PATH=models/ggml-gpt4all-j-v1.3-groovy.bin
-# Context size for both the vector datbase and the llm seperately in one value
-# Double this value if you are getting context size errors
-MODEL_N_CTX=1024
-# Temperature range of 0=Logical to 1=Creative
+INGEST_CHUNK_SIZE=500
+INGEST_CHUNK_OVERLAP=50
+
+# Generation
+MODEL_TYPE=LlamaCpp # GPT4All or LlamaCpp
+MODEL_PATH=models/ggjt-v1-vic7b-uncensored-q4_0.bin
 MODEL_TEMP=0.8
-# Stop based on certain characters or strings.
-MODEL_STOP='###,\n'
+MODEL_STOP=###,\n
 ```
 
 This should look like this
@@ -102,7 +108,7 @@ This should look like this
       │   └── shor.pdfstate_of_the_union.txt
       │   └── state_of_the_union.txt
       ├── models
-      │   ├── ggjt-v1-vic7b-uncensored-q4_0.bin
+      │   ├── ggml-vic7b-q5_1.bin
       │   └── ggml-model-q4_0.bin
       └── .env, convert.py, Dockerfile
 ```
@@ -185,7 +191,7 @@ all the supported models from [here](https://huggingface.co/nomic-ai/gpt4all-13b
 
 1. Download ready-to-use models
 
-> Brwose Huging Face for [models](https://huggingface.co/)
+> Browse Hugging Face for [models](https://huggingface.co/)
 
 2. Convert locally
 
