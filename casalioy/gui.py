@@ -2,15 +2,14 @@
 import os
 
 import dotenv
+import startLLM
 import streamlit as st
+from load_env import model_n_ctx, model_stop, model_temp
 from streamlit_chat import message
 from streamlit_extras.add_vertical_space import add_vertical_space
 from streamlit_extras.colored_header import colored_header
 
-import startLLM
-from load_env import model_n_ctx, model_stop, model_temp
-
-dotenv_file = dotenv.find_dotenv(".env")
+dotenv_file = dotenv.find_dotenv("../.env")
 dotenv.load_dotenv()
 
 # Initialization

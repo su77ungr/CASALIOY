@@ -5,7 +5,7 @@ from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.chains import RetrievalQA
 from langchain.vectorstores import Qdrant
 
-from load_env import (
+from casalioy.load_env import (
     chain_type,
     get_embedding_model,
     get_prompt_template_kwargs,
