@@ -80,21 +80,21 @@ CMAKE_ARGS="-DLLAMA_OPENBLAS=on" FORCE_CMAKE=1 pip install llama-cpp-python
 > > Edit the example.env to fit your models and rename it to .env
 
 ```env
+# Generic
+MODEL_N_CTX=1024
+LLAMA_EMBEDDINGS_MODEL=models/ggml-model-q4_0.bin
+
+# Ingestion
 PERSIST_DIRECTORY=db
 DOCUMENTS_DIRECTORY=source_documents
-# Your LLM type (GPT4All or LlamaCpp)
-MODEL_TYPE=GPT4All
-# Absolute path to your llama supported embeddings model.
-LLAMA_EMBEDDINGS_MODEL=models/ggml-model-q4_0.bin
-# Absolute path to your GPT4All or LlamaCpp model
-MODEL_PATH=models/ggml-gpt4all-j-v1.3-groovy.bin
-# Context size for both the vector datbase and the llm seperately in one value
-# Double this value if you are getting context size errors
-MODEL_N_CTX=1024
-# Temperature range of 0=Logical to 1=Creative
+INGEST_CHUNK_SIZE=500
+INGEST_CHUNK_OVERLAP=50
+
+# Generation
+MODEL_TYPE=LlamaCpp # GPT4All or LlamaCpp
+MODEL_PATH=models/ggjt-v1-vic7b-uncensored-q4_0.bin
 MODEL_TEMP=0.8
-# Stop based on certain characters or strings.
-MODEL_STOP='###,\n'
+MODEL_STOP=###,\n
 ```
 
 This should look like this
@@ -191,7 +191,7 @@ all the supported models from [here](https://huggingface.co/nomic-ai/gpt4all-13b
 
 1. Download ready-to-use models
 
-> Brwose Huging Face for [models](https://huggingface.co/)
+> Browse Hugging Face for [models](https://huggingface.co/)
 
 2. Convert locally
 
