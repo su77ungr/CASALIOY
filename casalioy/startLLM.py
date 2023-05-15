@@ -106,7 +106,7 @@ def main() -> None:
         if query == "exit":
             break
         elif not query:  # check if query empty
-            print_HTML("<remark>Empty query, skipping</remark>")
+            print_HTML("<r>Empty query, skipping</r>")
             continue
         qa_system.prompt_once(query)
 

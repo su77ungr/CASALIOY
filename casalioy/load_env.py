@@ -89,7 +89,9 @@ ASSISTANT:"""
 
 style = Style.from_dict(
     {
-        "remark": "italic gray",
+        "r": "italic gray",  # remark
+        "w": "italic yellow",  # warning
+        "d": "bold red",  # danger
         "b": "bold",
         "i": "italic",
         "question": "ansicyan",
@@ -99,12 +101,12 @@ style = Style.from_dict(
 )
 
 
-def print_HTML(text: str) -> None:
+def print_HTML(text: str, *args, **kwargs) -> None:
     """print formatted HTML text"""
-    print_formatted_text(HTML(text), style=style)
+    print_formatted_text(HTML(text), style=style, *args, **kwargs)
 
 
-def prompt_HTML(session: PromptSession, prompt: str) -> str:
+def prompt_HTML(session: PromptSession, prompt: str, *args, **kwargs) -> str:
     """print formatted HTML text"""
 
-    return session.prompt(HTML(prompt), style=style)
+    return session.prompt(HTML(prompt), style=style, *args, **kwargs)

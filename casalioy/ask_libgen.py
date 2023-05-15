@@ -6,6 +6,7 @@ from pathlib import Path
 
 from libgenesis import Libgen
 from prompt_toolkit import PromptSession
+from prompt_toolkit.shortcuts import ProgressBar
 
 from casalioy.ingest import Ingester
 from casalioy.load_env import (
@@ -37,20 +38,21 @@ def load_documents(keyword: str, n: int = 3) -> None:
     lg = Libgen()
     result = asyncio.run(lg.search(keyword))
     dl_N = 0
-    for item_id in result:
-        if dl_N >= n:
-            break
-        item = result[item_id]
-        if int(item["filesize"]) > 1024**2 * max_doc_size_mb:
-            continue
-        if item["extension"] not in ["pdf", "epub"]:
-            print_HTML(f"<remark>skipped ext. {item['extension']}</remark>")
-            continue
-        asyncio.run(lg.download(item["mirrors"]["main"], dest_folder=out_path))
-        dl_N += 1
-    if dl_N == 0:
-        raise ValueError(f"No good result for {keyword}")
-    print_HTML(f"<remark>Got {dl_N} files</remark>")
+    with ProgressBar() as pb:
+        for item_id in pb(result):
+            if dl_N >= n:
+                break
+            item = result[item_id]
+            if int(item["filesize"]) > 1024**2 * max_doc_size_mb:
+                continue
+            if item["extension"] not in ["pdf", "epub"]:
+                print_HTML(f"<r>skipped ext. {item['extension']}</r>")
+                continue
+            asyncio.run(lg.download(item["mirrors"]["main"], dest_folder=out_path))
+            dl_N += 1
+        if dl_N == 0:
+            raise ValueError(f"No good result for {keyword}")
+    print_HTML(f"<r>Got {dl_N} files</r>")
 
 
 def search(question: str, keyword: str) -> None:
