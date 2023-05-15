@@ -19,5 +19,8 @@ chunk_overlap = int(os.environ.get("INGEST_CHUNK_OVERLAP"))
 # generate
 model_type = os.environ.get("MODEL_TYPE")
 model_path = os.environ.get("MODEL_PATH")
-model_temp = float(os.environ.get("MODEL_TEMP"))
-model_stop = os.environ.get("MODEL_STOP").split(",")
+model_temp = float(os.environ.get("MODEL_TEMP", "0.8"))
+model_stop = os.environ.get("MODEL_STOP", "")
+model_stop = model_stop.split(",") if model_stop else []
+chain_type = os.environ.get("CHAIN_TYPE", "refine")
+

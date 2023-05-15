@@ -81,7 +81,7 @@ def main(sources_directory: str, cleandb: str) -> None:
 
     # Store embeddings
     print("Storing embeddings...")
-    client = QdrantClient(path=db_dir)  # using Qdrant.from_documents recreates the db each time
+    client = QdrantClient(path=db_dir, prefer_grpc=True)  # using Qdrant.from_documents recreates the db each time
     try:
         collection = client.get_collection("test")
     except ValueError:  # doesn't exist
