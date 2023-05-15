@@ -102,17 +102,17 @@ style = Style.from_dict(
 )
 
 
-def print_HTML(text: str, *args, **kwargs) -> None:
+def print_HTML(text: str, **kwargs) -> None:
     """print formatted HTML text"""
     try:
-        print_formatted_text(HTML(text), style=style, *args, **kwargs)
+        print_formatted_text(HTML(text).format(**kwargs), style=style)
     except ExpatError:
         print(text)
 
 
-def prompt_HTML(session: PromptSession, prompt: str, *args, **kwargs) -> str:
+def prompt_HTML(session: PromptSession, prompt: str, **kwargs) -> str:
     """print formatted HTML text"""
     try:
-        return session.prompt(HTML(prompt), style=style, *args, **kwargs)
+        return session.prompt(HTML(prompt).format(**kwargs), style=style)
     except ExpatError:
         return input(prompt)

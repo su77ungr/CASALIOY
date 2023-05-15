@@ -46,7 +46,7 @@ class Ingester:
     def load_one_doc(self, filepath: Path) -> list[Document]:
         """load one document"""
         if filepath.suffix[1:] not in self.file_loaders:
-            print_HTML(f"<w>Unhandled file format: {filepath.name} in {filepath.parent}</w>")
+            print_HTML("<w>Unhandled file format: {fname} in {fparent}</w>", fname=filepath.name, fparent=filepath.parent)
             return []
 
         return self.file_loaders[filepath.suffix[1:]](str(filepath)).load()
@@ -115,11 +115,11 @@ class Ingester:
         all_items = [Path(root) / file for root, dirs, files in os.walk(path) for file in files]
         with ProgressBar() as pb:
             for file in pb(all_items):
-                print_HTML(f"<r>Processing {file.name}</r>")
+                print_HTML("<r>Processing {fname}</r>", fname=file.name)
                 document = self.load_one_doc(file)
                 split_document = text_splitter.split_documents(document)
                 self.embed_documents_with_progress(encode_fun, split_document)
-                print_HTML(f"<r>Processed {file.name}</r>")
+                print_HTML("<r>Processed {fname}</r>", fname=file.name)
         print_HTML("<r>Done</r>")
 
 

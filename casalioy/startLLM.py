@@ -7,6 +7,7 @@ from langchain.embeddings.base import Embeddings
 from langchain.vectorstores import Qdrant
 from prompt_toolkit import PromptSession
 from prompt_toolkit.auto_suggest import AutoSuggestFromHistory
+from prompt_toolkit.formatted_text.html import html_escape
 
 from casalioy.load_env import (
     chain_type,
@@ -93,8 +94,13 @@ class QASystem:
         answer, docs = res["result"], res["source_documents"]
 
         # Print the result
-        sources_str = "\n\n".join(f">> <source>{document.metadata['source']}</source>:\n{document.page_content}" for document in docs)
-        print_HTML(f"\n\n> <question><b>Question</b>: {query}</question>\n> <answer><b>Answer</b>: {answer}</answer>\n> <b>Sources</b>:\n{sources_str}")
+        sources_str = "\n\n".join(f">> <source>{html_escape(document.metadata['source'])}</source>:\n{html_escape(document.page_content)}" for document in docs)
+        print_HTML(
+            f"\n\n> <question><b>Question</b>: {query}</question>\n> <answer><b>Answer</b>: {answer}</answer>\n> <b>Sources</b>:\n{sources_str}",
+            query=query,
+            answer=answer,
+            sources_str=sources_str,
+        )
 
 
 # noinspection PyMissingOrEmptyDocstring

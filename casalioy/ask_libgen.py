@@ -46,7 +46,7 @@ def load_documents(keyword: str, n: int = 3) -> None:
             if int(item["filesize"]) > 1024**2 * max_doc_size_mb:
                 continue
             if item["extension"] not in ["pdf", "epub"]:
-                print_HTML(f"<r>skipped ext. {item['extension']}</r>")
+                print_HTML("<r>skipped ext. {ext}</r>", ext=item["extension"])
                 continue
             asyncio.run(lg.download(item["mirrors"]["main"], dest_folder=out_path))
             dl_N += 1
