@@ -11,7 +11,7 @@ pdfminer-six = "20221105"
 python-dotenv = "^1.0.0"
 pathlib = "^1.0.1"
 sentencepiece = "^0.1.99"  # For convert.py
-prompt-toolkit = "^3.0"
+prompt-toolkit = "^3.0"  # Nice terminal output
 libgenesis = "^0.1.9"  # download docs
 
 [tool.poetry.group.GUI.dependencies]  # for the GUI

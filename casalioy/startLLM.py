@@ -5,6 +5,8 @@ from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.chains import RetrievalQA
 from langchain.embeddings.base import Embeddings
 from langchain.vectorstores import Qdrant
+from prompt_toolkit import PromptSession
+from prompt_toolkit.auto_suggest import AutoSuggestFromHistory
 
 from casalioy.load_env import (
     chain_type,
@@ -17,6 +19,8 @@ from casalioy.load_env import (
     model_type,
     n_gpu_layers,
     persist_directory,
+    print_HTML,
+    prompt_HTML,
     use_mlock,
 )
 
@@ -89,19 +93,20 @@ class QASystem:
         answer, docs = res["result"], res["source_documents"]
 
         # Print the result
-        sources_str = "\n\n".join(f">> {document.metadata['source']}:\n{document.page_content}" for document in docs)
-        print(f"\n\n> Question: {query}\n> Answer: {answer}\n> Sources:\n{sources_str}")
+        sources_str = "\n\n".join(f">> <source>{document.metadata['source']}</source>:\n{document.page_content}" for document in docs)
+        print_HTML(f"\n\n> <question><b>Question</b>: {query}</question>\n> <answer><b>Answer</b>: {answer}</answer>\n> <b>Sources</b>:\n{sources_str}")
 
 
 # noinspection PyMissingOrEmptyDocstring
 def main() -> None:
+    session = PromptSession(auto_suggest=AutoSuggestFromHistory())
     qa_system = QASystem(get_embedding_model()[0], persist_directory, model_path, model_n_ctx, model_temp, model_stop, use_mlock, n_gpu_layers)
     while True:
-        query = input("\nEnter a query: ").strip()
+        query = prompt_HTML(session, "\n<b>Enter a query</b>: ").strip()
         if query == "exit":
             break
         elif not query:  # check if query empty
-            print("Empty query, skipping")
+            print_HTML("<remark>Empty query, skipping</remark>")
             continue
         qa_system.prompt_once(query)
 

@@ -5,6 +5,8 @@ from typing import Callable
 from dotenv import load_dotenv
 from langchain.embeddings import HuggingFaceEmbeddings, LlamaCppEmbeddings
 from langchain.prompts import PromptTemplate
+from prompt_toolkit import HTML, PromptSession, print_formatted_text
+from prompt_toolkit.styles import Style
 
 load_dotenv()
 
@@ -83,3 +85,26 @@ ASSISTANT:"""
             }
         case _:
             return {}
+
+
+style = Style.from_dict(
+    {
+        "remark": "italic gray",
+        "b": "bold",
+        "i": "italic",
+        "question": "ansicyan",
+        "answer": "ansigreen",
+        "source": "ansimagenta",
+    }
+)
+
+
+def print_HTML(text: str) -> None:
+    """print formatted HTML text"""
+    print_formatted_text(HTML(text), style=style)
+
+
+def prompt_HTML(session: PromptSession, prompt: str) -> str:
+    """print formatted HTML text"""
+
+    return session.prompt(HTML(prompt), style=style)
