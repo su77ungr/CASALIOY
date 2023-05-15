@@ -3,71 +3,82 @@
 import qdrant_client
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.chains import RetrievalQA
-from langchain.embeddings import LlamaCppEmbeddings
 from langchain.vectorstores import Qdrant
 
-from load_env import llama_embeddings_model, model_n_ctx, model_path, model_stop, model_temp, model_type, persist_directory, use_mlock
-
-qa_system = None
-
-
-def initialize_qa_system():
-    global qa_system
-    if qa_system is None:
-        # Load stored vectorstore
-        llama = LlamaCppEmbeddings(model_path=llama_embeddings_model, n_ctx=model_n_ctx)
-        # Load ggml-formatted model
-        local_path = model_path
-
-        client = qdrant_client.QdrantClient(path=persist_directory, prefer_grpc=True)
-        qdrant = Qdrant(client=client, collection_name="test", embeddings=llama)
-
-        # Prepare the LLM chain
-        callbacks = [StreamingStdOutCallbackHandler()]
-        match model_type:
-            case "LlamaCpp":
-                from langchain.llms import LlamaCpp
-
-                llm = LlamaCpp(
-                    model_path=local_path,
-                    n_ctx=model_n_ctx,
-                    temperature=model_temp,
-                    stop=model_stop,
-                    callbacks=callbacks,
-                    verbose=True,
-                    n_threads=6,
-                    n_batch=1000,
-                    use_mlock=use_mlock,
-                )
-            case "GPT4All":
-                from langchain.llms import GPT4All
-
-                llm = GPT4All(
-                    model=local_path,
-                    n_ctx=model_n_ctx,
-                    callbacks=callbacks,
-                    verbose=True,
-                    backend="gptj",
-                )
-            case _default:
-                print("Only LlamaCpp or GPT4All supported right now. Make sure you set up your .env correctly.")
-        qa = RetrievalQA.from_chain_type(
-            llm=llm,
-            chain_type="stuff",
-            retriever=qdrant.as_retriever(search_type="mmr"),
-            return_source_documents=True,
-        )
-        qa_system = qa
+from load_env import (
+    chain_type,
+    get_embedding_model,
+    get_prompt_template_kwargs,
+    model_n_ctx,
+    model_path,
+    model_stop,
+    model_temp,
+    model_type,
+    n_gpu_layers,
+    persist_directory,
+    use_mlock,
+)
 
 
-def main():
-    initialize_qa_system()
+def initialize_qa_system() -> RetrievalQA:
+    """init the LLM"""
+    # Get embeddings and local vector store
+    embeddings = get_embedding_model()[0]
+    client = qdrant_client.QdrantClient(path=persist_directory, prefer_grpc=True)
+    qdrant = Qdrant(client=client, collection_name="test", embeddings=embeddings)
+
+    # Prepare the LLM chain
+    callbacks = [StreamingStdOutCallbackHandler()]
+    match model_type:
+        case "LlamaCpp":
+            from langchain.llms import LlamaCpp
+
+            llm = LlamaCpp(
+                model_path=model_path,
+                n_ctx=model_n_ctx,
+                temperature=model_temp,
+                stop=model_stop,
+                callbacks=callbacks,
+                verbose=True,
+                n_threads=6,
+                n_batch=1000,
+                use_mlock=use_mlock,
+            )
+            # Need this hack because this param isn't yet supported by the python lib
+            state = llm.client.__getstate__()
+            state["n_gpu_layers"] = n_gpu_layers
+            llm.client.__setstate__(state)
+        case "GPT4All":
+            from langchain.llms import GPT4All
+
+            llm = GPT4All(
+                model=model_path,
+                n_ctx=model_n_ctx,
+                callbacks=callbacks,
+                verbose=True,
+                backend="gptj",
+            )
+        case _:
+            raise ValueError("Only LlamaCpp or GPT4All supported right now. Make sure you set up your .env correctly.")
+
+    return RetrievalQA.from_chain_type(
+        llm=llm,
+        chain_type=chain_type,
+        retriever=qdrant.as_retriever(search_type="mmr"),
+        return_source_documents=True,
+        chain_type_kwargs=get_prompt_template_kwargs(),
+    )
+
+
+# noinspection PyMissingOrEmptyDocstring
+def main() -> None:
+    qa_system = initialize_qa_system()
     # Interactive questions and answers
     while True:
-        query = input("\nEnter a query: ")
+        query = input("\nEnter a query: ").strip()
         if query == "exit":
             break
-        elif not query.strip():  # check if query empty
+        elif not query:  # check if query empty
             print("Empty query, skipping")
             continue
 
@@ -76,15 +87,12 @@ def main():
         answer, docs = res["result"], res["source_documents"]
 
         # Print the result
-        print("\n\n> Question:")
-        print(query)
-        print("\n> Answer:")
-        print(answer)
-
-        # Print the relevant sources used for the answer
-        for document in docs:
-            print("\n> " + document.metadata["source"] + ":")
-            print(document.page_content)
+        sources_str = "\n\n".join(f">> {document.metadata['source']}:\n{document.page_content}" for document in docs)
+        print(
+            f"""\n\n> Question: {query}
+> Answer: {answer}
+> Sources:\n{sources_str}"""
+        )
 
 
 if __name__ == "__main__":

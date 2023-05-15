@@ -7,21 +7,24 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = ">3.9.7,<3.12"
-langchain = "^0.0.168"
-pygpt4all = "^1.1.0"
-qdrant-client = "^1.1.7"
-llama-cpp-python = "<=0.1.49"  # 0.1.50 raises an AssertionError / NameError for some reason
 pdfminer-six = "20221105"
 python-dotenv = "^1.0.0"
-unstructured = "^0.6.6"  # Handle ingestion file formats
-docx2txt="^0.8"  # Handle docx ingestion file formats
 pathlib = "^1.0.1"
+sentencepiece = "^0.1.99"  # For convert.py
+
+[tool.poetry.group.GUI.dependencies]  # for the GUI
 streamlit = { git = "https://github.com/hippalectryon-0/streamlit.git", subdirectory = "lib", "rev" = "0b7fb1c" }  # waiting for >1.22.0 so that we can use protobuf>=4
 streamlit-chat = "^0.0.2.2"
 streamlit-extras = "^0.2.7"
-sentencepiece = "^0.1.99"  # For convert.py
 
-
+[tool.poetry.group.LLM.dependencies]
+langchain = "^0.0.168"
+pygpt4all = "^1.1.0"
+qdrant-client = "^1.1.7"
+unstructured = "^0.6.6"  # Handle ingestion file formats
+docx2txt="^0.8"  # Handle docx ingestion file formats
+llama-cpp-python = "^0.1.50"  # 0.1.50 raises an AssertionError / NameError on <5 vic models
+sentence_transformers = "^2.2.2"  # doesn't install torch properly with poetry, but should be better in later versions
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.3.1"

@@ -4,6 +4,7 @@ import shutil
 import sys
 from hashlib import md5
 from pathlib import Path
+from typing import Callable
 
 from langchain.docstore.document import Document
 from langchain.document_loaders import (
@@ -15,11 +16,10 @@ from langchain.document_loaders import (
     UnstructuredHTMLLoader,
     UnstructuredPowerPointLoader,
 )
-from langchain.embeddings import LlamaCppEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from qdrant_client import QdrantClient, models
 
-from load_env import chunk_overlap, chunk_size, documents_directory, llama_embeddings_model, model_n_ctx, persist_directory, use_mlock
+from load_env import chunk_overlap, chunk_size, documents_directory, get_embedding_model, persist_directory
 
 file_loaders = {  # extension -> loader
     "txt": lambda path: TextLoader(path, encoding="utf8"),
@@ -41,13 +41,13 @@ def load_one_doc(filepath: Path) -> list[Document]:
     return file_loaders[filepath.suffix[1:]](str(filepath)).load()
 
 
-def embed_documents_with_progress(embedding_model: LlamaCppEmbeddings, texts: list[str]) -> list[list[float]]:
+def embed_documents_with_progress(embedding_function: Callable, texts: list[str]) -> list[list[float]]:
     """wrapper around embed_documents that prints progress"""
     embeddings = []
     N_chunks = len(texts)
     for i, text in enumerate(texts):
-        print(f"embedding chunk {i+1}/{N_chunks}")
-        embeddings.append(embedding_model.client.embed(text))
+        print(f"embedding chunk {i + 1}/{N_chunks}")
+        embeddings.append(embedding_function(text))
 
     return [list(map(float, e)) for e in embeddings]
 
@@ -76,12 +76,12 @@ def main(sources_directory: str, cleandb: str) -> None:
 
     # Generate embeddings
     print("Generating embeddings...")
-    embedding_model = LlamaCppEmbeddings(model_path=llama_embeddings_model, n_ctx=model_n_ctx, use_mlock=use_mlock)
-    embeddings = embed_documents_with_progress(embedding_model, texts)
+    embedding_model, encode_fun = get_embedding_model()
+    embeddings = embed_documents_with_progress(encode_fun, texts)
 
     # Store embeddings
     print("Storing embeddings...")
-    client = QdrantClient(path=db_dir)  # using Qdrant.from_documents recreates the db each time
+    client = QdrantClient(path=db_dir, prefer_grpc=True)  # using Qdrant.from_documents recreates the db each time
     try:
         collection = client.get_collection("test")
     except ValueError:  # doesn't exist
