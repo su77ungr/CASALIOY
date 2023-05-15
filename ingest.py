@@ -15,6 +15,8 @@ from langchain.document_loaders import (
     UnstructuredEPubLoader,
     UnstructuredHTMLLoader,
     UnstructuredPowerPointLoader,
+    UnstructuredEmailLoader,
+    OutlookMessageLoader
 )
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from qdrant_client import QdrantClient, models
@@ -29,6 +31,8 @@ file_loaders = {  # extension -> loader
     "html": UnstructuredHTMLLoader,
     "docx": Docx2txtLoader,
     "pptx": UnstructuredPowerPointLoader,
+    "eml": UnstructuredEmailLoader,
+    "msg": OutlookMessageLoader,
 }
 
 

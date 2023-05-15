@@ -115,7 +115,7 @@ This should look like this
 
 ## Ingesting your own dataset
 
-To automatically ingest different data types (.txt, .pdf, .csv, .epub)
+To automatically ingest different data types (.txt, .pdf, .csv, .epub, .html, .docx, .pptx, .eml, .msg)
 
 > This repo includes dummy [files](https://github.com/imartinez/privateGPT/blob/main/source_documents/)
 > inside `source_documents` to run tests with.
