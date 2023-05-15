@@ -1,12 +1,15 @@
 <!--suppress HtmlDeprecatedAttribute -->
 <div align="center">
+ 
+  <a href="https://www.buymeacoffee.com/cassowary" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-white.png" alt="Buy Me A Coffee" height="30" width="140"></a>
 
-> **NOTICE** NOW WITH
+
+ **NOW** WITH
 <a href="#chat-inside-gui-new-feature"><img src="https://img.shields.io/badge/GUI-blue.svg" alt="Roadmap 2023">
 <br>
 <p align="center">
 
-# CASALIOY - Your local langchain toolkit
+# CASALIOY - Your local langchain toolkit 
 
 </p>
 
@@ -15,8 +18,8 @@
 <img height="300" src="https://github.com/su77ungr/GEEB-GPT/assets/69374354/2e59734c-0de7-4057-be7a-14729e1d5acd" alt="Qdrant"><br>
 
 <a href="https://github.com/su77ungr/CASALIOY/issues/8"><img src="https://img.shields.io/badge/Feature-Requests-bc1439.svg" alt="Roadmap 2023"> [![Docker Pulls](https://badgen.net/docker/pulls/su77ungr/casalioy?icon=docker&label=pulls)](https://hub.docker.com/r/su77ungr/casalioy/)</a>
+![example workflow](https://github.com/su77ungr/CASALIOY/actions/workflows/docker-image.yml/badge.svg)
 
- <a href="https://www.buymeacoffee.com/cassowary" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="30" width="140"></a>
 <br><br>
 </p>
 The fastest toolkit for air-gapped LLMs
@@ -220,6 +223,7 @@ leaving your environment, and with reasonable performance.
 
 <br><br>
 
+ 
 # Disclaimer
 
 The contents of this repository are provided "as is" and without warranties of any kind, whether express or implied. We
