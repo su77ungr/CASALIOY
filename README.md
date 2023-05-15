@@ -81,8 +81,11 @@ CMAKE_ARGS="-DLLAMA_CUBLAS=on" FORCE_CMAKE=1 pip install --force llama-cpp-pytho
 
 ```env
 # Generic
+# Generic
 MODEL_N_CTX=1024
-LLAMA_EMBEDDINGS_MODEL=models/ggml-model-q4_0.bin
+TEXT_EMBEDDINGS_MODEL=all-MiniLM-L6-v2
+TEXT_EMBEDDINGS_MODEL_TYPE=HF  # LlamaCpp or HF
+USE_MLOCK=true
 
 # Ingestion
 PERSIST_DIRECTORY=db
@@ -92,9 +95,10 @@ INGEST_CHUNK_OVERLAP=50
 
 # Generation
 MODEL_TYPE=LlamaCpp # GPT4All or LlamaCpp
-MODEL_PATH=models/ggjt-v1-vic7b-uncensored-q4_0.bin
+MODEL_PATH=models/ggml-vic7b-q5_1.bin
 MODEL_TEMP=0.8
-MODEL_STOP=###,\n
+MODEL_STOP=[STOP]
+CHAIN_TYPE=stuff
 ```
 
 This should look like this
@@ -141,7 +145,7 @@ database. To remove dataset simply remove `db` folder.
 In order to ask a question, run a command like:
 
 ```shell
-python startLLM.py
+python casalioy/startLLM.py
 ```
 
 And wait for the script to require your input.
@@ -164,7 +168,7 @@ Type `exit` to finish the script.
 Introduced by [@alxspiker](https://github.com/alxspiker) -> see [#21](https://github.com/su77ungr/CASALIOY/pull/21)
 
 ```shell
-streamlit run .\gui.py
+streamlit run casalioy/gui.py
 ```
 
 # LLM options
