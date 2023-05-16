@@ -106,7 +106,7 @@ def print_HTML(text: str, **kwargs) -> None:
     """print formatted HTML text"""
     try:
         print_formatted_text(HTML(text).format(**kwargs), style=style)
-    except ExpatError:
+    except (ExpatError, IndexError):
         print(text)
 
 
@@ -114,5 +114,5 @@ def prompt_HTML(session: PromptSession, prompt: str, **kwargs) -> str:
     """print formatted HTML text"""
     try:
         return session.prompt(HTML(prompt).format(**kwargs), style=style)
-    except ExpatError:
-        return input(prompt)
+    except (ExpatError, IndexError):
+        print(prompt)

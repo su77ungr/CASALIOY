@@ -42,8 +42,8 @@ class QASystem:
         collection="test",
     ):
         # Get embeddings and local vector store
-        client = qdrant_client.QdrantClient(path=db_path, prefer_grpc=True)
-        qdrant = Qdrant(client=client, collection_name=collection, embeddings=embeddings)
+        self.qdrant_client = qdrant_client.QdrantClient(path=db_path, prefer_grpc=True)
+        self.qdrant_langchain = Qdrant(client=self.qdrant_client, collection_name=collection, embeddings=embeddings)
 
         # Prepare the LLM chain
         callbacks = [StreamingStdOutCallbackHandler()]
@@ -82,12 +82,12 @@ class QASystem:
         self.qa = RetrievalQA.from_chain_type(
             llm=llm,
             chain_type=chain_type,
-            retriever=qdrant.as_retriever(search_type="mmr"),
+            retriever=self.qdrant_langchain.as_retriever(search_type="mmr"),
             return_source_documents=True,
             chain_type_kwargs=get_prompt_template_kwargs(),
         )
 
-    def prompt_once(self, query: str) -> None:
+    def prompt_once(self, query: str) -> tuple[str, str]:
         """run a prompt"""
         # Get the answer from the chain
         res = self.qa(query)
@@ -101,6 +101,8 @@ class QASystem:
             answer=answer,
             sources_str=sources_str,
         )
+
+        return answer, sources_str
 
 
 # noinspection PyMissingOrEmptyDocstring
