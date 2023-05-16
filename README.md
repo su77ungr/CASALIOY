@@ -112,7 +112,7 @@ This should look like this
 
 To automatically ingest different data types (.txt, .pdf, .csv, .epub, .html, .docx, .pptx, .eml, .msg)
 
-> This repo includes dummy [files](https://github.com/su77ungr/CASALIOY/main/source_documents/)
+> This repo includes dummy [files](https://github.com/su77ungr/CASALIOY/tree/main/source_documents)
 > inside `source_documents` to run tests with.
 
 ```shell
