@@ -20,12 +20,13 @@ from casalioy.load_env import (
     model_temp,
     n_gpu_layers,
     persist_directory,
+    print_HTML,
+    prompt_HTML,
     use_mlock,
 )
 from casalioy.startLLM import QASystem
-from casalioy.utils import print_HTML, prompt_HTML
 
-max_doc_size_mb = 5
+max_doc_size_mb = 10
 out_path = Path("source_documents/libgen")
 
 logging.getLogger().setLevel(logging.WARNING)  # because libgenesis changes it
@@ -37,10 +38,9 @@ os.mkdir(out_path)
 
 def load_documents(keyword: str, n: int = 3) -> None:
     """load random documents from LG using keyword"""
-    lg = Libgen(result_limit=100)
+    lg = Libgen()
     result = asyncio.run(lg.search(keyword))
     dl_N = 0
-    print_HTML(f"<r>Searching for interesting documents (max {n})</r>")
     with ProgressBar() as pb:
         for item_id in pb(result):
             if dl_N >= n:

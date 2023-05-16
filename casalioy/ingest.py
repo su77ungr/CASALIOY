@@ -20,12 +20,10 @@ from langchain.document_loaders import (
     UnstructuredPowerPointLoader,
 )
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from load_env import chunk_overlap, chunk_size, documents_directory, get_embedding_model, persist_directory
+from load_env import chunk_overlap, chunk_size, documents_directory, get_embedding_model, persist_directory, print_HTML, prompt_HTML
 from prompt_toolkit import PromptSession
 from prompt_toolkit.shortcuts import ProgressBar
 from qdrant_client import QdrantClient, models
-
-from casalioy.utils import print_HTML, prompt_HTML
 
 
 class Ingester:
