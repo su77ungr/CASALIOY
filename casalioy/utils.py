@@ -44,8 +44,11 @@ def prompt_HTML(session: PromptSession, prompt: str, **kwargs) -> str:
         return input(prompt)
 
 
-def download_if_repo(path: str, file: str = None, allow_patterns: str | list[str] = "*.bin") -> str:
+def download_if_repo(path: str, file: str = None, allow_patterns: str | list[str] = None) -> str:
     """download model from HF if not local"""
+    if allow_patterns is None:
+        allow_patterns = ["*.bin", "*.json"]
+
     p = Path(path)
     if p.is_file() or p.is_dir():
         return str(p)
