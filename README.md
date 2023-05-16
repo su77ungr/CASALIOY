@@ -1,6 +1,6 @@
 <!--suppress HtmlDeprecatedAttribute -->
 <div align="center">
- 
+
   <a href="https://www.buymeacoffee.com/cassowary" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-white.png" alt="Buy Me A Coffee" height="30" width="140"></a>
 
 
@@ -9,7 +9,7 @@
 <br>
 <p align="center">
 
-# CASALIOY - Your local langchain toolkit 
+# CASALIOY - Your local langchain toolkit
 
 </p>
 
@@ -45,13 +45,6 @@ for older docker without GUI use `casalioy:latest` might deprecate soon
 
 > Fetch the default models
 
-```
-cd models
-wget https://huggingface.co/Pi3141/alpaca-native-7B-ggml/resolve/397e872bf4c83f4c642317a5bf65ce84a105786e/ggml-model-q4_0.bin &&
-wget https://huggingface.co/eachadea/ggml-vicuna-7b-1.1/resolve/main/ggml-vic7b-q5_1.bin
-cd ../
-```
-
 > All set! Proceed with ingesting your [dataset](#ingesting-your-own-dataset)
 
 ### Build it from source
@@ -73,20 +66,12 @@ pip uninstall -y llama-cpp-python
 CMAKE_ARGS="-DLLAMA_CUBLAS=on" FORCE_CMAKE=1 pip install --force llama-cpp-python
 ```
 
-> Download the 2 models and place them in a folder called `./models`:
-
-- LLM: default
-  is [ggml-vic7b-q5_1](https://huggingface.co/eachadea/ggml-vicuna-7b-1.1/resolve/main/ggml-vic7b-q5_1.bin)
-- Embedding: default
-  to [ggml-model-q4_0](https://huggingface.co/Pi3141/alpaca-native-7B-ggml/resolve/397e872bf4c83f4c642317a5bf65ce84a105786e/ggml-model-q4_0.bin).
-
 > > Edit the example.env to fit your models and rename it to .env
 
 ```env
 # Generic
-# Generic
 MODEL_N_CTX=1024
-TEXT_EMBEDDINGS_MODEL=all-MiniLM-L6-v2
+TEXT_EMBEDDINGS_MODEL=sentence-transformers/all-MiniLM-L6-v2
 TEXT_EMBEDDINGS_MODEL_TYPE=HF  # LlamaCpp or HF
 USE_MLOCK=true
 
@@ -98,7 +83,7 @@ INGEST_CHUNK_OVERLAP=50
 
 # Generation
 MODEL_TYPE=LlamaCpp # GPT4All or LlamaCpp
-MODEL_PATH=models/ggml-vic7b-q5_1.bin
+MODEL_PATH=eachadea/ggml-vicuna-7b-1.1/ggml-vic7b-q5_1.bin
 MODEL_TEMP=0.8
 MODEL_STOP=[STOP]
 CHAIN_TYPE=stuff
@@ -223,7 +208,7 @@ leaving your environment, and with reasonable performance.
 
 <br><br>
 
- 
+
 # Disclaimer
 
 The contents of this repository are provided "as is" and without warranties of any kind, whether express or implied. We

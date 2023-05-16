@@ -20,10 +20,9 @@ from casalioy.load_env import (
     model_type,
     n_gpu_layers,
     persist_directory,
-    print_HTML,
-    prompt_HTML,
     use_mlock,
 )
+from casalioy.utils import print_HTML, prompt_HTML
 
 
 class QASystem:
