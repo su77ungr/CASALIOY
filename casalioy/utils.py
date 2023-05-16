@@ -30,7 +30,7 @@ def print_HTML(text: str, **kwargs) -> None:
         text = text.replace("\f", "")
         print_formatted_text(HTML(text).format(**kwargs), style=style)
     except ExpatError:
-        print(text)
+        print(text.format(**kwargs))
 
 
 def prompt_HTML(session: PromptSession, prompt: str, **kwargs) -> str:
@@ -41,7 +41,7 @@ def prompt_HTML(session: PromptSession, prompt: str, **kwargs) -> str:
         prompt = prompt.replace("\f", "")
         return session.prompt(HTML(prompt).format(**kwargs), style=style)
     except ExpatError:
-        return input(prompt)
+        return input(prompt.format(**kwargs))
 
 
 def download_if_repo(path: str, file: str = None, allow_patterns: str | list[str] = None) -> str:

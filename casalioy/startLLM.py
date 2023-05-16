@@ -55,7 +55,7 @@ class QASystem:
                 llm = LlamaCpp(
                     model_path=model_path,
                     n_ctx=n_ctx,
-                    temperature=temperature,
+                    temperature=0.5,
                     stop=stop,
                     callbacks=callbacks,
                     verbose=True,
@@ -64,6 +64,9 @@ class QASystem:
                     use_mlock=use_mlock,
                     n_gpu_layers=n_gpu_layers,
                 )
+                # Fix wrong default
+                object.__setattr__(llm, "get_num_tokens", lambda text: len(llm.client.tokenize(b" " + text.encode("utf-8"))))
+
             case "GPT4All":
                 from langchain.llms import GPT4All
 
@@ -77,8 +80,9 @@ class QASystem:
             case _:
                 raise ValueError("Only LlamaCpp or GPT4All supported right now. Make sure you set up your .env correctly.")
 
+        self.llm = llm
         self.qa = RetrievalQA.from_chain_type(
-            llm=llm,
+            llm=self.llm,
             chain_type=chain_type,
             retriever=self.qdrant_langchain.as_retriever(search_type="mmr"),
             return_source_documents=True,
