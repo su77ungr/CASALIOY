@@ -5,8 +5,9 @@ from typing import Callable
 from dotenv import load_dotenv
 from langchain.embeddings import HuggingFaceEmbeddings, LlamaCppEmbeddings
 from langchain.prompts import PromptTemplate
-
-from casalioy.utils import download_if_repo
+from prompt_toolkit import HTML, PromptSession, print_formatted_text
+from prompt_toolkit.styles import Style
+from pyexpat import ExpatError
 
 load_dotenv()
 
@@ -29,12 +30,7 @@ model_temp = float(os.environ.get("MODEL_TEMP", "0.8"))
 model_stop = os.environ.get("MODEL_STOP", "")
 model_stop = model_stop.split(",") if model_stop else []
 chain_type = os.environ.get("CHAIN_TYPE", "refine")
-n_retrieve_documents = int(os.environ.get("N_RETRIEVE_DOCUMENTS", 25))
-n_forward_documents = int(os.environ.get("N_FORWARD_DOCUMENTS", 3))
 n_gpu_layers = int(os.environ.get("N_GPU_LAYERS", 0))
-
-text_embeddings_model = download_if_repo(text_embeddings_model)
-model_path = download_if_repo(model_path)
 
 
 def get_embedding_model() -> tuple[HuggingFaceEmbeddings | LlamaCppEmbeddings, Callable]:
@@ -90,3 +86,33 @@ ASSISTANT:"""
             }
         case _:
             return {}
+
+
+style = Style.from_dict(
+    {
+        "r": "italic gray",  # remark
+        "w": "italic yellow",  # warning
+        "d": "bold red",  # danger
+        "b": "bold",
+        "i": "italic",
+        "question": "ansicyan",
+        "answer": "ansigreen",
+        "source": "ansimagenta",
+    }
+)
+
+
+def print_HTML(text: str, **kwargs) -> None:
+    """print formatted HTML text"""
+    try:
+        print_formatted_text(HTML(text).format(**kwargs), style=style)
+    except (ExpatError, IndexError):
+        print(text)
+
+
+def prompt_HTML(session: PromptSession, prompt: str, **kwargs) -> str:
+    """print formatted HTML text"""
+    try:
+        return session.prompt(HTML(prompt).format(**kwargs), style=style)
+    except (ExpatError, IndexError):
+        print(prompt)
