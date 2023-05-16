@@ -24,6 +24,7 @@ langchain = "^0.0.168"
 pygpt4all = "^1.1.0"
 qdrant-client = "^1.1.7"
 unstructured = "^0.6.6"  # Handle ingestion file formats
+pypandoc-binary = "^1.11"  # doc conversion
 docx2txt = "^0.8"  # Handle docx ingestion file formats
 extract-msg = "^0.41.1"  # Handle email file formats
 llama-cpp-python = "^0.1.50"  # 0.1.50 raises an AssertionError / NameError on <5 vic models
