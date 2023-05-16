@@ -22,12 +22,19 @@ style = Style.from_dict(
 )
 
 
+def escape_for_html(text, **kwargs) -> str:
+    """escape unicode stuff. kwargs are changed in-place."""
+    escape_one = lambda v: v.replace("\f", " ").replace("\b", "\\")
+    for k, v in kwargs.items():
+        kwargs[k] = escape_one(str(v))
+    text = escape_one(text)
+    return text
+
+
 def print_HTML(text: str, **kwargs) -> None:
     """print formatted HTML text"""
     try:
-        for k, v in kwargs.items():  # necessary
-            kwargs[k] = str(v).replace("\f", "")
-        text = text.replace("\f", "")
+        text = escape_for_html(text, **kwargs)
         print_formatted_text(HTML(text).format(**kwargs), style=style)
     except ExpatError:
         print(text.format(**kwargs))
@@ -36,9 +43,7 @@ def print_HTML(text: str, **kwargs) -> None:
 def prompt_HTML(session: PromptSession, prompt: str, **kwargs) -> str:
     """print formatted HTML text"""
     try:
-        for k, v in kwargs.items():  # necessary
-            kwargs[k] = str(v).replace("\f", "")
-        prompt = prompt.replace("\f", "")
+        prompt = escape_for_html(prompt, **kwargs)
         return session.prompt(HTML(prompt).format(**kwargs), style=style)
     except ExpatError:
         return input(prompt.format(**kwargs))
