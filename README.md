@@ -1,6 +1,6 @@
 <!--suppress HtmlDeprecatedAttribute -->
 <div align="center">
- 
+
   <a href="https://www.buymeacoffee.com/cassowary" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-white.png" alt="Buy Me A Coffee" height="30" width="140"></a>
 
 
@@ -9,7 +9,7 @@
 <br>
 <p align="center">
 
-# CASALIOY - Your local langchain toolkit 
+# CASALIOY - Your local langchain toolkit
 
 </p>
 
@@ -121,6 +121,8 @@ This should look like this
       └── .env, convert.py, Dockerfile
 ```
 
+If you're on windows you'll also need to install [pandoc](https://pandoc.org/installing.html).
+
 ## Ingesting your own dataset
 
 To automatically ingest different data types (.txt, .pdf, .csv, .epub, .html, .docx, .pptx, .eml, .msg)
@@ -223,7 +225,7 @@ leaving your environment, and with reasonable performance.
 
 <br><br>
 
- 
+
 # Disclaimer
 
 The contents of this repository are provided "as is" and without warranties of any kind, whether express or implied. We
