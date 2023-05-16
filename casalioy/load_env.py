@@ -29,6 +29,8 @@ model_temp = float(os.environ.get("MODEL_TEMP", "0.8"))
 model_stop = os.environ.get("MODEL_STOP", "")
 model_stop = model_stop.split(",") if model_stop else []
 chain_type = os.environ.get("CHAIN_TYPE", "refine")
+n_retrieve_documents = int(os.environ.get("N_RETRIEVE_DOCUMENTS", 25))
+n_forward_documents = int(os.environ.get("N_FORWARD_DOCUMENTS", 3))
 n_gpu_layers = int(os.environ.get("N_GPU_LAYERS", 0))
 
 text_embeddings_model = download_if_repo(text_embeddings_model)

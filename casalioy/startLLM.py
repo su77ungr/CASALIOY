@@ -18,7 +18,9 @@ from casalioy.load_env import (
     model_stop,
     model_temp,
     model_type,
+    n_forward_documents,
     n_gpu_layers,
+    n_retrieve_documents,
     persist_directory,
     use_mlock,
 )
@@ -85,6 +87,7 @@ class QASystem:
             return_source_documents=True,
             chain_type_kwargs=get_prompt_template_kwargs(),
         )
+        self.qa.retriever.search_kwargs = {**self.qa.retriever.search_kwargs, "k": n_forward_documents, "fetch_k": n_retrieve_documents}
 
     def prompt_once(self, query: str) -> None:
         """run a prompt"""
