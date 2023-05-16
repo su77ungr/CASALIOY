@@ -3005,14 +3005,14 @@ files = [
 
 [[package]]
 name = "pymdown-extensions"
-version = "10.0"
+version = "10.0.1"
 description = "Extension pack for Python Markdown."
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pymdown_extensions-10.0-py3-none-any.whl", hash = "sha256:e6cbe8ace7d8feda30bc4fd6a21a073893a9a0e90c373e92d69ce5b653051f55"},
-    {file = "pymdown_extensions-10.0.tar.gz", hash = "sha256:9a77955e63528c2ee98073a1fb3207c1a45607bc74a34ef21acd098f46c3aa8a"},
+    {file = "pymdown_extensions-10.0.1-py3-none-any.whl", hash = "sha256:ae66d84013c5d027ce055693e09a4628b67e9dec5bce05727e45b0918e36f274"},
+    {file = "pymdown_extensions-10.0.1.tar.gz", hash = "sha256:b44e1093a43b8a975eae17b03c3a77aad4681b3b56fce60ce746dbef1944c8cb"},
 ]
 
 [package.dependencies]
@@ -3041,6 +3041,21 @@ python-versions = ">=3.6"
 files = [
     {file = "pypandoc-1.11-py3-none-any.whl", hash = "sha256:b260596934e9cfc6513056110a7c8600171d414f90558bf4407e68b209be8007"},
     {file = "pypandoc-1.11.tar.gz", hash = "sha256:7f6d68db0e57e0f6961bec2190897118c4d305fc2d31c22cd16037f22ee084a5"},
+]
+
+[[package]]
+name = "pypandoc-binary"
+version = "1.11"
+description = "Thin wrapper for pandoc."
+category = "dev"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "pypandoc_binary-1.11-py3-none-macosx_10_9_x86_64.whl", hash = "sha256:ebd8036a71fb67c0d3bfc0f50a6af390afe0728ebe17b779f676fd25df76fca1"},
+    {file = "pypandoc_binary-1.11-py3-none-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:1b0df61a96d679309769c21528cfbfb14d32ddee1854ae02e7b35b889d60d9e4"},
+    {file = "pypandoc_binary-1.11-py3-none-musllinux_1_1_x86_64.whl", hash = "sha256:49436f0ffa489f02bac546e4fe42cbd3595202ee3a00492616b8f6bc358119c0"},
+    {file = "pypandoc_binary-1.11-py3-none-win32.whl", hash = "sha256:a08a66f12d5672f75cea8f6c29b3579aa70bad4b0c8844efdb6e8f6fddc8b359"},
+    {file = "pypandoc_binary-1.11-py3-none-win_amd64.whl", hash = "sha256:1ab00de66b7f36ba33590415811c1d4c72d9f515c4e8b2f1391f27cbddc7b229"},
 ]
 
 [[package]]
@@ -4768,4 +4783,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = ">3.9.7,<3.12"
-content-hash = "f0162e0f106ebc374673899b5bb579f68f98c1b93e023be7946fb4e50b0e7e06"
+content-hash = "1899d9bfd156bf9a9a5814c5e459caf0d718235e49bc78f70f3b033dca7b79ac"

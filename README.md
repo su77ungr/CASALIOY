@@ -1,15 +1,14 @@
 <!--suppress HtmlDeprecatedAttribute -->
 <div align="center">
- 
-  <a href="https://www.buymeacoffee.com/cassowary" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-white.png" alt="Buy Me A Coffee" height="30" width="140"></a>
 
+<a href="https://www.buymeacoffee.com/cassowary" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-white.png" alt="Buy Me A Coffee" height="30" width="140"></a>
 
- **NOW** WITH
+**NOW** WITH
 <a href="#chat-inside-gui-new-feature"><img src="https://img.shields.io/badge/GUI-blue.svg" alt="Roadmap 2023">
 <br>
 <p align="center">
 
-# CASALIOY - Your local langchain toolkit 
+# CASALIOY - Your local langchain toolkit
 
 </p>
 
@@ -41,6 +40,7 @@ docker pull su77ungr/casalioy:stable
 ```bash
 docker run -it su77ungr/casalioy:stable /bin/bash
 ```
+
 for older docker without GUI use `casalioy:latest` might deprecate soon
 
 > Fetch the default models
@@ -68,6 +68,7 @@ pre-commit install
 ```
 
 If you want GPU support for llama-ccp:
+
 ```shell
 pip uninstall -y llama-cpp-python
 CMAKE_ARGS="-DLLAMA_CUBLAS=on" FORCE_CMAKE=1 pip install --force llama-cpp-python
@@ -223,7 +224,6 @@ leaving your environment, and with reasonable performance.
 
 <br><br>
 
- 
 # Disclaimer
 
 The contents of this repository are provided "as is" and without warranties of any kind, whether express or implied. We
