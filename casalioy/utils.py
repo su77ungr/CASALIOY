@@ -48,27 +48,29 @@ def download_if_repo(path: str, file: str = None, allow_patterns: str | list[str
     """download model from HF if not local"""
     if allow_patterns is None:
         allow_patterns = ["*.bin", "*.json"]
-    p = Path("models/"+path)
-    if p.is_file() or p.is_dir():
-        print(p, "already installed")
-        return str(p)
-        
-    try:
-        split = path.split("/")
-        is_dataset = split[0] == "datasets"
-        if is_dataset:
-            split = split[1:]
-            path = "/".join(split)
 
+    # check if dataset
+    split = path.split("/")
+    is_dataset = split[0] == "datasets"
+    if is_dataset:
+        split = split[1:]
+        path = "/".join(split)
+
+    p = "models/datasets" / Path(path) if is_dataset else "models" / Path(path)
+    if p.is_file() or p.is_dir():
+        print_HTML(f"<r>found local model at {p}</r>")
+        return str(p)
+
+    try:
         if path.endswith(".bin"):
             path, file = "/".join(split[: 3 if is_dataset else 2]), split[-1]
         validate_repo_id(path)
-        print_HTML("<r>Downloading {model} from HF</r>", model=path)
+        print_HTML("<r>Downloading {model_type} {model} from HF</r>", model=path, model_type="dataset" if is_dataset else "model")
         new_path = Path(
             snapshot_download(
                 repo_id=path,
                 allow_patterns=file or allow_patterns,
-                local_dir=f"models/{path}",
+                local_dir=str(p),
                 repo_type="dataset" if is_dataset else None,
                 local_dir_use_symlinks=False,
             )
