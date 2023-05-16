@@ -61,11 +61,8 @@ class QASystem:
                     n_threads=6,
                     n_batch=1000,
                     use_mlock=use_mlock,
+                    n_gpu_layers=n_gpu_layers,
                 )
-                # Need this hack because this param isn't yet supported by the python lib
-                state = llm.client.__getstate__()
-                state["n_gpu_layers"] = n_gpu_layers
-                llm.client.__setstate__(state)
             case "GPT4All":
                 from langchain.llms import GPT4All
 
