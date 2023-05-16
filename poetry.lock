@@ -3044,6 +3044,21 @@ files = [
 ]
 
 [[package]]
+name = "pypandoc-binary"
+version = "1.11"
+description = "Thin wrapper for pandoc."
+category = "dev"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "pypandoc_binary-1.11-py3-none-macosx_10_9_x86_64.whl", hash = "sha256:ebd8036a71fb67c0d3bfc0f50a6af390afe0728ebe17b779f676fd25df76fca1"},
+    {file = "pypandoc_binary-1.11-py3-none-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:1b0df61a96d679309769c21528cfbfb14d32ddee1854ae02e7b35b889d60d9e4"},
+    {file = "pypandoc_binary-1.11-py3-none-musllinux_1_1_x86_64.whl", hash = "sha256:49436f0ffa489f02bac546e4fe42cbd3595202ee3a00492616b8f6bc358119c0"},
+    {file = "pypandoc_binary-1.11-py3-none-win32.whl", hash = "sha256:a08a66f12d5672f75cea8f6c29b3579aa70bad4b0c8844efdb6e8f6fddc8b359"},
+    {file = "pypandoc_binary-1.11-py3-none-win_amd64.whl", hash = "sha256:1ab00de66b7f36ba33590415811c1d4c72d9f515c4e8b2f1391f27cbddc7b229"},
+]
+
+[[package]]
 name = "pyparsing"
 version = "2.4.7"
 description = "Python parsing module"
@@ -4768,4 +4783,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = ">3.9.7,<3.12"
-content-hash = "f9d3dc61e009fabf4739778cedf175fb5239e71bbda86f7a054e16e78930f7ca"
+content-hash = "1899d9bfd156bf9a9a5814c5e459caf0d718235e49bc78f70f3b033dca7b79ac"
