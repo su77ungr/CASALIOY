@@ -4,23 +4,23 @@ from langchain.schema import Document
 from langchain.vectorstores.base import VectorStoreRetriever
 
 from casalioy.load_env import (
-    get_embedding_model,
     model_n_ctx,
-    model_path,
-    model_stop,
-    model_temp,
     n_forward_documents,
-    n_gpu_layers,
     n_retrieve_documents,
-    persist_directory,
-    use_mlock,
 )
-from casalioy.startLLM import QASystem
 from casalioy.utils import print_HTML
 
 
 class StuffQA:
-    """custom QA close to a stuff chain"""
+    """custom QA close to a stuff chain
+    compared to the default stuff chain which may exceed the context size, this chain loads as many documents as allowed by the context size.
+    """
+
+    def __init__(self, llm: BaseLanguageModel, retriever: VectorStoreRetriever, prompt: PromptTemplate = None):
+        self.llm = llm
+        self.retriever = retriever
+        self.prompt = prompt or self.default_prompt
+        self.retriever.search_kwargs = {**self.retriever.search_kwargs, "k": n_forward_documents, "fetch_k": n_retrieve_documents}
 
     @property
     def default_prompt(self) -> PromptTemplate:
@@ -35,7 +35,7 @@ Question: {question}
 
 {context}
 
-ASSISTANT: """
+ASSISTANT:"""
         return PromptTemplate(template=prompt, input_variables=["context", "question"])
 
     @staticmethod
@@ -46,17 +46,11 @@ ASSISTANT: """
             prompt += f"Extract {i + 1}: {document.page_content}\n\n"
         return prompt.strip()
 
-    def __init__(self, llm: BaseLanguageModel, retriever: VectorStoreRetriever, prompt: PromptTemplate = None):
-        self.llm = llm
-        self.retriever = retriever
-        self.prompt = prompt or self.default_prompt
-        self.retriever.search_kwargs = {**self.retriever.search_kwargs, "k": n_forward_documents, "fetch_k": n_retrieve_documents}
-
     def fetch_documents(self, search: str) -> list[Document]:
         """fetch documents from retriever"""
         return self.retriever.get_relevant_documents(search)
 
-    def __call__(self, input_str: str) -> str:
+    def __call__(self, input_str: str) -> dict:
         """ask a question"""
         all_documents, documents = self.fetch_documents(input_str), []
         for document in all_documents:
@@ -64,19 +58,11 @@ ASSISTANT: """
             context_str = self.context_prompt_str(documents)
             if (
                 self.llm.get_num_tokens(self.prompt.format_prompt(question=input_str, context=context_str).to_string())
-                > model_n_ctx - self.llm.dict()["max_tokens"] * 2
+                > model_n_ctx - self.llm.dict()["max_tokens"]
             ):
                 documents.pop()
                 break
+        print_HTML("<r>Stuffed {n} documents in the context</r>", n=len(documents))
         context_str = self.context_prompt_str(documents)
         formatted_prompt = self.prompt.format_prompt(question=input_str, context=context_str).to_string()
-        print_HTML("<r>Asking: {question}</r>", question=formatted_prompt)
-        return self.llm.predict(formatted_prompt)
-
-
-qa_orig = QASystem(get_embedding_model()[0], persist_directory, model_path, model_n_ctx, model_temp, model_stop, use_mlock, n_gpu_layers)
-
-qa = StuffQA(retriever=qa_orig.qdrant_langchain.as_retriever(search_type="mmr"), llm=qa_orig.llm)
-
-res = qa("What is money ?")
-print("answer", res)
+        return {"result": self.llm.predict(formatted_prompt), "source_documents": documents}
