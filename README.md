@@ -45,13 +45,6 @@ for older docker without GUI use `casalioy:latest` might deprecate soon
 
 > Fetch the default models
 
-```
-cd models
-wget https://huggingface.co/Pi3141/alpaca-native-7B-ggml/resolve/397e872bf4c83f4c642317a5bf65ce84a105786e/ggml-model-q4_0.bin &&
-wget https://huggingface.co/eachadea/ggml-vicuna-7b-1.1/resolve/main/ggml-vic7b-q5_1.bin
-cd ../
-```
-
 > All set! Proceed with ingesting your [dataset](#ingesting-your-own-dataset)
 
 ### Build it from source
@@ -74,20 +67,12 @@ pip uninstall -y llama-cpp-python
 CMAKE_ARGS="-DLLAMA_CUBLAS=on" FORCE_CMAKE=1 pip install --force llama-cpp-python
 ```
 
-> Download the 2 models and place them in a folder called `./models`:
-
-- LLM: default
-  is [ggml-vic7b-q5_1](https://huggingface.co/eachadea/ggml-vicuna-7b-1.1/resolve/main/ggml-vic7b-q5_1.bin)
-- Embedding: default
-  to [ggml-model-q4_0](https://huggingface.co/Pi3141/alpaca-native-7B-ggml/resolve/397e872bf4c83f4c642317a5bf65ce84a105786e/ggml-model-q4_0.bin).
-
 > > Edit the example.env to fit your models and rename it to .env
 
 ```env
 # Generic
-# Generic
 MODEL_N_CTX=1024
-TEXT_EMBEDDINGS_MODEL=all-MiniLM-L6-v2
+TEXT_EMBEDDINGS_MODEL=sentence-transformers/all-MiniLM-L6-v2
 TEXT_EMBEDDINGS_MODEL_TYPE=HF  # LlamaCpp or HF
 USE_MLOCK=true
 
@@ -99,10 +84,12 @@ INGEST_CHUNK_OVERLAP=50
 
 # Generation
 MODEL_TYPE=LlamaCpp # GPT4All or LlamaCpp
-MODEL_PATH=models/ggml-vic7b-q5_1.bin
+MODEL_PATH=eachadea/ggml-vicuna-7b-1.1/ggml-vic7b-q5_1.bin
 MODEL_TEMP=0.8
 MODEL_STOP=[STOP]
 CHAIN_TYPE=stuff
+N_RETRIEVE_DOCUMENTS=100 # How many documents to retrieve from the db
+N_FORWARD_DOCUMENTS=6 # How many documents to forward to the LLM, chosen among those retrieved
 ```
 
 This should look like this
@@ -111,14 +98,13 @@ This should look like this
 └── repo
       ├── startLLM.py
       ├── casalioy
-      │   └── ingest.py, load_env.py, startLLM.py, gui.py, __init__.py
+      │   └── ingest.py, load_env.py, startLLM.py, gui.py, ...
       ├── source_documents
       │   └── sample.csv
-      │   └── shor.pdfstate_of_the_union.txt
-      │   └── state_of_the_union.txt
+      │   └── ...
       ├── models
       │   ├── ggml-vic7b-q5_1.bin
-      │   └── ggml-model-q4_0.bin
+      │   └── ...
       └── .env, convert.py, Dockerfile
 ```
 
@@ -126,7 +112,7 @@ This should look like this
 
 To automatically ingest different data types (.txt, .pdf, .csv, .epub, .html, .docx, .pptx, .eml, .msg)
 
-> This repo includes dummy [files](https://github.com/su77ungr/CASALIOY/tree/main/source_documents)
+> This repo includes dummy [files](https://github.com/su77ungr/CASALIOY/main/source_documents/)
 > inside `source_documents` to run tests with.
 
 ```shell
@@ -181,7 +167,6 @@ streamlit run casalioy/gui.py
 
 | Model                                                                                                                                            | BoolQ | PIQA | HellaSwag | WinoGrande | ARC-e | ARC-c | OBQA | Avg. |
 |:-------------------------------------------------------------------------------------------------------------------------------------------------|:-----:|:----:|:---------:|:----------:|:-----:|:-----:|:----:|:----:|
-| [ggml-vic-7b-uncensored](https://huggingface.co/datasets/dnato/ggjt-v1-vic7b-uncensored-q4_0.bin/resolve/main/ggjt-v1-vic7b-uncensored-q4_0.bin) | 73.4  | 74.8 |   63.4    |    64.7    | 54.9  | 36.0  | 40.2 | 58.2 |
 | [GPT4All-13b-snoozy q5](https://huggingface.co/TheBloke/GPT4All-13B-snoozy-GGML/blob/main/GPT4All-13B-snoozy.ggml.q5_1.bin)                      | 83.3  | 79.2 |   75.0    |    71.3    | 60.9  | 44.2  | 43.4 | 65.3 |
 
 ### models inside of the GPT-J ecosphere
@@ -223,6 +208,7 @@ leaving your environment, and with reasonable performance.
   extracted from the local vector store using a similarity search to locate the right piece of context from the docs.
 
 <br><br>
+
 
 # Disclaimer
 
