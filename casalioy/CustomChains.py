@@ -14,6 +14,7 @@ from casalioy.utils import print_HTML
 class StuffQA:
     """custom QA close to a stuff chain
     compared to the default stuff chain which may exceed the context size, this chain loads as many documents as allowed by the context size.
+    Since it uses all the context size, it's meant for a "one-shot" question, not leaving space for a follow-up question which exactly contains the previous one.
     """
 
     def __init__(self, llm: BaseLanguageModel, retriever: VectorStoreRetriever, prompt: PromptTemplate = None):
@@ -25,25 +26,28 @@ class StuffQA:
     @property
     def default_prompt(self) -> PromptTemplate:
         """the default prompt"""
-        prompt = """HUMAN: Answer the question using ONLY the given extracts from (possibly unrelated) documents.
-If you are unsure of the answer, respond with "Unknown[STOP]".
-Conclude your response with "[STOP]" to indicate the completion of the answer.
-Each time you take information from an extract, cite it as EXACTLY "[E1]" for extract 1, "[E2]" for extract 2 etc.
-Example: "This is part of the answer[E1], this is another part of the answer[E2]"
+        prompt = """HUMAN:
+Answer the question using ONLY the given extracts from (possibly unrelated) documents, not your own knowledge.
+If you are unsure of the answer or if it isn't provided in the extracts, answer "Unknown[STOP]".
+Conclude your answer with "[STOP]" when you're finished.
 
 Question: {question}
 
+--------------
+Here are the extracts:
 {context}
 
-ASSISTANT:"""
+--------------
+Remark: do not repeat the question !
+
+ASSISTANT:
+"""
         return PromptTemplate(template=prompt, input_variables=["context", "question"])
 
     @staticmethod
     def context_prompt_str(documents: list[Document]) -> str:
         """the document's prompt"""
-        prompt = "Context\n------\n"
-        for i, document in enumerate(documents):
-            prompt += f"Extract {i + 1}: {document.page_content}\n\n"
+        prompt = "".join(f"Extract {i + 1}: {document.page_content}\n\n" for i, document in enumerate(documents))
         return prompt.strip()
 
     def fetch_documents(self, search: str) -> list[Document]:
