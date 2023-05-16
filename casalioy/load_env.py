@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from langchain.embeddings import HuggingFaceEmbeddings, LlamaCppEmbeddings
 from langchain.prompts import PromptTemplate
 
-from casalioy.utils import download_if_repo, print_HTML
+from casalioy.utils import download_if_repo
 
 load_dotenv()
 text_embeddings_model = os.environ.get("TEXT_EMBEDDINGS_MODEL")
@@ -14,7 +14,6 @@ text_embeddings_model_type = os.environ.get("TEXT_EMBEDDINGS_MODEL_TYPE")
 model_n_ctx = int(os.environ.get("MODEL_N_CTX"))
 use_mlock = os.environ.get("USE_MLOCK").lower() == "true"
 
-print_HTML
 # ingest
 persist_directory = os.environ.get("PERSIST_DIRECTORY")
 documents_directory = os.environ.get("DOCUMENTS_DIRECTORY")
@@ -34,6 +33,7 @@ n_gpu_layers = int(os.environ.get("N_GPU_LAYERS", 0))
 
 text_embeddings_model = download_if_repo(text_embeddings_model)
 model_path = download_if_repo(model_path)
+
 
 def get_embedding_model() -> tuple[HuggingFaceEmbeddings | LlamaCppEmbeddings, Callable]:
     """get the text embedding model
