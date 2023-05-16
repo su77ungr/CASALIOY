@@ -97,14 +97,13 @@ This should look like this
 └── repo
       ├── startLLM.py
       ├── casalioy
-      │   └── ingest.py, load_env.py, startLLM.py, gui.py, __init__.py
+      │   └── ingest.py, load_env.py, startLLM.py, gui.py, ...
       ├── source_documents
       │   └── sample.csv
-      │   └── shor.pdfstate_of_the_union.txt
-      │   └── state_of_the_union.txt
+      │   └── ...
       ├── models
       │   ├── ggml-vic7b-q5_1.bin
-      │   └── ggml-model-q4_0.bin
+      │   └── ...
       └── .env, convert.py, Dockerfile
 ```
 
@@ -167,7 +166,6 @@ streamlit run casalioy/gui.py
 
 | Model                                                                                                                                            | BoolQ | PIQA | HellaSwag | WinoGrande | ARC-e | ARC-c | OBQA | Avg. |
 |:-------------------------------------------------------------------------------------------------------------------------------------------------|:-----:|:----:|:---------:|:----------:|:-----:|:-----:|:----:|:----:|
-| [ggml-vic-7b-uncensored](https://huggingface.co/datasets/dnato/ggjt-v1-vic7b-uncensored-q4_0.bin/resolve/main/ggjt-v1-vic7b-uncensored-q4_0.bin) | 73.4  | 74.8 |   63.4    |    64.7    | 54.9  | 36.0  | 40.2 | 58.2 |
 | [GPT4All-13b-snoozy q5](https://huggingface.co/TheBloke/GPT4All-13B-snoozy-GGML/blob/main/GPT4All-13B-snoozy.ggml.q5_1.bin)                      | 83.3  | 79.2 |   75.0    |    71.3    | 60.9  | 44.2  | 43.4 | 65.3 |
 
 ### models inside of the GPT-J ecosphere
