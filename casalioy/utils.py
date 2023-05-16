@@ -58,7 +58,7 @@ def download_if_repo(path: str, file: str = None, allow_patterns: str | list[str
             path, file = "/".join(split[:2]), split[-1]
         validate_repo_id(path)
         print_HTML("<r>Downloading {model} from HF</r>", model=path)
-        new_path = Path(snapshot_download(repo_id=path, allow_patterns=file or allow_patterns))
+        new_path = Path(snapshot_download(repo_id=path, allow_patterns=file or allow_patterns, local_dir=f"models/{path}"))
         if file is not None:
             files = [f for f in new_path.iterdir() if f.is_file() and f.name.endswith(".bin")]
             if len(files) > 1:
