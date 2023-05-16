@@ -25,6 +25,9 @@ style = Style.from_dict(
 def print_HTML(text: str, **kwargs) -> None:
     """print formatted HTML text"""
     try:
+        for k, v in kwargs.items():  # necessary
+            kwargs[k] = v.replace("\f", "")
+        text = text.replace("\f", "")
         print_formatted_text(HTML(text).format(**kwargs), style=style)
     except ExpatError:
         print(text)
@@ -33,6 +36,9 @@ def print_HTML(text: str, **kwargs) -> None:
 def prompt_HTML(session: PromptSession, prompt: str, **kwargs) -> str:
     """print formatted HTML text"""
     try:
+        for k, v in kwargs.items():  # necessary
+            kwargs[k] = v.replace("\f", "")
+        prompt = prompt.replace("\f", "")
         return session.prompt(HTML(prompt).format(**kwargs), style=style)
     except ExpatError:
         return input(prompt)
