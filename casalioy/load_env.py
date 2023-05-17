@@ -9,8 +9,6 @@ from langchain.prompts import PromptTemplate
 from casalioy.utils import download_if_repo
 
 load_dotenv()
-
-# generic
 text_embeddings_model = os.environ.get("TEXT_EMBEDDINGS_MODEL")
 text_embeddings_model_type = os.environ.get("TEXT_EMBEDDINGS_MODEL_TYPE")
 use_mlock = os.environ.get("USE_MLOCK").lower() == "true"

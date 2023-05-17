@@ -1,13 +1,14 @@
 """LLM through a GUI"""
 
 import streamlit as st
-from load_env import get_embedding_model, model_n_ctx, model_path, model_stop, model_temp, n_gpu_layers, persist_directory, print_HTML, use_mlock
+from load_env import get_embedding_model, model_n_ctx, model_path, model_stop, model_temp, n_gpu_layers, persist_directory, use_mlock
 from streamlit_chat import message
 from streamlit_extras.add_vertical_space import add_vertical_space
 from streamlit_extras.colored_header import colored_header
 
 from casalioy import startLLM
 from casalioy.startLLM import QASystem
+from casalioy.utils import print_HTML
 
 title = "CASALIOY"
 
