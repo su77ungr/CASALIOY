@@ -10,7 +10,6 @@ from typing import Any, Callable
 from langchain.docstore.document import Document
 from langchain.document_loaders import (
     CSVLoader,
-    Docx2txtLoader,
     OutlookMessageLoader,
     PDFMinerLoader,
     TextLoader,
@@ -18,6 +17,7 @@ from langchain.document_loaders import (
     UnstructuredEPubLoader,
     UnstructuredHTMLLoader,
     UnstructuredPowerPointLoader,
+    UnstructuredWordDocumentLoader,
 )
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from load_env import chunk_overlap, chunk_size, documents_directory, get_embedding_model, ingest_n_threads, persist_directory
@@ -37,8 +37,10 @@ class Ingester:
         "csv": CSVLoader,
         "epub": UnstructuredEPubLoader,
         "html": UnstructuredHTMLLoader,
-        "docx": Docx2txtLoader,
+        "docx": UnstructuredWordDocumentLoader,
+        "doc": UnstructuredWordDocumentLoader,
         "pptx": UnstructuredPowerPointLoader,
+        "ppt": UnstructuredPowerPointLoader,
         "eml": UnstructuredEmailLoader,
         "msg": OutlookMessageLoader,
     }
