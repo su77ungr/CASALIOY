@@ -1,4 +1,6 @@
 """ingest documents into vector database using embedding"""
+
+import contextlib
 import multiprocessing
 import os
 import shutil
@@ -26,6 +28,9 @@ from prompt_toolkit.shortcuts import ProgressBar
 from qdrant_client import QdrantClient, models
 
 from casalioy.utils import print_HTML, prompt_HTML
+
+with contextlib.suppress(RuntimeError):
+    multiprocessing.set_start_method("spawn", force=True)
 
 
 class Ingester:
@@ -133,7 +138,6 @@ class Ingester:
         print_HTML("<r>Scanning files</r>")
         all_items = [Path(root) / file for root, dirs, files in os.walk(path) for file in files]
         with ProgressBar() as pb:
-            multiprocessing.set_start_method("spawn")
             with multiprocessing.Pool(self.n_threads) as pool:
                 for embeddings in pb(pool.imap_unordered(self.process_one_doc, all_items), total=len(all_items)):
                     if embeddings is None:
