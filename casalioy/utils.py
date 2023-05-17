@@ -49,43 +49,37 @@ def prompt_HTML(session: PromptSession, prompt: str, **kwargs) -> str:
         return input(prompt.format(**kwargs))
 
 
-def download_if_repo(path: str, file: str = None, allow_patterns: str | list[str] = None) -> str:
+def download_if_repo(path: str) -> str:
     """download model from HF if not local"""
-    if allow_patterns is None:
-        allow_patterns = ["*.bin", "*.json"]
-
     # check if dataset
     split = path.split("/")
     is_dataset = split[0] == "datasets"
+    is_file = path.endswith(".bin")
+    allow_patterns = split[-1] if is_file else ["*.bin", "*.json"]
+    repo_id = path
     if is_dataset:
         split = split[1:]
-        path = "/".join(split)
+        repo_id = "/".join(split)
+    if path.endswith(".bin"):
+        repo_id = "/".join(split[:2])
 
-    p = "models/datasets" / Path(path) if is_dataset else "models" / Path(path)
-    if p.is_file() or p.is_dir():
-        print_HTML(f"<r>found local model at {p}</r>")
+    p = Path(path) if path.startswith("models/") else "models" / Path(path)
+    if (is_file and p.is_file()) or (not is_file and p.is_dir()):
+        print_HTML(f"<r>found local model {'file' if is_file else 'dir'} at {p}</r>")
         return str(p)
 
     try:
-        if path.endswith(".bin"):
-            path, file = "/".join(split[: 3 if is_dataset else 2]), split[-1]
-        validate_repo_id(path)
+        validate_repo_id(repo_id)
         print_HTML("<r>Downloading {model_type} {model} from HF</r>", model=path, model_type="dataset" if is_dataset else "model")
         new_path = Path(
             snapshot_download(
-                repo_id=path,
-                allow_patterns=file or allow_patterns,
-                local_dir=str(p),
+                repo_id=repo_id,
+                allow_patterns=allow_patterns,
+                local_dir=str(p.parent if is_file else p),
                 repo_type="dataset" if is_dataset else None,
                 local_dir_use_symlinks=False,
             )
         )
-        if file is not None:
-            files = [f for f in new_path.iterdir() if f.is_file() and f.name.endswith(".bin")]
-            if len(files) > 1:
-                names = "\n".join([f" - {f.name}" for f in files])
-                raise ValueError(f"Multiple model files found: \n\n{names}\n\n")
-            new_path = files[0]
         return str(new_path.resolve())
 
     except (HFValidationError, HTTPError) as e:

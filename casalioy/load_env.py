@@ -44,8 +44,10 @@ def get_embedding_model() -> tuple[HuggingFaceEmbeddings | LlamaCppEmbeddings, C
             model = HuggingFaceEmbeddings(model_name=text_embeddings_model)
             return model, model.client.encode
         case "LlamaCpp":
-            model = LlamaCppEmbeddings(model_path=text_embeddings_model, n_ctx=model_n_ctx)
-            return model, model.client.embed
+            model = LlamaCppEmbeddings(model_path=text_embeddings_model, n_ctx=model_n_ctx, n_gpu_layers=n_gpu_layers)
+            return model, lambda inpt: model.client.embed(inpt) if isinstance(inpt, str) else [
+                model.client.embed(e) for e in inpt
+            ]  # no batched embedding in llamacpp
         case _:
             raise ValueError(f"Unknown embedding type {text_embeddings_model_type}")
 
