@@ -2518,18 +2518,6 @@ pytz = ">=2020.1"
 test = ["hypothesis (>=5.5.3)", "pytest (>=6.0)", "pytest-xdist (>=1.31)"]
 
 [[package]]
-name = "pathlib"
-version = "1.0.1"
-description = "Object-oriented filesystem paths"
-category = "main"
-optional = false
-python-versions = "*"
-files = [
-    {file = "pathlib-1.0.1-py3-none-any.whl", hash = "sha256:f35f95ab8b0f59e6d354090350b44a80a80635d22efdedfa84c7ad1cf0a74147"},
-    {file = "pathlib-1.0.1.tar.gz", hash = "sha256:6940718dfc3eff4258203ad5021090933e5c04707d5ca8cc9e73c94a7894ea9f"},
-]
-
-[[package]]
 name = "pathspec"
 version = "0.10.3"
 description = "Utility library for gitignore style pattern matching of file paths."
@@ -3893,6 +3881,7 @@ url = "https://github.com/hippalectryon-0/streamlit.git"
 reference = "0b7fb1c"
 resolved_reference = "0b7fb1c63b5e795769fae0be791a2d1dd3dcc7e6"
 subdirectory = "lib"
+
 [[package]]
 name = "streamlit-camera-input-live"
 version = "0.2.0"
@@ -4847,4 +4836,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.12"
-content-hash = "dc68779714156fc806f9caabb98261800e7858bbef2033fcf88fadfb739a0e1e"
+content-hash = "f1662c9c6264780242eb78ae8f957b22621eaa360183d7be797712eb19b0ea0d"
