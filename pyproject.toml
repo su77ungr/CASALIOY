@@ -1,15 +1,14 @@
 [tool.poetry]
 name = "casalioy"
-version = "1.6.0"
+version = "0.1.1"
 description = "Your local langchain toolkit"
 authors = ["su77ungr"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = ">3.9.7,<3.12"
+python = ">=3.10,<3.12"
 pdfminer-six = "20221105"
 python-dotenv = "^1.0.0"
-pathlib = "^1.0.1"
 sentencepiece = "^0.1.99"  # For convert.py
 prompt-toolkit = "^3.0"  # Nice terminal output
 libgenesis = "^0.1.9"  # download docs
