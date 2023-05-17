@@ -40,21 +40,21 @@ body:
     validations:
       required: true
 
-  - type: textarea
+  - type: input
     id: system-info-python
     attributes:
       label: Python version
       placeholder: python 3.11.3
     validations:
       required: true
-  - type: textarea
+  - type: input
     id: system-info-system
     attributes:
       label: System
       placeholder: Ubuntu-22.04
     validations:
       required: true
-  - type: textarea
+  - type: input
     id: system-info-casalioy
     attributes:
       label: CASALIOY version
