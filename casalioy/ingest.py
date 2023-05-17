@@ -3,10 +3,9 @@ import multiprocessing
 import os
 import shutil
 import sys
-from functools import partial
 from hashlib import md5
 from pathlib import Path
-from typing import Callable
+from typing import Any, Callable
 
 from langchain.docstore.document import Document
 from langchain.document_loaders import (
@@ -45,14 +44,14 @@ class Ingester:
     }
 
     def __init__(self, db_dir: str, collection: str = "test", verbose=False):
-        self.lock: multiprocessing.Lock = None
         self.n_threads = ingest_n_threads
         self.encode_fun = None
         self.text_splitter = None
         self.db_dir = db_dir
         self.collection = collection
         self.verbose = verbose
-        self.storing = False
+        self.awaiting_storage = []
+        self.store_N_batch = 1000
 
     def load_one_doc(self, filepath: Path) -> list[Document]:
         """load one document"""
@@ -65,60 +64,63 @@ class Ingester:
 
         return self.file_loaders[filepath.suffix[1:]](str(filepath)).load()
 
-    def embed_documents_with_progress(self, embedding_function: Callable, documents: list[Document]) -> None:
+    def embed_documents_with_progress(self, embedding_function: Callable, documents: list[Document]) -> list[tuple[Any, Document]]:
         """wraps around embed_documents and saves"""
         if self.verbose:
             print_HTML(f"<r>Processing {len(documents)} chunks</r>")
 
         embeddings = embedding_function([doc.page_content for doc in documents]).tolist()
-        self.store_embeddings(list(zip(embeddings, documents)))
+        return list(zip(embeddings, documents))
 
-    def store_embeddings(self, embeddings: list) -> None:
+    def store_embeddings(self, embeddings_and_docs: list[tuple[Any, Document]], force: bool = False) -> None:
         """store embeddings in vector store"""
-        with self.lock or multiprocessing.Lock():
-            client = QdrantClient(path=self.db_dir, prefer_grpc=True)
-            try:
-                client.get_collection(self.collection)
-            except ValueError:  # doesn't exist
-                # Just do a single quick embedding to get vector size
-                vector_size = max(len(e[0]) for e in embeddings)
-                print_HTML(f"<r>Creating a new collection, size={vector_size}</r>")
-                client.recreate_collection(
-                    collection_name=self.collection,
-                    vectors_config=models.VectorParams(
-                        size=vector_size,
-                        distance=models.Distance["COSINE"],
-                    ),
-                )
-
-            print_HTML(f"<r>Saving {len(embeddings)} chunks</r>")
-            embeddings, texts, metadatas = (
-                [e[0] for e in embeddings],
-                [e[1].page_content for e in embeddings],
-                [e[1].metadata for e in embeddings],
-            )
-            client.upsert(
+        self.awaiting_storage += embeddings_and_docs
+        if not force and len(self.awaiting_storage) < self.store_N_batch:
+            return
+        client = QdrantClient(path=self.db_dir, prefer_grpc=True)
+        try:
+            client.get_collection(self.collection)
+        except ValueError:  # doesn't exist
+            # Just do a single quick embedding to get vector size
+            vector_size = max(len(e[0]) for e in self.awaiting_storage)
+            print_HTML(f"<r>Creating a new collection, vector size={vector_size}</r>")
+            client.recreate_collection(
                 collection_name=self.collection,
-                points=models.Batch.construct(
-                    ids=[md5(text.encode("utf-8")).hexdigest() for text in texts],
-                    vectors=embeddings,
-                    payloads=[{"page_content": text, "metadata": metadatas[i]} for i, text in enumerate(texts)],
+                vectors_config=models.VectorParams(
+                    size=vector_size,
+                    distance=models.Distance["COSINE"],
                 ),
             )
-            collection = client.get_collection(self.collection)
-            if self.verbose:
-                print_HTML(f"<r>Saved, the collection now holds {collection.points_count} documents.</r>")
 
-    def process_one_doc(self, lock: multiprocessing.Lock, filepath: Path) -> None:
+        print_HTML(f"<r>Saving {len(self.awaiting_storage)} chunks</r>")
+        embeddings, texts, metadatas = (
+            [e[0] for e in self.awaiting_storage],
+            [e[1].page_content for e in self.awaiting_storage],
+            [e[1].metadata for e in self.awaiting_storage],
+        )
+        client.upsert(
+            collection_name=self.collection,
+            points=models.Batch.construct(
+                ids=[md5(text.encode("utf-8")).hexdigest() for text in texts],
+                vectors=embeddings,
+                payloads=[{"page_content": text, "metadata": metadatas[i]} for i, text in enumerate(texts)],
+            ),
+        )
+        collection = client.get_collection(self.collection)
+        self.awaiting_storage = []
+        if self.verbose:
+            print_HTML(f"<r>Saved, the collection now holds {collection.points_count} documents.</r>")
+
+    def process_one_doc(self, filepath: Path) -> list[tuple[Any, Document]] | None:
         """process one doc"""
-        self.lock = lock
         document = self.load_one_doc(filepath)
         if not document:
-            return
+            return None
         split_document = self.text_splitter.split_documents(document)
-        self.embed_documents_with_progress(self.encode_fun, split_document)
+        res = self.embed_documents_with_progress(self.encode_fun, split_document)
         if self.verbose:
             print_HTML("<r>Processed {fname}</r>", fname=filepath.name)
+        return res
 
     def ingest_from_directory(self, path: str, chunk_size: int, chunk_overlap: int) -> None:
         """ingest all supported files from the directory"""
@@ -131,9 +133,11 @@ class Ingester:
         with ProgressBar() as pb:
             multiprocessing.set_start_method("spawn")
             with multiprocessing.Pool(self.n_threads) as pool:
-                lock = multiprocessing.Manager().Lock()
-                for _ in pb(pool.imap_unordered(partial(self.process_one_doc, lock), all_items), total=len(all_items)):
-                    pass
+                for embeddings in pb(pool.imap_unordered(self.process_one_doc, all_items), total=len(all_items)):
+                    if embeddings is None:
+                        continue
+                    self.store_embeddings(embeddings)
+            self.store_embeddings(embeddings, force=True)
         print_HTML("<r>Done</r>")
 
 
