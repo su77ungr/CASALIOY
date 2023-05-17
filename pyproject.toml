@@ -20,7 +20,7 @@ streamlit-chat = "^0.0.2.2"
 streamlit-extras = "^0.2.7"
 
 [tool.poetry.group.LLM.dependencies]
-langchain = "^0.0.168"
+langchain = "^0.0.171"
 pygpt4all = "^1.1.0"
 qdrant-client = "^1.1.7"
 unstructured = "^0.6.6"  # Handle ingestion file formats

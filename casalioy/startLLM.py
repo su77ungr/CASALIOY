@@ -9,10 +9,12 @@ from prompt_toolkit import PromptSession
 from prompt_toolkit.auto_suggest import AutoSuggestFromHistory
 from prompt_toolkit.formatted_text.html import html_escape
 
+from casalioy.CustomChains import RefineQA, StuffQA
 from casalioy.load_env import (
     chain_type,
     get_embedding_model,
     get_prompt_template_kwargs,
+    model_max_tokens,
     model_n_ctx,
     model_path,
     model_stop,
@@ -36,7 +38,7 @@ class QASystem:
         db_path: str,
         model_path: str,
         n_ctx: int,
-        temperature: float,
+        model_temp: float,
         stop: list[str],
         use_mlock: bool,
         n_gpu_layers: int,
@@ -55,18 +57,19 @@ class QASystem:
                 llm = LlamaCpp(
                     model_path=model_path,
                     n_ctx=n_ctx,
-                    temperature=temperature,
+                    temperature=model_temp,
                     stop=stop,
                     callbacks=callbacks,
                     verbose=True,
                     n_threads=6,
                     n_batch=1000,
                     use_mlock=use_mlock,
+                    n_gpu_layers=n_gpu_layers,
+                    max_tokens=model_max_tokens,
                 )
-                # Need this hack because this param isn't yet supported by the python lib
-                state = llm.client.__getstate__()
-                state["n_gpu_layers"] = n_gpu_layers
-                llm.client.__setstate__(state)
+                # Fix wrong default
+                object.__setattr__(llm, "get_num_tokens", lambda text: len(llm.client.tokenize(b" " + text.encode("utf-8"))))
+
             case "GPT4All":
                 from langchain.llms import GPT4All
 
@@ -80,13 +83,20 @@ class QASystem:
             case _:
                 raise ValueError("Only LlamaCpp or GPT4All supported right now. Make sure you set up your .env correctly.")
 
-        self.qa = RetrievalQA.from_chain_type(
-            llm=llm,
-            chain_type=chain_type,
-            retriever=self.qdrant_langchain.as_retriever(search_type="mmr"),
-            return_source_documents=True,
-            chain_type_kwargs=get_prompt_template_kwargs(),
-        )
+        self.llm = llm
+        retriever = self.qdrant_langchain.as_retriever(search_type="mmr")
+        if chain_type == "betterstuff":
+            self.qa = StuffQA(retriever=retriever, llm=self.llm)
+        elif chain_type == "betterrefine":
+            self.qa = RefineQA(retriever=retriever, llm=self.llm)
+        else:
+            self.qa = RetrievalQA.from_chain_type(
+                llm=self.llm,
+                chain_type=chain_type,
+                retriever=retriever,
+                return_source_documents=True,
+                chain_type_kwargs=get_prompt_template_kwargs(),
+            )
         self.qa.retriever.search_kwargs = {**self.qa.retriever.search_kwargs, "k": n_forward_documents, "fetch_k": n_retrieve_documents}
 
     def prompt_once(self, query: str) -> tuple[str, str]:
