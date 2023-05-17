@@ -28,7 +28,7 @@ RUN git checkout better-docker
 RUN pip install --upgrade setuptools virtualenv
 RUN poetry install --with GUI,LLM --without dev --sync
 RUN . .venv/bin/activate
-RUN #pip install --prefix=/runtime torch torchvision --index-url https://download.pytorch.org/whl/cpu  # CPU-only torch for sentence_transformers
+RUN pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu  # CPU-only torch for sentence_transformers
 RUN #pip uninstall -y streamlit sentence_transformers && pip install streamlit sentence_transformers # Temp fix, see pyproject.toml
 
 ###############################################
