@@ -3850,6 +3850,7 @@ url = "https://github.com/hippalectryon-0/streamlit.git"
 reference = "0b7fb1c"
 resolved_reference = "0b7fb1c63b5e795769fae0be791a2d1dd3dcc7e6"
 subdirectory = "lib"
+
 [[package]]
 name = "streamlit-camera-input-live"
 version = "0.2.0"
