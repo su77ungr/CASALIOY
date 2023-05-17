@@ -4,7 +4,7 @@
 <a href="https://www.buymeacoffee.com/cassowary" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-white.png" alt="Buy Me A Coffee" height="30" width="140"></a>
 
 **NOW** WITH
-<a href="#chat-inside-gui-new-feature"><img src="https://img.shields.io/badge/GUI-blue.svg" alt="Roadmap 2023">
+<a href="https://github.com/su77ungr/CASALIOY/discussions/76"><img src="https://img.shields.io/badge/GUI-blue.svg" alt="Roadmap 2023">
 <br>
 <p align="center">
 
