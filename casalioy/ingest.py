@@ -1,12 +1,12 @@
 """ingest documents into vector database using embedding"""
+import multiprocessing
 import os
 import shutil
 import sys
 from hashlib import md5
 from pathlib import Path
-from typing import Callable
+from typing import Any, Callable
 
-import numpy as np
 from langchain.docstore.document import Document
 from langchain.document_loaders import (
     CSVLoader,
@@ -20,7 +20,7 @@ from langchain.document_loaders import (
     UnstructuredPowerPointLoader,
 )
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from load_env import chunk_overlap, chunk_size, documents_directory, get_embedding_model, persist_directory
+from load_env import chunk_overlap, chunk_size, documents_directory, get_embedding_model, ingest_n_threads, persist_directory
 from prompt_toolkit import PromptSession
 from prompt_toolkit.shortcuts import ProgressBar
 from qdrant_client import QdrantClient, models
@@ -43,48 +43,47 @@ class Ingester:
         "msg": OutlookMessageLoader,
     }
 
-    def __init__(self, db_dir: str, collection: str = "test"):
+    def __init__(self, db_dir: str, collection: str = "test", verbose=False):
+        self.n_threads = ingest_n_threads
+        self.encode_fun = None
+        self.text_splitter = None
         self.db_dir = db_dir
         self.collection = collection
-        self.save_N = 1000  # save after creating this many embeddings
-        self.awaiting_save: list[tuple[list[np.ndarray], Document]] = []  # [(embedding, document)]
+        self.verbose = verbose
+        self.awaiting_storage = []
+        self.store_N_batch = 1000
 
     def load_one_doc(self, filepath: Path) -> list[Document]:
         """load one document"""
+        if self.verbose:
+            print_HTML("<r>Processing {fname}</r>", fname=filepath.name)
         if filepath.suffix[1:] not in self.file_loaders:
-            print_HTML("<w>Unhandled file format: {fname} in {fparent}</w>", fname=filepath.name, fparent=filepath.parent)
+            if self.verbose:
+                print_HTML("<w>Unhandled file format: {fname} in {fparent}</w>", fname=filepath.name, fparent=filepath.parent)
             return []
 
         return self.file_loaders[filepath.suffix[1:]](str(filepath)).load()
 
-    def embed_documents_with_progress(self, embedding_function: Callable, documents: list[Document]) -> None:
+    def embed_documents_with_progress(self, embedding_function: Callable, documents: list[Document]) -> list[tuple[Any, Document]]:
         """wraps around embed_documents and saves"""
-        N_chunks = len(documents)
-        print_HTML(f"<r>Processing {N_chunks} chunks</r>")
+        if self.verbose:
+            print_HTML(f"<r>Processing {len(documents)} chunks</r>")
 
-        for i in range(0, len(documents), self.save_N):
-            documents_sub = documents[i : i + self.save_N]
-            embeddings = embedding_function([doc.page_content for doc in documents_sub]).tolist()
-            if i > 0:
-                print_HTML(f"<r>embedding chunk {i + 1}/{N_chunks}</r>")
-            self.awaiting_save += list(zip(embeddings, documents_sub))
-            if len(self.awaiting_save) >= self.save_N:
-                self.store_embeddings()
+        embeddings = embedding_function([doc.page_content for doc in documents]).tolist()
+        return list(zip(embeddings, documents))
 
-        self.store_embeddings()
-
-    def store_embeddings(self) -> None:
+    def store_embeddings(self, embeddings_and_docs: list[tuple[Any, Document]], force: bool = False) -> None:
         """store embeddings in vector store"""
-        if len(self.awaiting_save) == 0:
+        self.awaiting_storage += embeddings_and_docs
+        if not force and len(self.awaiting_storage) < self.store_N_batch:
             return
-
         client = QdrantClient(path=self.db_dir, prefer_grpc=True)
         try:
             client.get_collection(self.collection)
         except ValueError:  # doesn't exist
             # Just do a single quick embedding to get vector size
-            vector_size = max(len(e[0]) for e in self.awaiting_save)
-            print_HTML(f"<r>Creating a new collection, size={vector_size}</r>")
+            vector_size = max(len(e[0]) for e in self.awaiting_storage)
+            print_HTML(f"<r>Creating a new collection, vector size={vector_size}</r>")
             client.recreate_collection(
                 collection_name=self.collection,
                 vectors_config=models.VectorParams(
@@ -93,11 +92,11 @@ class Ingester:
                 ),
             )
 
-        print_HTML(f"<r>Saving {len(self.awaiting_save)} chunks</r>")
+        print_HTML(f"<r>Saving {len(self.awaiting_storage)} chunks</r>")
         embeddings, texts, metadatas = (
-            [e[0] for e in self.awaiting_save],
-            [e[1].page_content for e in self.awaiting_save],
-            [e[1].metadata for e in self.awaiting_save],
+            [e[0] for e in self.awaiting_storage],
+            [e[1].page_content for e in self.awaiting_storage],
+            [e[1].metadata for e in self.awaiting_storage],
         )
         client.upsert(
             collection_name=self.collection,
@@ -108,26 +107,37 @@ class Ingester:
             ),
         )
         collection = client.get_collection(self.collection)
-        self.awaiting_save = []
-        print_HTML(f"<r>Saved, the collection now holds {collection.points_count} documents.</r>")
+        self.awaiting_storage = []
+        if self.verbose:
+            print_HTML(f"<r>Saved, the collection now holds {collection.points_count} documents.</r>")
+
+    def process_one_doc(self, filepath: Path) -> list[tuple[Any, Document]] | None:
+        """process one doc"""
+        document = self.load_one_doc(filepath)
+        if not document:
+            return None
+        split_document = self.text_splitter.split_documents(document)
+        res = self.embed_documents_with_progress(self.encode_fun, split_document)
+        if self.verbose:
+            print_HTML("<r>Processed {fname}</r>", fname=filepath.name)
+        return res
 
     def ingest_from_directory(self, path: str, chunk_size: int, chunk_overlap: int) -> None:
         """ingest all supported files from the directory"""
-        text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
-        encode_fun = get_embedding_model()[1]
+        self.text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+        self.encode_fun = get_embedding_model()[1]
 
         # get all documents
         print_HTML("<r>Scanning files</r>")
         all_items = [Path(root) / file for root, dirs, files in os.walk(path) for file in files]
         with ProgressBar() as pb:
-            for file in pb(all_items):
-                print_HTML("<r>Processing {fname}</r>", fname=file.name)
-                document = self.load_one_doc(file)
-                if not document:
-                    continue
-                split_document = text_splitter.split_documents(document)
-                self.embed_documents_with_progress(encode_fun, split_document)
-                print_HTML("<r>Processed {fname}</r>", fname=file.name)
+            multiprocessing.set_start_method("spawn")
+            with multiprocessing.Pool(self.n_threads) as pool:
+                for embeddings in pb(pool.imap_unordered(self.process_one_doc, all_items), total=len(all_items)):
+                    if embeddings is None:
+                        continue
+                    self.store_embeddings(embeddings)
+            self.store_embeddings(embeddings, force=True)
         print_HTML("<r>Done</r>")
 
 

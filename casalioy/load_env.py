@@ -18,6 +18,7 @@ persist_directory = os.environ.get("PERSIST_DIRECTORY")
 documents_directory = os.environ.get("DOCUMENTS_DIRECTORY")
 chunk_size = int(os.environ.get("INGEST_CHUNK_SIZE"))
 chunk_overlap = int(os.environ.get("INGEST_CHUNK_OVERLAP"))
+ingest_n_threads = int(os.environ.get("INGEST_N_THREADS", 1))
 
 # generate
 model_type = os.environ.get("MODEL_TYPE")
