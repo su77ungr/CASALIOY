@@ -22,9 +22,8 @@ FROM python-base as builder-base
 RUN apt-get update && apt-get install -y build-essential git
 RUN pip install "poetry==$POETRY_VERSION"
 WORKDIR /srv
-RUN git clone https://github.com/hippalectryon-0/CASALIOY.git
+RUN git clone https://github.com/su77ungr/CASALIOY.git
 WORKDIR CASALIOY
-RUN git checkout better-docker
 RUN pip install --upgrade setuptools virtualenv
 RUN poetry install --with GUI,LLM --without dev --sync
 RUN . .venv/bin/activate && pip install --force torch torchvision --index-url https://download.pytorch.org/whl/cpu  # CPU-only torch for sentence_transformers
