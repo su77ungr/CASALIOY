@@ -9,7 +9,7 @@ from prompt_toolkit import PromptSession
 from prompt_toolkit.auto_suggest import AutoSuggestFromHistory
 from prompt_toolkit.formatted_text.html import html_escape
 
-from casalioy.CustomChains import StuffQA
+from casalioy.CustomChains import RefineQA, StuffQA
 from casalioy.load_env import (
     chain_type,
     get_embedding_model,
@@ -87,6 +87,8 @@ class QASystem:
         retriever = self.qdrant_langchain.as_retriever(search_type="mmr")
         if chain_type == "betterstuff":
             self.qa = StuffQA(retriever=retriever, llm=self.llm)
+        elif chain_type == "betterrefine":
+            self.qa = RefineQA(retriever=retriever, llm=self.llm)
         else:
             self.qa = RetrievalQA.from_chain_type(
                 llm=self.llm,
