@@ -108,6 +108,14 @@ This should look like this
       └── .env, convert.py, Dockerfile
 ```
 
+      
+> 👇 Update your installation!
+      
+      
+      git pull && poetry install
+      
+
+      
 ## Ingesting your own dataset
 
 To automatically ingest different data types (.txt, .pdf, .csv, .epub, .html, .docx, .pptx, .eml, .msg)

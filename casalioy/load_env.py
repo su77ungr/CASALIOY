@@ -11,7 +11,6 @@ from casalioy.utils import download_if_repo
 load_dotenv()
 text_embeddings_model = os.environ.get("TEXT_EMBEDDINGS_MODEL")
 text_embeddings_model_type = os.environ.get("TEXT_EMBEDDINGS_MODEL_TYPE")
-model_n_ctx = int(os.environ.get("MODEL_N_CTX"))
 use_mlock = os.environ.get("USE_MLOCK").lower() == "true"
 
 # ingest
@@ -23,6 +22,8 @@ chunk_overlap = int(os.environ.get("INGEST_CHUNK_OVERLAP"))
 # generate
 model_type = os.environ.get("MODEL_TYPE")
 model_path = os.environ.get("MODEL_PATH")
+model_n_ctx = int(os.environ.get("MODEL_N_CTX"))
+model_max_tokens = int(os.environ.get("MODEL_MAX_TOKENS"))
 model_temp = float(os.environ.get("MODEL_TEMP", "0.8"))
 model_stop = os.environ.get("MODEL_STOP", "")
 model_stop = model_stop.split(",") if model_stop else []
@@ -43,8 +44,10 @@ def get_embedding_model() -> tuple[HuggingFaceEmbeddings | LlamaCppEmbeddings, C
             model = HuggingFaceEmbeddings(model_name=text_embeddings_model)
             return model, model.client.encode
         case "LlamaCpp":
-            model = LlamaCppEmbeddings(model_path=text_embeddings_model, n_ctx=model_n_ctx)
-            return model, model.client.embed
+            model = LlamaCppEmbeddings(model_path=text_embeddings_model, n_ctx=model_n_ctx, n_gpu_layers=n_gpu_layers)
+            return model, lambda inpt: model.client.embed(inpt) if isinstance(inpt, str) else [
+                model.client.embed(e) for e in inpt
+            ]  # no batched embedding in llamacpp
         case _:
             raise ValueError(f"Unknown embedding type {text_embeddings_model_type}")
 
