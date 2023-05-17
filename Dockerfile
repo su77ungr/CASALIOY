@@ -27,9 +27,8 @@ WORKDIR CASALIOY
 RUN git checkout better-docker
 RUN pip install --upgrade setuptools virtualenv
 RUN poetry install --with GUI,LLM --without dev --sync
-RUN . .venv/bin/activate
-RUN pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu  # CPU-only torch for sentence_transformers
-RUN #pip uninstall -y streamlit sentence_transformers && pip install streamlit sentence_transformers # Temp fix, see pyproject.toml
+RUN . .venv/bin/activate && pip install --force torch torchvision --index-url https://download.pytorch.org/whl/cpu  # CPU-only torch for sentence_transformers
+RUN . .venv/bin/activate && pip install --force streamlit # Temp fix, see pyproject.toml
 
 ###############################################
 # Production Image
@@ -38,6 +37,3 @@ FROM python-base as production
 COPY --from=builder-base /srv /srv
 WORKDIR /srv/CASALIOY
 COPY example.env .env
-
-# Remark: what we're doing (installing GPU pytorch then installing CPU to replace it) is ugly (we download a lot of files for nothing).
-# We can fix this once poetry allows setting a source per group/package (feature in development).
