@@ -125,6 +125,8 @@ class Ingester:
             for file in pb(all_items):
                 print_HTML("<r>Processing {fname}</r>", fname=file.name)
                 document = self.load_one_doc(file)
+                if not document:
+                    continue
                 split_document = text_splitter.split_documents(document)
                 self.embed_documents_with_progress(encode_fun, split_document)
                 print_HTML("<r>Processed {fname}</r>", fname=file.name)
