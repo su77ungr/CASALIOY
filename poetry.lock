@@ -888,14 +888,14 @@ mime = ["python-magic (>=0.4.27,<0.5)"]
 
 [[package]]
 name = "faker"
-version = "18.8.0"
+version = "18.9.0"
 description = "Faker is a Python package that generates fake data for you."
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "Faker-18.8.0-py3-none-any.whl", hash = "sha256:9065859806d2b162464016eb454515b967ea1cfb3b94ee810ce194b6d3c59675"},
-    {file = "Faker-18.8.0.tar.gz", hash = "sha256:8cbf3246cd762944d6483c47710d7f1f031e9730067a6e689f70275f33b1e76e"},
+    {file = "Faker-18.9.0-py3-none-any.whl", hash = "sha256:defe9ed618a67ebf0f3eb1895e198c2355a7128a09087a6dce342ef2253263ea"},
+    {file = "Faker-18.9.0.tar.gz", hash = "sha256:80a5ea1464556c06b98bf47ea3adc7f33811a1182518d847860b1874080bd3c9"},
 ]
 
 [package.dependencies]
@@ -4062,14 +4062,14 @@ files = [
 
 [[package]]
 name = "tldextract"
-version = "3.4.1"
+version = "3.4.2"
 description = "Accurately separates a URL's subdomain, domain, and public suffix, using the Public Suffix List (PSL). By default, this includes the public ICANN TLDs and their exceptions. You can optionally support the Public Suffix List's private domains as well."
 category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "tldextract-3.4.1-py3-none-any.whl", hash = "sha256:26f646987b01ae2946e7491cce4aaf54129f3489a196a274e6c843ec72968313"},
-    {file = "tldextract-3.4.1.tar.gz", hash = "sha256:fa9e50c4a03bede2a1d95dca620d661678484626858ccf388cf9671a0dd497a4"},
+    {file = "tldextract-3.4.2-py3-none-any.whl", hash = "sha256:1f168f0a1c000a757aefed94a5bda10349c58976cb2ef1cc17c6e3b213440521"},
+    {file = "tldextract-3.4.2.tar.gz", hash = "sha256:98e36b0aa3a6d8fd084d80d75ae1372da02027efb556c146a59dfd14457071ba"},
 ]
 
 [package.dependencies]
@@ -4283,14 +4283,14 @@ telegram = ["requests"]
 
 [[package]]
 name = "transformers"
-version = "4.29.1"
+version = "4.29.2"
 description = "State-of-the-art Machine Learning for JAX, PyTorch and TensorFlow"
 category = "dev"
 optional = false
 python-versions = ">=3.7.0"
 files = [
-    {file = "transformers-4.29.1-py3-none-any.whl", hash = "sha256:75f851f2420c26410edbdf4a2a1a5b434ab2b96aea36eb5931d06cc3b2e7b509"},
-    {file = "transformers-4.29.1.tar.gz", hash = "sha256:3dc9cd198918e140468edbf37d7edf3b7a75633655ce0771ce323bbf8c118c4d"},
+    {file = "transformers-4.29.2-py3-none-any.whl", hash = "sha256:0ef158b99bad6f4e6652a0d8655fbbe58b4cb788ce7040f320b5d29c7c810a75"},
+    {file = "transformers-4.29.2.tar.gz", hash = "sha256:ed9467661f459f1ce49461d83f18f3b36b6a37f306182dc2ba272935f3b93ebb"},
 ]
 
 [package.dependencies]
@@ -4783,4 +4783,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = ">3.9.7,<3.12"
-content-hash = "1899d9bfd156bf9a9a5814c5e459caf0d718235e49bc78f70f3b033dca7b79ac"
+content-hash = "84be5f4e64ea20c3533e0b54bc7f43912c65572aafd269d6bf2b617309c5f6bf"

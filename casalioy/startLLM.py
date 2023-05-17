@@ -38,7 +38,7 @@ class QASystem:
         db_path: str,
         model_path: str,
         n_ctx: int,
-        temperature: float,
+        model_temp: float,
         stop: list[str],
         use_mlock: bool,
         n_gpu_layers: int,
