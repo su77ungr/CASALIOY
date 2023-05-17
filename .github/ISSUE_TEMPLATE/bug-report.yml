@@ -10,45 +10,57 @@ body:
         for existing issues about the bug.
 
   - type: textarea
-    id: system-info
+    id: env
     attributes:
-      label: System Info
-      description: Please share your system info with us.
-      placeholder: LangChain version, platform, python version, ...
+      label: .env
+      description: Please share your exact .env file
+      placeholder: |
+        # Generic
+        MODEL_N_CTX=1024
+        TEXT_EMBEDDINGS_MODEL=sentence-transformers/all-MiniLM-L6-v2
+        TEXT_EMBEDDINGS_MODEL_TYPE=HF  # LlamaCpp or HF
+        USE_MLOCK=true
+
+        # Ingestion
+        PERSIST_DIRECTORY=db
+        DOCUMENTS_DIRECTORY=source_documents
+        INGEST_CHUNK_SIZE=500
+        INGEST_CHUNK_OVERLAP=50
+
+        # Generation
+        MODEL_TYPE=LlamaCpp # GPT4All or LlamaCpp
+        MODEL_PATH=eachadea/ggml-vicuna-7b-1.1/ggml-vic7b-q5_1.bin
+        MODEL_TEMP=0.8
+        MODEL_STOP=[STOP]
+        CHAIN_TYPE=stuff
+        N_RETRIEVE_DOCUMENTS=100 # How many documents to retrieve from the db
+        N_FORWARD_DOCUMENTS=6 # How many documents to forward to the LLM, chosen among those retrieved
+        N_GPU_LAYERS=4
+
     validations:
       required: true
 
   - type: textarea
-    id: who-can-help
+    id: system-info-python
     attributes:
-      label: Who can help?
-      description: |
-        Your issue will be replied to more quickly if you can figure out the right person to tag with @
-        If you know how to use git blame, that is the easiest way, otherwise, here is a rough guide of **who to tag**.
-
-        The core maintainers strive to read all issues, but tagging them will help them prioritize.
-
-        Please tag fewer than 3 people.
-
-        @hwchase17 - project lead
-
-        Tracing / Callbacks
-        - @agola11
-
-        Async
-        - @agola11
-
-        DataLoader Abstractions
-        - @eyurtsev
-
-        LLM/Chat Wrappers
-        - @hwchase17
-        - @agola11
-
-        Tools / Toolkits
-        - @vowelparrot
-
-      placeholder: "@Username ..."
+      label: Python version
+      placeholder: python 3.11.3
+    validations:
+      required: true
+  - type: textarea
+    id: system-info-system
+    attributes:
+      label: System
+      placeholder: Ubuntu-22.04
+    validations:
+      required: true
+  - type: textarea
+    id: system-info-casalioy
+    attributes:
+      label: CASALIOY version
+      placeholder: can be either a release number (ex. `0.0.8`) or a commit id (ex `13cce0e`)
+    validations:
+      required: true
 
   - type: checkboxes
     id: information-scripts-examples
@@ -56,7 +68,7 @@ body:
       label: Information
       description: "The problem arises when using:"
       options:
-        - label: "The official example notebooks/scripts"
+        - label: "The official example scripts"
         - label: "My own modified scripts"
 
   - type: checkboxes
@@ -65,18 +77,9 @@ body:
       label: Related Components
       description: "Select the components related to the issue (if applicable):"
       options:
-        - label: "LLMs/Chat Models"
-        - label: "Embedding Models"
-        - label: "Prompts / Prompt Templates / Prompt Selectors"
-        - label: "Output Parsers"
-        - label: "Document Loaders"
-        - label: "Vector Stores / Retrievers"
-        - label: "Memory"
-        - label: "Agents / Agent Executors"
-        - label: "Tools / Toolkits"
-        - label: "Chains"
-        - label: "Callbacks/Tracing"
-        - label: "Async"
+        - label: "Document ingestion"
+        - label: "GUI"
+        - label: "Prompt answering"
 
   - type: textarea
     id: reproduction
