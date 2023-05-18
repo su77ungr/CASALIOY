@@ -3,7 +3,7 @@
 ###############################################
 FROM python:3.11-slim as python-base
 # We set POETRY_VERSION=1.3.2 because 1.4.x has some weird legacy issues
-# CASALIOY_FORCE_CPU = we install cpu-only pytorch. CASALIOY_ENABLE_LLAMA_GPU = we compile llama-cpp with gpu
+# CASALIOY_FORCE_CPU = we install cpu-only pytorch.
 ENV PYTHONFAULTHANDLER=1 \
       PYTHONUNBUFFERED=1 \
       PYTHONHASHSEED=random \
@@ -13,9 +13,11 @@ ENV PYTHONFAULTHANDLER=1 \
       POETRY_NO_INTERACTION=1 \
       POETRY_VIRTUALENVS_IN_PROJECT=true \
       POETRY_VERSION=1.3.2 \
-      CASALIOY_FORCE_CPU=false \
-      CASALIOY_ENABLE_LLAMA_GPU=true
-RUN apt-get update && apt-get install -y build-essential git htop gdb nano unzip && rm -rf /var/lib/apt/lists/*
+      CASALIOY_FORCE_CPU=true
+RUN apt-get update && apt-get install -y build-essential git htop gdb nano unzip curl && rm -rf /var/lib/apt/lists/*
+#RUN if [ "$CASALIOY_ENABLE_LLAMA_GPU" = "true" ]; then \
+#        apt-get install -y nvidia-cuda-toolkit nvidia-cuda-toolkit-gcc; \
+#    fi; \
 RUN pip install --upgrade setuptools virtualenv
 
 ###############################################
@@ -32,10 +34,7 @@ RUN . .venv/bin/activate && \
     if [ "$CASALIOY_FORCE_CPU" = "true" ]; then \
         pip install --force torch torchvision --index-url https://download.pytorch.org/whl/cpu; \
     else \
-        pip install --force sentence_transformers && \
-        if [ "$CASALIOY_ENABLE_LLAMA_GPU" = "true" ]; then \
-            apt-get install -y nvidia-cuda-toolkit nvidia-cuda-toolkit-gcc && pip uninstall -y llama-cpp-python && CMAKE_ARGS="-DLLAMA_CUBLAS=on" FORCE_CMAKE=1 pip install --force llama-cpp-python; \
-        fi; \
+        pip install --force sentence_transformers; \
     fi
 
 ###############################################
