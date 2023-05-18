@@ -1,0 +1,111 @@
+name: "\U0001F41B Bug Report"
+description: Submit a bug report to help us improve CASALIOY
+labels: ["02 Bug Report"]
+body:
+  - type: markdown
+    attributes:
+      value: >
+        Thank you for taking the time to file a bug report. Before creating a new
+        issue, please make sure to take a few moments to check the issue tracker
+        for existing issues about the bug.
+
+  - type: textarea
+    id: env
+    attributes:
+      label: .env
+      description: Please share your exact .env file. *format it with ``` as in the example below.*
+      placeholder: |
+        ```
+        # Generic
+        MODEL_N_CTX=1024
+        TEXT_EMBEDDINGS_MODEL=sentence-transformers/all-MiniLM-L6-v2
+        TEXT_EMBEDDINGS_MODEL_TYPE=HF  # LlamaCpp or HF
+        USE_MLOCK=true
+
+        # Ingestion
+        PERSIST_DIRECTORY=db
+        DOCUMENTS_DIRECTORY=source_documents
+        INGEST_CHUNK_SIZE=500
+        INGEST_CHUNK_OVERLAP=50
+
+        # Generation
+        MODEL_TYPE=LlamaCpp # GPT4All or LlamaCpp
+        MODEL_PATH=eachadea/ggml-vicuna-7b-1.1/ggml-vic7b-q5_1.bin
+        MODEL_TEMP=0.8
+        MODEL_STOP=[STOP]
+        CHAIN_TYPE=stuff
+        N_RETRIEVE_DOCUMENTS=100 # How many documents to retrieve from the db
+        N_FORWARD_DOCUMENTS=6 # How many documents to forward to the LLM, chosen among those retrieved
+        N_GPU_LAYERS=4
+        ```
+
+    validations:
+      required: true
+
+  - type: input
+    id: system-info-python
+    attributes:
+      label: Python version
+      placeholder: python 3.11.3
+    validations:
+      required: true
+  - type: input
+    id: system-info-system
+    attributes:
+      label: System
+      placeholder: Ubuntu-22.04
+    validations:
+      required: true
+  - type: input
+    id: system-info-casalioy
+    attributes:
+      label: CASALIOY version
+      placeholder: A release number (ex. `0.0.8`) or a commit id (ex `13cce0e`)
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: information-scripts-examples
+    attributes:
+      label: Information
+      description: "The problem arises when using:"
+      options:
+        - label: "The official example scripts"
+        - label: "My own modified scripts"
+
+  - type: checkboxes
+    id: related-components
+    attributes:
+      label: Related Components
+      description: "Select the components related to the issue (if applicable):"
+      options:
+        - label: "Document ingestion"
+        - label: "GUI"
+        - label: "Prompt answering"
+
+  - type: textarea
+    id: reproduction
+    validations:
+      required: true
+    attributes:
+      label: Reproduction
+      description: |
+        Please provide a [code sample](https://stackoverflow.com/help/minimal-reproducible-example) that reproduces the problem you ran into. It can be a Colab link or just a code snippet.
+        If you have code snippets, error messages, stack traces please provide them here as well.
+        Important! Use code tags to correctly format your code. See https://help.github.com/en/github/writing-on-github/creating-and-highlighting-code-blocks#syntax-highlighting
+        Avoid screenshots when possible, as they are hard to read and (more importantly) don't allow others to copy-and-paste your code.
+
+      placeholder: |
+        Steps to reproduce the behavior:
+
+          1.
+          2.
+          3.
+
+  - type: textarea
+    id: expected-behavior
+    validations:
+      required: true
+    attributes:
+      label: Expected behavior
+      description: "A clear and concise description of what you would expect to happen."
