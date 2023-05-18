@@ -25,10 +25,10 @@ style = Style.from_dict(
 def escape_for_html(text, **kwargs) -> str:
     """escape unicode stuff and single curly braces. kwargs are changed in-place."""
     escape_one = lambda v: v.replace("\f", " ").replace("\b", "\\")
-    escape_braces = lambda v: v.replace("{", "{{}").replace("}", "}}")
+    escape_braces = lambda v: v.replace("{", "{{").replace("}", "}}")
     for k, v in kwargs.items():
         kwargs[k] = escape_braces(escape_one(str(v)))
-    text = escape_braces(escape_one(text))
+    text = escape_one(text)
     return text
 
 
