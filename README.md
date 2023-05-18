@@ -31,7 +31,7 @@ The fastest toolkit for air-gapped LLMs
 
 # Setup
 
-### Docker guide
+### Docker (⛔️ not working atm ! Build from source) 
 
 ```bash
 docker pull su77ungr/casalioy:stable
