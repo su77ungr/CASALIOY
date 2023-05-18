@@ -25,10 +25,10 @@ style = Style.from_dict(
 def escape_for_html(text, **kwargs) -> str:
     """escape unicode stuff and single curly braces. kwargs are changed in-place."""
     escape_one = lambda v: v.replace("\f", " ").replace("\b", "\\")
-    escape_braces = lambda v: v.replace("{", "{{}").replace("}", "}}")
+    escape_braces = lambda v: v.replace("{", "{{").replace("}", "}}")
     for k, v in kwargs.items():
         kwargs[k] = escape_braces(escape_one(str(v)))
-    text = escape_braces(escape_one(text))
+    text = escape_one(text)
     return text
 
 
@@ -38,7 +38,11 @@ def print_HTML(text: str, **kwargs) -> None:
         text = escape_for_html(text, **kwargs)
         print_formatted_text(HTML(text).format(**kwargs), style=style)
     except ExpatError:
-        print(text.format(**kwargs))
+        # noinspection PyBroadException
+        try:
+            print(text.format(**kwargs))
+        except Exception:
+            print("[Could not properly parse text. This is a CASALIOY error, please open an issue.]", text, kwargs)
 
 
 def prompt_HTML(session: PromptSession, prompt: str, **kwargs) -> str:
@@ -47,7 +51,11 @@ def prompt_HTML(session: PromptSession, prompt: str, **kwargs) -> str:
         prompt = escape_for_html(prompt, **kwargs)
         return session.prompt(HTML(prompt).format(**kwargs), style=style)
     except ExpatError:
-        return input(prompt.format(**kwargs))
+        # noinspection PyBroadException
+        try:
+            return input(prompt.format(**kwargs))
+        except Exception:
+            print("[Could not properly parse text. This is a CASALIOY error, please open an issue.]", prompt, kwargs)
 
 
 def download_if_repo(path: str) -> str:
