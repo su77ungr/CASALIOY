@@ -38,7 +38,7 @@ docker pull su77ungr/casalioy:stable
 ```
 
 ```bash
-docker run -it su77ungr/casalioy:stable /bin/bash
+docker run -it --shm-size=16gb su77ungr/casalioy:stable /bin/bash
 ```
 
 for older docker without GUI use `casalioy:latest` might deprecate soon
@@ -108,14 +108,14 @@ This should look like this
       └── .env, convert.py, Dockerfile
 ```
 
-      
-> 👇 Update your installation!
-      
-      
-      git pull && poetry install
-      
 
-      
+> 👇 Update your installation!
+
+
+      git pull && poetry install
+
+
+
 ## Ingesting your own dataset
 
 To automatically ingest different data types (.txt, .pdf, .csv, .epub, .html, .docx, .pptx, .eml, .msg)
