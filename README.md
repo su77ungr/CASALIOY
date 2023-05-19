@@ -31,17 +31,18 @@ The fastest toolkit for air-gapped LLMs
 
 # Setup
 
-### Docker (⛔️ only supports Ubuntu rn) 
+### Docker ( 🚰 under construction. tested on Ubuntu LTS) 
 
 ```bash
 docker pull su77ungr/casalioy:stable
 ```
 
 ```bash
-docker run -it --shm-size=16gb su77ungr/casalioy:stable /bin/bash
+docker run -it -p 8501:8501 --shm-size=16gb su77ungr/casalioy:stable /bin/bash
 ```
+for GPU support of stable use `casalioy:gpu` might deprecate soon
 
-for older docker without GUI use `casalioy:latest` might deprecate soon
+(for older docker without GUI use `casalioy:latest` might deprecate soon)
 
 > Fetch the default models
 
