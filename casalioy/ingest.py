@@ -19,6 +19,7 @@ from langchain.document_loaders import (
     UnstructuredEPubLoader,
     UnstructuredHTMLLoader,
     UnstructuredPowerPointLoader,
+    UnstructuredMarkdownLoader,
     UnstructuredWordDocumentLoader,
 )
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -48,6 +49,7 @@ class Ingester:
         "ppt": UnstructuredPowerPointLoader,
         "eml": UnstructuredEmailLoader,
         "msg": OutlookMessageLoader,
+        "md": UnstructuredMarkdownLoader,
     }
 
     def __init__(self, db_dir: str, collection: str = "test", verbose=False):
