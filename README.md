@@ -172,6 +172,9 @@ streamlit run casalioy/gui.py
 
 # LLM options
 
+### Leaderboard 
+      
+List of available open LLMs [HuggingFace](https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard)
 ### models outside of the GPT-J ecosphere  (work out of the box)
 
 | Model                                                                                                                                            | BoolQ | PIQA | HellaSwag | WinoGrande | ARC-e | ARC-c | OBQA | Avg. |
