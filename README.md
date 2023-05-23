@@ -170,7 +170,7 @@ Introduced by [@alxspiker](https://github.com/alxspiker) -> see [#21](https://gi
 streamlit run casalioy/gui.py
 ```
 
-# LLM options (ggml = cpu only)       
+# LLM options (ggml = native cpu only; when LlamaCpp is used: support hw accel for ggml)       
    
 ### Leaderboard 
       
