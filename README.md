@@ -170,22 +170,27 @@ Introduced by [@alxspiker](https://github.com/alxspiker) -> see [#21](https://gi
 streamlit run casalioy/gui.py
 ```
 
-# LLM options
-
+# LLM options (ggml = cpu only)       
+   
 ### Leaderboard 
       
 List of available open LLMs [HuggingFace](https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard)
 ### models outside of the GPT-J ecosphere  (work out of the box)
 
+> 🪢 avoid using non-v3 models when using other quantization than q5 (LlamaCpp introduced [v3](https://github.com/ggerganov/llama.cpp/pull/1508) for ggml)
+      
 | Model                                                                                                                                            | BoolQ | PIQA | HellaSwag | WinoGrande | ARC-e | ARC-c | OBQA | Avg. |
 |:-------------------------------------------------------------------------------------------------------------------------------------------------|:-----:|:----:|:---------:|:----------:|:-----:|:-----:|:----:|:----:|
-| [GPT4All-13b-snoozy q5](https://huggingface.co/TheBloke/GPT4All-13B-snoozy-GGML/blob/main/GPT4All-13B-snoozy.ggml.q5_1.bin)                      | 83.3  | 79.2 |   75.0    |    71.3    | 60.9  | 44.2  | 43.4 | 65.3 |
-
+| [GPT4All-13b-snoozy GGMLv3](https://huggingface.co/TheBloke/GPT4All-13B-snoozy-GGML/blob/main/GPT4All-13B-snoozy.ggmlv3.q4_0.bin) 
+  [GPT4All-13b-snoozy (deprecated)](https://gpt4all.io/models/ggml-gpt4all-l13b-snoozy.bin)                | 83.3  | 79.2 |   75.0    |    71.3    | 60.9  | 44.2  | 43.4 | 65.3 | 
+      
+      
+      
 ### models inside of the GPT-J ecosphere
 
 | Model                                                                             | BoolQ | PIQA | HellaSwag | WinoGrande | ARC-e | ARC-c | OBQA | Avg. |
 |:----------------------------------------------------------------------------------|:-----:|:----:|:---------:|:----------:|:-----:|:-----:|:----:|:----:|
-| GPT4All-J 6B v1.0                                                                 | 73.4  | 74.8 |   63.4    |    64.7    | 54.9  | 36.0  | 40.2 | 58.2 |
+| [GPT4All-J vanilla](https://gpt4all.io/models/ggml-gpt4all-j.bin)                                                                 | 73.4  | 74.8 |   63.4    |    64.7    | 54.9  | 36.0  | 40.2 | 58.2 |
 | [GPT4All-J v1.1-breezy](https://gpt4all.io/models/ggml-gpt4all-j-v1.1-breezy.bin) | 74.0  | 75.1 |   63.2    |    63.6    | 55.4  | 34.9  | 38.4 | 57.8 |
 | [GPT4All-J v1.2-jazzy](https://gpt4all.io/models/ggml-gpt4all-j-v1.2-jazzy.bin)   | 74.8  | 74.9 |   63.6    |    63.8    | 56.6  | 35.3  | 41.0 | 58.6 |
 | [GPT4All-J v1.3-groovy](https://gpt4all.io/models/ggml-gpt4all-j-v1.3-groovy.bin) | 73.6  | 74.3 |   63.8    |    63.5    | 57.7  | 35.0  | 38.8 | 58.1 |
