@@ -206,7 +206,7 @@ all the supported models from [here](https://huggingface.co/nomic-ai/gpt4all-13b
 
 2. Convert locally
 
-> ``` python convert.py``` [see discussion](https://github.com/su77ungr/CASALIOY/issues/10#issue-1706854398)
+> ``` python casalioy/misc/convert.py``` [see discussion](https://github.com/su77ungr/CASALIOY/issues/10#issue-1706854398)
 
 # Pipeline
 
