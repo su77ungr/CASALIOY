@@ -1,34 +1,27 @@
 <!--suppress HtmlDeprecatedAttribute -->
 <div align="center">
-
-<a href="https://www.buymeacoffee.com/cassowary" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-white.png" alt="Buy Me A Coffee" height="30" width="140"></a>
-
-**NOW** WITH
-<a href="https://github.com/su77ungr/CASALIOY/discussions/76"><img src="https://img.shields.io/badge/GUI-blue.svg" alt="Roadmap 2023">
-<br>
-<p align="center">
-
-# CASALIOY - Your local langchain toolkit
-
-</p>
-
+<a href="https://www.buymeacoffee.com/cassowary" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-white.png" alt="Buy Me A Coffee" height="30" width="140"></a>  
+      
+#   
+      
 <h2>
 <p>
-<img height="300" src="https://github.com/su77ungr/GEEB-GPT/assets/69374354/2e59734c-0de7-4057-be7a-14729e1d5acd" alt="Qdrant"><br>
-
+<img height="400" src="https://github.com/su77ungr/CASALIOY/assets/69374354/41c1edcb-af2f-4327-bdcd-5248ffe6ecf9" alt="Qdrant"><br>
+      
 <a href="https://github.com/su77ungr/CASALIOY/issues/8"><img src="https://img.shields.io/badge/Feature-Requests-bc1439.svg" alt="Roadmap 2023"> [![Docker Pulls](https://badgen.net/docker/pulls/su77ungr/casalioy?icon=docker&label=pulls)](https://hub.docker.com/r/su77ungr/casalioy/)</a>
 ![example workflow](https://github.com/su77ungr/CASALIOY/actions/workflows/docker-image.yml/badge.svg)
-
-<br><br>
-</p>
-The fastest toolkit for air-gapped LLMs
-
-[LangChain](https://github.com/hwchase17/langchain) + [LlamaCpp](https://pypi.org/project/llama-cpp-python/) + [qdrant](https://qdrant.tech/)
-
 <br>
-</h2>
+</p>
+      
+The fastest toolkit for air-gapped LLMs with <a  href="#chat-inside-gui-new-feature"><img src="https://img.shields.io/badge/GUI-blue.svg" alt="Roadmap 2023">
+      
+[LangChain](https://github.com/hwchase17/langchain) + [LlamaCpp](https://pypi.org/project/llama-cpp-python/) + [qdrant](https://qdrant.tech/)
+      
 </div>
-
+         
+<br>
+     
+      
 # Setup
 
 ### Docker ( 🚰 under construction. tested on Ubuntu LTS) 
@@ -40,11 +33,7 @@ docker pull su77ungr/casalioy:stable
 ```bash
 docker run -it -p 8501:8501 --shm-size=16gb su77ungr/casalioy:stable /bin/bash
 ```
-for GPU support of stable use `casalioy:gpu` might deprecate soon
-
-(for older docker without GUI use `casalioy:latest` might deprecate soon)
-
-> Fetch the default models
+for GPU support of stable use `casalioy:gpu` (unstable)
 
 > All set! Proceed with ingesting your [dataset](#ingesting-your-own-dataset)
 
@@ -68,7 +57,7 @@ pip uninstall -y llama-cpp-python
 CMAKE_ARGS="-DLLAMA_CUBLAS=on" FORCE_CMAKE=1 pip install --force llama-cpp-python
 ```
 
-> > Edit the example.env to fit your models and rename it to .env
+> Edit the example.env to fit your models and rename it to .env
 
 ```env
 # Generic
@@ -100,13 +89,14 @@ This should look like this
       ├── startLLM.py
       ├── casalioy
       │   └── ingest.py, load_env.py, startLLM.py, gui.py, ...
+      │   └── misc/ 
       ├── source_documents
       │   └── sample.csv
       │   └── ...
       ├── models
       │   ├── ggml-vic7b-q5_1.bin
       │   └── ...
-      └── .env, convert.py, Dockerfile
+      └── .env, Dockerfile, ...
 ```
 
 
@@ -170,7 +160,7 @@ Introduced by [@alxspiker](https://github.com/alxspiker) -> see [#21](https://gi
 streamlit run casalioy/gui.py
 ```
 
-# LLM options (ggml = native cpu only; when LlamaCpp is used: support hw accel for ggml)       
+# LLM options       
    
 ### Leaderboard 
       
