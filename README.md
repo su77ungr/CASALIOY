@@ -1,6 +1,10 @@
 <!--suppress HtmlDeprecatedAttribute -->
 <div align="center">
-<a href="https://www.buymeacoffee.com/cassowary" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-white.png" alt="Buy Me A Coffee" height="30" width="140"></a>  
+      <h4>
+      Helpful? ⚡ bring me closer to
+            <a href="https://www.evwest.com/catalog/product_info.php?cPath=40&products_id=168">convert</a>
+            my car into electric <a href="https://www.buymeacoffee.com/cassowary" target="_blank"><img src="https://github.com/su77ungr/CASALIOY/assets/69374354/1de2e6a1-d4ee-44a8-baf1-db4f2765b833" alt="Buy Me A Coffee" height="30" width="30"></a>  
+      </h4>
       
 #   
       
