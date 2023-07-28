@@ -22,8 +22,13 @@ style = Style.from_dict(
 )
 
 
-def escape_for_html(text, **kwargs) -> str:
-    """escape unicode stuff and single curly braces. kwargs are changed in-place."""
+def escape_braces(v: str) -> str:
+    """Escape single curly braces in the given string."""
+    return v.replace("{", "{{").replace("}", "}}")
+
+
+def escape_for_html(text: str, **kwargs) -> str:
+    """Escape unicode stuff and single curly braces. kwargs are changed in-place."""
     escape_one = lambda v: v.replace("\f", " ").replace("\b", "\\")
     escape_braces = lambda v: v.replace("{", "{{").replace("}", "}}")
     for k, v in kwargs.items():
@@ -33,7 +38,7 @@ def escape_for_html(text, **kwargs) -> str:
 
 
 def print_HTML(text: str, **kwargs) -> None:
-    """print formatted HTML text"""
+    """Print formatted HTML text"""
     try:
         text = escape_for_html(text, **kwargs)
         print_formatted_text(HTML(text).format(**kwargs), style=style)
@@ -46,7 +51,7 @@ def print_HTML(text: str, **kwargs) -> None:
 
 
 def prompt_HTML(session: PromptSession, prompt: str, **kwargs) -> str:
-    """print formatted HTML text"""
+    """Print formatted HTML text"""
     try:
         prompt = escape_for_html(prompt, **kwargs)
         return session.prompt(HTML(prompt).format(**kwargs), style=style)
@@ -59,7 +64,7 @@ def prompt_HTML(session: PromptSession, prompt: str, **kwargs) -> str:
 
 
 def download_if_repo(path: str) -> str:
-    """download model from HF if not local"""
+    """Download model from HF if not local"""
     # check if dataset
     split = path.split("/")
     is_dataset = split[0] == "datasets"
