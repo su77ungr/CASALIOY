@@ -1,4 +1,5 @@
 """some useful functions"""
+import re
 from pathlib import Path
 
 from huggingface_hub import snapshot_download
@@ -28,14 +29,13 @@ def escape_braces(v: str) -> str:
 
 
 def escape_for_html(text: str, **kwargs) -> str:
-    """Escape unicode stuff and single curly braces. kwargs are changed in-place."""
+    """Escape special characters in the given string. kwargs are changed in-place."""
     escape_one = lambda v: v.replace("\f", " ").replace("\b", "\\")
-    escape_braces = lambda v: v.replace("{", "{{").replace("}", "}}")
+    escape_special_chars = lambda v: re.sub(r"([{}])", r"\g<1>\g<1>", v)
     for k, v in kwargs.items():
-        kwargs[k] = escape_braces(escape_one(str(v)))
-    text = escape_one(text)
+        kwargs[k] = escape_special_chars(escape_one(str(v)))
+    text = escape_special_chars(escape_one(text))
     return text
-
 
 def print_HTML(text: str, **kwargs) -> None:
     """Print formatted HTML text"""
