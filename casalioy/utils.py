@@ -77,13 +77,13 @@ def download_if_repo(path: str) -> str:
     p = Path(path) if path.startswith("models/") else "models" / Path(path)
 
     if (is_file and p.is_file()) or (not is_file and p.is_dir()):
-        print(f"Found local model {'file' if is_file else 'dir'} at {p}")
+        print_HTML(f"Found local model {'file' if is_file else 'dir'} at {p}")
         return str(p)
 
     try:
         validate_repo_id(repo_id)
         model_type = "dataset" if is_dataset else "model"
-        print(f"Downloading {model_type} {p} from HF")
+        print_HTML(f"Downloading {model_type} {p} from HF")
         new_path = Path(
             snapshot_download(
                 repo_id=repo_id,
@@ -96,4 +96,4 @@ def download_if_repo(path: str) -> str:
         return str(new_path.resolve())
 
     except (HFValidationError, HTTPError) as e:
-        print(f"Could not download model {path} from HF: {e}")
+        print_HTML(f"Could not download model {path} from HF: {e}")
