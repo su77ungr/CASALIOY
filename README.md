@@ -79,7 +79,7 @@ INGEST_CHUNK_OVERLAP=50
 
 # Generation
 MODEL_TYPE=LlamaCpp # GPT4All or LlamaCpp
-MODEL_PATH=eachadea/ggml-vicuna-7b-1.1/ggml-vic7b-q5_1.bin
+MODEL_PATH=TheBloke/TinyLlama-1.1B-Chat-v0.3-GGUF/tinyllama-1.1b-chat-v0.3.Q6_K.gguf
 MODEL_TEMP=0.8
 MODEL_STOP=[STOP]
 CHAIN_TYPE=stuff
