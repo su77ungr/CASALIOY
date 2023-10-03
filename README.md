@@ -1,6 +1,6 @@
 <!--suppress HtmlDeprecatedAttribute -->
 
->  Critical Notice: GGUF was introduced by the llama.cpp team on August 21st 2023. It is a replacement for GGML, which is no longer supported by llama.cpp. The main branch will keep using the deprecated variant. Switch to the gguf-fix branch for GGUF support. 
+>  Critical Notice: GGUF was introduced by the llama.cpp team on August 21st 2023. It is a replacement for GGML, which is no longer supported by llama.cpp. The main branch will keep using the deprecated variant. Switch to the [gguf-fix](https://github.com/su77ungr/CASALIOY/tree/gguf-fix) branch for GGUF support. 
 
 <div align="center">
       <h4>
