@@ -169,8 +169,20 @@ streamlit run casalioy/gui.py
 List of available open LLMs [HuggingFace](https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard)
 ### models outside of the GPT-J ecosphere  (work out of the box)
 
-> 🪢 avoid using non-v3 models when using other quantization than q5 (LlamaCpp introduced [v3](https://github.com/ggerganov/llama.cpp/pull/1508) for ggml)
+> 🪢 avoid GGML-v3; they have to be converted into GGUF 
+?
+
+
+
+### Performance models (GGUF)
+
+| Model                                                                                                                                            | BoolQ | PIQA | HellaSwag | WinoGrande | ARC-e | ARC-c | OBQA | Avg. |
+|:-------------------------------------------------------------------------------------------------------------------------------------------------|:-----:|:----:|:---------:|:----------:|:-----:|:-----:|:----:|:----:|
+| [Llama-2-7b-Chat-GGUF](https://huggingface.co/TheBloke/Llama-2-7b-Chat-GGUF/blob/main/llama-2-7b-chat.Q4_K_M.gguf) 
       
+
+### deprecated models
+
 | Model                                                                                                                                            | BoolQ | PIQA | HellaSwag | WinoGrande | ARC-e | ARC-c | OBQA | Avg. |
 |:-------------------------------------------------------------------------------------------------------------------------------------------------|:-----:|:----:|:---------:|:----------:|:-----:|:-----:|:----:|:----:|
 | [GPT4All-13b-snoozy GGMLv3](https://huggingface.co/TheBloke/GPT4All-13B-snoozy-GGML/blob/main/GPT4All-13B-snoozy.ggmlv3.q4_0.bin) 
@@ -182,12 +194,9 @@ List of available open LLMs [HuggingFace](https://huggingface.co/spaces/HuggingF
 
 | Model                                                                             | BoolQ | PIQA | HellaSwag | WinoGrande | ARC-e | ARC-c | OBQA | Avg. |
 |:----------------------------------------------------------------------------------|:-----:|:----:|:---------:|:----------:|:-----:|:-----:|:----:|:----:|
-| [GPT4All-J vanilla](https://gpt4all.io/models/ggml-gpt4all-j.bin)                                                                 | 73.4  | 74.8 |   63.4    |    64.7    | 54.9  | 36.0  | 40.2 | 58.2 |
-| [GPT4All-J v1.1-breezy](https://gpt4all.io/models/ggml-gpt4all-j-v1.1-breezy.bin) | 74.0  | 75.1 |   63.2    |    63.6    | 55.4  | 34.9  | 38.4 | 57.8 |
-| [GPT4All-J v1.2-jazzy](https://gpt4all.io/models/ggml-gpt4all-j-v1.2-jazzy.bin)   | 74.8  | 74.9 |   63.6    |    63.8    | 56.6  | 35.3  | 41.0 | 58.6 |
-| [GPT4All-J v1.3-groovy](https://gpt4all.io/models/ggml-gpt4all-j-v1.3-groovy.bin) | 73.6  | 74.3 |   63.8    |    63.5    | 57.7  | 35.0  | 38.8 | 58.1 |
-| [GPT4All-J Lora 6B](https://gpt4all.io/models/)                                   | 68.6  | 75.8 |   66.2    |    63.5    | 56.4  | 35.7  | 40.2 | 58.1 |
+| [GPT4All-J v1.3-groovy](https://huggingface.co/qm9/ggml-gpt4all-j-v1.3-groovy.bin/blob/main/ggml-gpt4all-j-v1.3-groovy.bin) | 73.6  | 74.3 |   63.8    |    63.5    | 57.7  | 35.0  | 38.8 | 58.1 |
 
+qm9/ggml-gpt4all-j-v1.3-groovy.bin
 all the supported models from [here](https://huggingface.co/nomic-ai/gpt4all-13b-snoozy) (custom LLMs in Pipeline)
 
 ### Convert GGML model to GGJT-ready model v1 (for truncation error or not supported models)
