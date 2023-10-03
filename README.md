@@ -1,4 +1,7 @@
 <!--suppress HtmlDeprecatedAttribute -->
+
+>  Critical Notice: GGUF was introduced by the llama.cpp team on August 21st 2023. It is a replacement for GGML, which is no longer supported by llama.cpp. The main branch will keep using the deprecated variant. Switch to the gguf-fix branch for GGUF support. 
+
 <div align="center">
       <h4>
       Helpful? Keep it running <a href="https://www.buymeacoffee.com/cassowary" target="_blank"><img src="https://github.com/su77ungr/CASALIOY/assets/69374354/1de2e6a1-d4ee-44a8-baf1-db4f2765b833" alt="Buy Me A Coffee" height="20" width="20"></a>  
