@@ -59,31 +59,27 @@ def prompt_HTML(session: PromptSession, prompt: str, **kwargs) -> str:
 
 
 def download_if_repo(path: str) -> str:
-    """Download model from HF if not locally available"""
-
-    # Check if dataset
+    """download model from HF if not local"""
+    # check if dataset
     split = path.split("/")
     is_dataset = split[0] == "datasets"
-    is_file = path.endswith((".gguf", ".bin", ".safetensors"))  # Updated file extensions
-    allow_patterns = split[-1] if is_file else ["*.gguf", "*.bin", "*.safetensors"]  # Updated allow_patterns
+    is_file = path.endswith(".gguf")
+    allow_patterns = split[-1] if is_file else ["*.gguf", "*.json"]
     repo_id = path
     if is_dataset:
         split = split[1:]
         repo_id = "/".join(split)
-
-    if path.endswith((".gguf", ".bin", ".safetensors")):
+    if path.endswith(".gguf"):
         repo_id = "/".join(split[:2])
 
     p = Path(path) if path.startswith("models/") else "models" / Path(path)
-
     if (is_file and p.is_file()) or (not is_file and p.is_dir()):
-        print_HTML(f"Found local model {'file' if is_file else 'dir'} at {p}")
+        print_HTML(f"<r>found local model {'file' if is_file else 'dir'} at {p}</r>")
         return str(p)
 
     try:
         validate_repo_id(repo_id)
-        model_type = "dataset" if is_dataset else "model"
-        print_HTML(f"Downloading {model_type} {p} from HF")
+        print_HTML("<r>Downloading {model_type} {model} from HF</r>", model=path, model_type="dataset" if is_dataset else "model")
         new_path = Path(
             snapshot_download(
                 repo_id=repo_id,
@@ -96,4 +92,4 @@ def download_if_repo(path: str) -> str:
         return str(new_path.resolve())
 
     except (HFValidationError, HTTPError) as e:
-        print_HTML(f"Could not download model {path} from HF: {e}")
+        print_HTML("<w>Could not download model {model} from HF: {e}</w>", model=path, e=e)
