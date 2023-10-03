@@ -27,7 +27,7 @@ pypandoc-binary = "^1.11"  # doc conversion
 docx2txt = "^0.8"  # Handle docx ingestion file formats
 tabulate = "^0.9.0"  # Also required for docx
 extract-msg = "^0.41.1"  # Handle email file formats
-llama-cpp-python = "^0.1.50"  # 0.1.50 raises an AssertionError / NameError on <5 vic models
+llama-cpp-python = "^0.1.85"  # 0.1.79 introduced gguf
 sentence_transformers = "^2.2.2"  # doesn't install torch properly with poetry, but should be better in later versions
 
 [tool.poetry.group.dev.dependencies]
