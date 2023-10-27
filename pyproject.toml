@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "casalioy"
-version = "0.1.1"
+version = "0.1.3"
 description = "Your local langchain toolkit"
 authors = ["su77ungr"]
 readme = "README.md"
@@ -12,9 +12,9 @@ python-dotenv = "^1.0.0"
 sentencepiece = "^0.1.99"  # For convert.py
 prompt-toolkit = "^3.0"  # Nice terminal output
 libgenesis = "^0.1.9"  # download docs
+streamlit = "^1.28.0"
 
 [tool.poetry.group.GUI.dependencies]  # for the GUI
-streamlit = { git = "https://github.com/hippalectryon-0/streamlit.git", subdirectory = "lib", "rev" = "0b7fb1c" }  # waiting for >1.22.0 so that we can use protobuf>=4
 streamlit-chat = "^0.0.2.2"
 streamlit-extras = "^0.2.7"
 
